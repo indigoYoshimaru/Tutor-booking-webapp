@@ -5,8 +5,8 @@
  1. Database: MySQL (version 8.0, tối thiểu 5.7, tại kì này có dùng JSON data type nha) 
  2. Backend: AdonisJs (version 4.0) 
  3. Frontend: 
-		 SnowpackJs, VueJs
-		 UI: VueMaterial kit https://www.creative-tim.com/product/vue-material-kit
+ 	SnowpackJs, VueJs
+	UI: VueMaterial kit https://www.creative-tim.com/product/vue-material-kit
  4. Deploy platform: Heroku https://www.heroku.com/
 
 ## 2. Design 
