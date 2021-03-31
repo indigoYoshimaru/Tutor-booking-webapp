@@ -35,7 +35,7 @@
 6. Web model: 
 	- Client side: MVVM
 	- Server side: MC
-
+```mermaid
 graph TB
 subgraph Server
 SM(Server Model)
