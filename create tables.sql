@@ -1,4 +1,4 @@
-use turtorial;
+use tutorweb; /*name it as tutorweb for consistency*/
 DROP TABLE IF EXISTS `Contract`;
 CREATE TABLE `Contract` (
   `Id` Integer auto_increment,
@@ -40,10 +40,10 @@ CREATE TABLE `CourseTeaching` (
 DROP TABLE IF EXISTS `Tutee`;
 CREATE TABLE `Tutee` (
   `Id` Integer auto_increment,
-  `UserName` Varchar(25),
-  `Password` Varchar(25),
   `FirstName` Varchar(25),
   `LastName` Varchar(25),
+  `UserName` Varchar(25),
+  `Password` Varchar(25),
   `DateofBirth` Date,
   KEY `Primary Key` (`Id`),
   KEY `Unique Key` (`UserName`)

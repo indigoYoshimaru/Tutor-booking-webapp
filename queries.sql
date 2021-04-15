@@ -1,4 +1,4 @@
-use turtorial;
+use tutorweb;
 
 SELECT * FROM tutor;
 SELECT * FROM tutee;

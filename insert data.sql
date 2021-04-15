@@ -1,4 +1,4 @@
-use turtorial;
+use tutorweb;
 INSERT INTO `admin` VALUE (1, 'Adam', 'Smasher', 'AdaSma', 'admin', '1990-11-11');
 
 INSERT INTO `tutor` VALUEs (1, 'John', 'Cena', 'WWE', 'u cant see me', '2000-11-18', '{"GPA": {"Intro to AI": "3.75", "Intro to Computing": "3.9"}, "Description": "I am handsome"}'),
