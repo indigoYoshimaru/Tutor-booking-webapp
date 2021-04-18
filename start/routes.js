@@ -1,5 +1,7 @@
 'use strict'
 
+const GetDatumController = require('../app/Controllers/Http/GetDatumController')
+
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -17,3 +19,4 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+Route.get('/general/get-tutors', 'GetDatumController.getTutors')
