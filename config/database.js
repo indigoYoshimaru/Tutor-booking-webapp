@@ -16,7 +16,7 @@ module.exports = {
   | interacting with SQL databases.
   |
   */
-  connection: Env.get('DB_CONNECTION', 'sqlite'),
+  connection: Env.get('DB_CONNECTION', 'mysql'),
 
   /*
   |--------------------------------------------------------------------------
@@ -48,13 +48,13 @@ module.exports = {
   |
   */
   mysql: {
-    client: 'mysql',
+    client: 'mysql2',
     connection: {
       host: Env.get('DB_HOST', 'localhost'),
-      port: Env.get('DB_PORT', ''),
+      port: Env.get('DB_PORT', '3306'),
       user: Env.get('DB_USER', 'root'),
-      password: Env.get('DB_PASSWORD', ''),
-      database: Env.get('DB_DATABASE', 'adonis')
+      password: Env.get('DB_PASSWORD', '12211991'),
+      database: Env.get('DB_DATABASE', 'tutorweb')
     }
   },
 
