@@ -153,7 +153,7 @@ module.exports = {
     },
 
     async getMoneyAccountByTuteeId(tuteeId) {
-        var code = 'tutee/' + tutorId;
+        var code = 'tutee/' + tuteeId;
         let [rows, _] = await Database.raw('SELECT * FROM MoneyAccount WHERE Code=?', [code]);
         if (!rows.length)
             return null;
