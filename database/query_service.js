@@ -6,7 +6,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutor');
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -14,7 +14,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutee');
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -22,7 +22,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM admin');
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -30,7 +30,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -38,7 +38,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -46,7 +46,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -54,7 +54,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE UserName =?', [userName]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -62,7 +62,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE UserName =?', [userName]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -70,7 +70,18 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM admin WHERE UserName =?', [userName]);
         if (!rows.length)
             return null;
-        
+
+        return rows;
+    },
+
+    async getTutorByCourseName(courseName) {
+        let [rows, _] = await Database.raw(`SELECT * FROM courseteaching 
+        LEFT JOIN tutor ON tutor.Id=courseteaching.tutorId
+        LEFT JOIN course ON course.Id = courseteaching.courseId
+        WHERE course.name =? `, [courseName]);
+        if (!rows.length)
+            return null;
+
         return rows;
     },
 
@@ -79,7 +90,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM contract');
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -87,15 +98,15 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM contract WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
-    async getContractByTutorIdandTuteeId(tutorId,tuteeId) {
-        let [rows, _] = await Database.raw('SELECT * FROM contract WHERE TutorId = ? AND TuteeId = ?', [parseInt(tutorId),parseInt(tuteeId)]);
+    async getContractByTutorIdandTuteeId(tutorId, tuteeId) {
+        let [rows, _] = await Database.raw('SELECT * FROM contract WHERE TutorId = ? AND TuteeId = ?', [parseInt(tutorId), parseInt(tuteeId)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -103,7 +114,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM issue');
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -111,7 +122,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM issue WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -119,15 +130,15 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM issue WHERE ContractId = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
-    
+
     async getIssueByResolveAdminId(Id) {
         let [rows, _] = await Database.raw('SELECT * FROM issue WHERE ResolveAdminId = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -137,7 +148,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM MoneyAccount WHERE Code=?', [code]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -146,7 +157,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM MoneyAccount WHERE Code=?', [code]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -154,7 +165,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM MoneyAccount WHERE Code=?', [code]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -162,7 +173,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM MoneyAccount WHERE Id=?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -170,7 +181,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM Transaction');
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -178,7 +189,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM Transaction WHERE Id=?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -186,7 +197,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM Transaction WHERE SenderAccountId=?', [parseInt(senderAccId)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
@@ -195,36 +206,52 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM Chatroom WHERE Id=?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
 
-    async getChatroomByTutorIdandTuteeId(tutorId,tuteeId) {
-        let [rows, _] = await Database.raw('SELECT * FROM Chatroom WHERE TutorId =? AND TuteeId=?', [parseInt(tutorId),parseInt(tuteeId)]);
+    async getChatroomByTutorIdandTuteeId(tutorId, tuteeId) {
+        let [rows, _] = await Database.raw('SELECT * FROM Chatroom WHERE TutorId =? AND TuteeId=?', [parseInt(tutorId), parseInt(tuteeId)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
     async getMessageByChatRoomId(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=?', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
     async getMessageInChatroomByTutor(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=? and IsTutor=1', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
     },
     async getMessageInChatroomByTutee(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=? and IsTutor=0', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
-        
+
         return rows;
+    },
+
+    /*=====EXTRA FUNCTIONS=====*/
+    //for conflict resolve assignment, we get the admin who resolves least issue 
+    async getLeastResolveAdmin() {
+        let [rows, _] = await Database.raw(`SELECT *, SUM(num) FROM (
+            SELECT * CASE WHEN Issue.Id is null THEN 0 ELSE 1 END as num
+            FROM admin LEFT JOIN admin.Id=Issue.ResolveAdminId)
+            AS t GROUP BY admin.Id ORDER BY SUM(num) asc
+        ) `);
+        if (!rows.length)
+            return null
+        return rows[0];
+
     }
+
+
 }
