@@ -11,8 +11,7 @@ CREATE TABLE `Contract` (
   `IsClose` Tinyint(1),
   `ListofTeachingDay` JSON,
   KEY `Primary Key` (`Id`),
-  KEY `Foreign Key` (`TutorId`, `TuteeId`),
-  CONSTRAINT UNIQUE(`TutorId`, `TuteeId`)
+  KEY `Foreign Key` (`TutorId`, `TuteeId`)
 );
 
 DROP TABLE IF EXISTS `Tutor`;
