@@ -4,7 +4,7 @@ class AdminController {
     /*
     functions to be included:
         login
-        verifyRegisterInfo
+        verifyTutorRegistration
         addNewAdmin
         banTutor
         banTutee
