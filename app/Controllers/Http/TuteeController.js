@@ -9,6 +9,7 @@ class TuteeController {
         chat
         createContract
         raiseIssue
+        confirmConflictResolution
     */
 
 }

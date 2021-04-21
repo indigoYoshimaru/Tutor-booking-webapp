@@ -8,7 +8,8 @@ class TutorController {
         chat
         acceptContract
         rejectContract
-        raiseIssue
+        requestCloseContract
+        confirmConflictResolution
     */
 
 }
