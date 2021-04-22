@@ -4,11 +4,10 @@ CREATE TABLE `Contract` (
   `Id` Integer auto_increment,
   `TutorId` Integer,
   `TuteeId` Integer,
-  `MoneyAmount` Double,
   `StartDate` Date,
   `CloseDate` Date,
-  `TeachingHours` Integer,
-  `IsClose` Tinyint(1),
+  `TeachingHours` Double,
+  `State` Varchar(25),
   `ListofTeachingDay` JSON,
   KEY `Primary Key` (`Id`),
   KEY `Foreign Key` (`TutorId`, `TuteeId`)
@@ -20,16 +19,17 @@ CREATE TABLE `Tutor` (
   `FirstName` Varchar(25),
   `LastName` Varchar(25),
   `UserName` Varchar(25),
+  `Email` Varchar(25),
   `Password` Varchar(25),
   `DateofBirth` Date,
   `Profile` JSON ,
   KEY `Primary Key` (`Id`),
-  KEY `Unique Key` (`UserName`)
+  KEY `Unique Key` (`UserName`, `Email`)
 );
 
 DROP TABLE IF EXISTS `CourseTeaching`;
 CREATE TABLE `CourseTeaching` (
-  `Id` Integer auto_increment,
+  `Id` Integer,
   `TutorId` Integer,
   `CourseId` Integer,
   KEY `Primary Key` (`Id`),
@@ -42,10 +42,11 @@ CREATE TABLE `Tutee` (
   `FirstName` Varchar(25),
   `LastName` Varchar(25),
   `UserName` Varchar(25),
+  `Email` Varchar(25),
   `Password` Varchar(25),
   `DateofBirth` Date,
   KEY `Primary Key` (`Id`),
-  KEY `Unique Key` (`UserName`)
+  KEY `Unique Key` (`UserName`, `Email`)
 );
 
 DROP TABLE IF EXISTS `Message`;
@@ -53,7 +54,7 @@ CREATE TABLE `Message` (
   `Id` Integer auto_increment,
   `ChatroomId` Integer,
   `IsTutor` Tinyint(1),
-  `Timestamp` DateTime,
+  `Timestamp` Date,
   `Content` Varchar(25),
   KEY `Primary Key` (`Id`),
   KEY `Foreign Key` (`ChatroomId`)
@@ -75,8 +76,8 @@ CREATE TABLE `Issue` (
   `Type` Tinyint(1),
   `Content` Varchar(25),
   `ResolveAdminId` Integer,
-  `TutorAgreement` Boolean,
-  `TuteeAgreement` Boolean,
+  `TutorAgreement` Tinyint(1),
+  `TuteeAgreement` Tinyint(1),
   `ReturnPercentage` Integer,
   KEY `Primary Key` (`Id`),
   KEY `Foreign Key` (`ContractId`, `ResolveAdminId`),
@@ -113,6 +114,20 @@ CREATE TABLE `Admin` (
   KEY `Unique Key` (`UserName`)
 );
 
+DROP TABLE IF EXISTS `UnverfiedTutor`;
+CREATE TABLE `UnverfiedTutor` (
+  `Id` Integer auto_increment,
+  `FirstName` Varchar(25),
+  `LastName` Varchar(25),
+  `UserName` Varchar(25),
+  `Email` Varchar(25),
+  `Password` Varchar(25),
+  `DateofBirth` Date,
+  `Profile` JSON ,
+  KEY `Primary Key` (`Id`),
+  KEY `Unique Key` (`UserName`, `Email`)
+);
+
 DROP TABLE IF EXISTS `Chatroom`;
 CREATE TABLE `Chatroom` (
   `Id` Integer auto_increment,
@@ -122,4 +137,3 @@ CREATE TABLE `Chatroom` (
   KEY `Foreign Key` (`TutorId`, `TuteeId`),
   CONSTRAINT UNIQUE (`TutorId`, `TuteeId`)
 );
-
