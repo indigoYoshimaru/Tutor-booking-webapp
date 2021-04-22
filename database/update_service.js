@@ -1,6 +1,37 @@
 const Database = use('Database');
 
 module.exports = {
+    async addTutor(tutorInfo) {
+        await Database.raw(`INSERT INTO Tutor VALUES(?,?,?,?,?,?,?)`, [tutorInfo.firstName, tutorInfo.lastName, tutorInfo.userName,
+        tutorInfo.password,tutorInfo.dateOfBirth, tutorInfo.profile])
+    },
+    async addTutee(tuteeInfo) {
+        await Database.raw(`INSERT INTO Tutor VALUES(?,?,?,?,?,?)`, [tuteeInfo.firstName, tuteeInfo.lastName, tuteeInfo.userName,
+        tuteeInfo.password,tuteeInfo.dateOfBirth])
+    }, 
+    /*used by admins only*/
+    async addCourse(name) {
+        await Database.raw(`INSERT INTO Course VALUES(?)`, [name])
+    },
+    async addAdmin(adminInfo) {
+        await Database.raw(`INSERT INTO Admin VALUES(?,?,?,?,?,?)`, [adminInfo.firstName, adminInfo.lastName, adminInfo.userName,
+            adminInfo.password,adminInfo.dateOfBirth])
+    },
+    async deleteTutor(tutorId) {
+        await Database.raw(`DELETE FROM Tutor where Id = ?`, [parseInt(tutorId)]);
+    },
+    /*==================*/
+    async deleteTutee(tuteeId) {
+        await Database.raw(`DELETE FROM Tutee where Id = ?`, [parseInt(tuteeId)]);
+    },
+    async deleteAdmin(adminId) {
+        await Database.raw(`DELETE FROM Admin where Id = ?`, [parseInt(adminId)]);
+    },
+    async deleteCourseTeaching(tutorId) {
+        await Database.raw(`DELETE FROM CourseTeaching where TutorId = ?`, [parseInt(tutorId)]);
+    },
+
+    /*==================*/
     async addContract(contract) {
         await Database.raw(`INSERT INTO contract VALUES(?,?,?,?,?,?,?,?)`, [parseInt(contract.tutorId), parseInt(contract.tuteeId), parseFloat(contract.moneyAmount),
         contract.startDate, contract.closeDate, parseFloat(teachingHours), 0, contract.listofTeachingDay]);
