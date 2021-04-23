@@ -1,9 +1,13 @@
 const Database = use('Database');
 
 module.exports = {
-    async addTutor(tutorInfo) {
-        await Database.raw(`INSERT INTO Tutor VALUES(?,?,?,?,?,?,?)`, [tutorInfo.firstName, tutorInfo.lastName, tutorInfo.userName,
-        tutorInfo.password,tutorInfo.dateOfBirth, tutorInfo.profile])
+    async addTutor(tutorId) {
+        await Database.raw(`SELECT * INTO tutor FROM UnverifiedTutor as UT WHERE UT.Id =?`, parseInt(tutorId));
+        
+    },
+    async addUnverifiedTutor(tutorInfo){
+        await Database.raw(`INSERT INTO UnverifiedTutor VALUES(?,?,?,?,?,?,?)`, [tutorInfo.firstName, tutorInfo.lastName, tutorInfo.userName,
+            tutorInfo.password,tutorInfo.dateOfBirth, tutorInfo.profile])
     },
     async addTutee(tuteeInfo) {
         await Database.raw(`INSERT INTO Tutor VALUES(?,?,?,?,?,?)`, [tuteeInfo.firstName, tuteeInfo.lastName, tuteeInfo.userName,

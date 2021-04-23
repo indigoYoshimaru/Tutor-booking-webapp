@@ -90,14 +90,14 @@ module.exports = {
         return rows;
     },
 
-    async getTuteeByEmail(email){
+    async getAdminByEmail(email){
         let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Email =?', [email]);
         if (!rows.length)
             return null;
 
         return rows;
     }, 
-
+    
     async getTutorByCourseName(courseName) {
         let [rows, _] = await Database.raw(`SELECT * FROM courseteaching 
         LEFT JOIN tutor ON tutor.Id=courseteaching.tutorId
