@@ -108,6 +108,13 @@ module.exports = {
 
         return rows;
     },
+    async getRecentlyAddedTutor(){
+        let [rows, _] = await Database.raw('SELECT * FROM tutor ORDER BY DESC');
+        if (!rows.length)
+            return null;
+
+        return rows[0];
+    },
 
     /*=====ISSUE and CONTRACT=====*/
     async getContracts() {

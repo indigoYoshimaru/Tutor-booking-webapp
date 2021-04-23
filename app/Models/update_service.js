@@ -3,7 +3,7 @@ const Database = use('Database');
 module.exports = {
     async addTutor(tutorId) {
         await Database.raw(`SELECT * INTO tutor FROM UnverifiedTutor as UT WHERE UT.Id =?`, parseInt(tutorId));
-        
+
     },
     async addUnverifiedTutor(tutorInfo){
         await Database.raw(`INSERT INTO UnverifiedTutor VALUES(?,?,?,?,?,?,?)`, [tutorInfo.firstName, tutorInfo.lastName, tutorInfo.userName,
@@ -40,15 +40,15 @@ module.exports = {
         await Database.raw(`INSERT INTO contract VALUES(?,?,?,?,?,?,?)`, [parseInt(contract.tutorId), parseInt(contract.tuteeId),
         contract.startDate, contract.closeDate, parseFloat(teachingHours), 0, contract.listofTeachingDay]);
     },
-    async addMoneyAccount(contractId) {
+    async addMoneyAccountByContractId(contractId) {
         let code = 'contract' + contractId;
         await Database.raw(`INSERT INTO MoneyAccount VALUES(?,?)`, [code, 0])
     },
-    async addMoneyAccount(tutorId) {
+    async addMoneyAccountByTutorId(tutorId) {
         let code = 'tutor' + tutorId;
         await Database.raw(`INSERT INTO MoneyAccount VALUES(?,?)`, [code, 0])
     },
-    async addMoneyAccount(tuteeId) {
+    async addMoneyAccountByTuteeId(tuteeId) {
         let code = 'tutor' + tuteeId;
         await Database.raw(`INSERT INTO MoneyAccount VALUES(?,?)`, [code, 0])
     },

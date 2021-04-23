@@ -3,6 +3,8 @@
 const { getAdminByUserName } = require("../../Models/query_service");
 const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
+const jwt = require("jsonwebtoken");
+const { errorMonitor } = require("node:events");
 
 class TutorController {
     /*
@@ -30,7 +32,36 @@ class TutorController {
         return {
             result: "Please wait for admin verification."
         }
-        
+
+    }
+    async verify({request, session, params}){
+        let token= params.token; 
+        let decodedObj=jwt.verify(token,'secretKey');
+        if (!decodedObj)
+            return{
+                result:"No token decoded"
+            }
+        let tutorId= decodedObj.tutorId;
+        update_service.addTutor(tutorId);
+        update_service.deleteUnverifiedTutor(tutorId);
+        update_service.addMoneyAccountByTutorId(tutorId); 
+        let tutor = query_service.getRecentlyAddedTutor(); 
+        if (!tutor){
+            return {
+                result:"Error"
+            }
+        }
+
+        let tutorProfile = JSON.parse(tutor.Profile); 
+        let teachingCourses= tutorProfile.GPA; 
+        for (var key in teachingCourses){
+            let course = query_service.getCourseByName(teachingCourses[key]);
+            update_service.addTeachingCourses(tutorId, course.Id);
+        } 
+        return{
+            result: "Tutor verified."
+        }
+
     }
 }
 

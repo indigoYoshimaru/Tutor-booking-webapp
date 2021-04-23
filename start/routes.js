@@ -1,5 +1,6 @@
 'use strict'
 
+const verify = require('jsonwebtoken/verify')
 const GetDatumController = require('../app/Controllers/Http/GetDatumController')
 
 /*
@@ -21,7 +22,7 @@ const nodemailer= use('nodemailer')
 
 Route.on('/').render('welcome')
 Route.get('/general/get-tutors', 'GetDatumController.getTutors')
-
+Route.get('/verify/:token','TutorController.verify')
 Route.get('/testmail', async function({request, response}){
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
