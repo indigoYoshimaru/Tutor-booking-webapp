@@ -1,6 +1,6 @@
 'use strict'
 
-const query_service = require("../../../database/query_service");
+const query_service = require("../../Models/query_service");
 
 const Database = use('Database');
 class GetDatumController {
