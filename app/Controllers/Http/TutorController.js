@@ -43,7 +43,7 @@ class TutorController {
             }
         let tutorId= decodedObj.tutorId;
         update_service.addTutor(tutorId);
-        update_service.deleteUnverifiedTutor(tutorId);
+        update_service.deleteUnverifiedTutor(tutorId);// query needs writing
         update_service.addMoneyAccountByTutorId(tutorId); 
         let tutor = query_service.getRecentlyAddedTutor(); 
         if (!tutor){
@@ -55,8 +55,8 @@ class TutorController {
         let tutorProfile = JSON.parse(tutor.Profile); 
         let teachingCourses= tutorProfile.GPA; 
         for (var key in teachingCourses){
-            let course = query_service.getCourseByName(teachingCourses[key]);
-            update_service.addTeachingCourses(tutorId, course.Id);
+            let course = query_service.getCourseByName(teachingCourses[key]);// query needs writing
+            update_service.addTeachingCourses(tutorId, course.Id);// query needs writing
         } 
         return{
             result: "Tutor verified."
