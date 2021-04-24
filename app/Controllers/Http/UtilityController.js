@@ -33,7 +33,7 @@ class UtilityController {
                 }
             }
             return {
-                result: "Email Sent" +info
+                result: "successful"
             } 
         });
         

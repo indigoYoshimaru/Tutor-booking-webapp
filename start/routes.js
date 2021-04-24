@@ -22,5 +22,6 @@ const nodemailer= use('nodemailer')
 
 Route.on('/').render('welcome')
 Route.get('/general/get-tutors', 'GetDatumController.getTutors')
-Route.get('/verify/:token','TutorController.verify')
+Route.get('/tutor/verify/:token','TutorController.verify')
+Route.get('/tutee/verify/:token','TuteeController.verify')
 Route.get('/testmailuti', 'UtilityController.testMail')

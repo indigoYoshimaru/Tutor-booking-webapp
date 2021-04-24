@@ -36,9 +36,7 @@ class AdminController {
         let url=`${host}/verify/${token}`;
         let content=`Click this URL to verify account ${url}`
         let res = UtilityController.mySendMail('phungkhanhlinh.iu@gmail.com', content);
-        return {
-          result:res
-        }
+        return res;
     }
 }
 

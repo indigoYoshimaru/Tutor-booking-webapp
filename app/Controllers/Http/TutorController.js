@@ -20,7 +20,7 @@ class TutorController {
     */
     async register({request, session}){
         let tutor = request.all(); 
-        let existedAccount=query_service.getTutorByUserName(tutor.username); 
+        //let existedAccount=query_service.getTutorByUserName(tutor.username); 
         if (query_service.getTutorByUserName(tutor.username)||query_service.getTuteeByUserName(tutor.username)||getAdminByUserName(tutor.username))
             return {
                 result: "Existed Username"
