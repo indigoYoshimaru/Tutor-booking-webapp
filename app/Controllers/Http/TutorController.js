@@ -5,6 +5,7 @@ const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
 const { errorMonitor } = require("node:events");
+const Encryption = use('Encryption')
 
 class TutorController {
     /*
@@ -28,6 +29,7 @@ class TutorController {
             return{
                 result: "Email registered"
             }
+        tutor.password=Encryption.encrypt(tutor.password);
         update_service.addUnverifiedTutor(tutor);
         return {
             result: "Please wait for admin verification."
@@ -53,9 +55,8 @@ class TutorController {
         }
 
         let tutorProfile = JSON.parse(tutor.Profile); 
-        let teachingCourses= tutorProfile.GPA; 
-        for (var key in teachingCourses){
-            let course = query_service.getCourseByName(teachingCourses[key]);// query needs writing
+        let teachingCourses= tutorProfile.Background; 
+        for (var course in teachingCourses){
             update_service.addTeachingCourses(tutorId, course.Id);// query needs writing
         } 
         return{
