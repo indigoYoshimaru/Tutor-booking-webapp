@@ -2,7 +2,7 @@
 
 const query_service = require("../../Models/query_service");
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+const UtilityController = require("./UtilityController");
 
 class AdminController {
     /*
@@ -34,35 +34,11 @@ class AdminController {
         let token = jwt.sign(tokenObj,'secretKey');
         let host = config.host
         let url=`${host}/verify/${token}`;
-
-        var transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: true,
-            auth: {
-              user: 'sendmailserviceweb@gmail.com',
-              pass: '12211991LTK'
-            }
-          });
-          
-          var mailOptions = {
-            from: 'sendmailserviceweb@gmail.com',
-            to: 'shensafi235@gmail.com',
-            subject: 'Test Send Mail',
-            text: `Click this URL to verify account ${url}`
-          };
-          
-          transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-              return {
-                  result: error
-                }
-            }
-            return {
-                result: "Email Sent" +info
-            } 
-          });
-          
+        let content=`Click this URL to verify account ${url}`
+        let res = UtilityController.mySendMail('phungkhanhlinh.iu@gmail.com', content);
+        return {
+          result:res
+        }
     }
 }
 

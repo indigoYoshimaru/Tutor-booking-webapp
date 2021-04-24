@@ -23,33 +23,4 @@ const nodemailer= use('nodemailer')
 Route.on('/').render('welcome')
 Route.get('/general/get-tutors', 'GetDatumController.getTutors')
 Route.get('/verify/:token','TutorController.verify')
-Route.get('/testmail', async function({request, response}){
-    var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-          user: 'sendmailserviceweb@gmail.com',
-          pass: '12211991LTK'
-        }
-      });
-      
-      var mailOptions = {
-        from: 'sendmailserviceweb@gmail.com',
-        to: 'shensafi235@gmail.com',
-        subject: 'Test Send Mail',
-        text: `Click this URL to verify account`
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        console.log(error);
-        if (error) {
-          return {
-              result: error
-            }
-        }
-        return {
-            result: "Email Sent" +info
-        } 
-      });
-})
+Route.get('/testmailuti', 'UtilityController.testMail')
