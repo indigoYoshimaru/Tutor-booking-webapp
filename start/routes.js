@@ -25,3 +25,14 @@ Route.get('/general/get-tutors', 'GetDatumController.getTutors')
 Route.get('/tutor/verify/:token','TutorController.verify')
 Route.get('/tutee/verify/:token','TuteeController.verify')
 Route.get('/testmailuti', 'UtilityController.testMail')
+Route
+    .post('login', 'UserController.login')
+Route
+    .get('users/:id', 'UserController.show')//page that can be access by admin
+    .middleware('auth:admin')
+Route
+    .get('users/:id', 'UserController.show')//page that can be access by tutor
+    .middleware('auth:tutor')
+Route
+    .get('users/:id', 'UserController.show') //pages that can be access by tutee
+    .middleware('auth:tutee')

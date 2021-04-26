@@ -28,13 +28,48 @@ module.exports = {
   |
   */
   session: {
-    serializer: 'lucid',
-    model: 'App/Models/User',
+    serializer: 'Lucid',
     scheme: 'session',
+    model: 'App/Models/User',
     uid: 'email',
     password: 'password'
   },
 
+  admin: {
+    serializer: 'database',
+    scheme: 'jwt',
+    uid: 'Username',
+    password: 'Password',
+    table: 'admin',
+    options: {
+      secret: Env.get("APP_KEY_AUTH_ADMIN"),
+      expiresIn: 2592000
+    }
+  },
+
+  tutor: {
+    serializer: 'database',
+    scheme: 'jwt',
+    uid: 'Username',
+    password: 'Password',
+    table: 'tutor',
+    options: {
+      secret: Env.get("APP_KEY_AUTH_TUTOR"),
+      expiresIn: 2592000
+    }
+  },
+
+  tutee: {
+    serializer: 'database',
+    scheme: 'jwt',
+    uid: 'Username',
+    password: 'Password',
+    table: 'tutee',
+    options: {
+      secret: Env.get("APP_KEY_AUTH_TUTEE"),
+      expiresIn: 2592000
+    }
+  },
   /*
   |--------------------------------------------------------------------------
   | Basic Auth

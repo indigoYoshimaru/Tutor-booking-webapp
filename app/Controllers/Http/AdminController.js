@@ -15,6 +15,20 @@ class AdminController {
         createConflictResolution
     */
 
+    async loginAsAdmin ({ auth, request }) {
+        const { username, password} = request.all();
+        const asAdmin = auth.authenciator("admin");
+        const token = await asAdmin.attempt(username, password);
+        return 'Logged in successfully'
+    }
+    
+    showAdmin ({ auth, params }) {
+        if (auth.admin.id !== Number(params.id)) { //to check the auth with current login id???
+            return 'You cannot access this page'
+        }
+        return auth.admin
+    }
+
     async verifyTutorRegistration({request, session}){
         let req=request.all();
         let tutorId=req.tutorId;
