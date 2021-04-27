@@ -45,7 +45,15 @@ class TuteeController {
             }
         let tutee= decodedObj.tutee;
         update_service.addTutee(tutee);
-        //has to go home
+        let tutee = query_service.getRecentlyAddedTutee(); 
+        if (!tutee)
+            return {
+                error: "No tutee found"
+            }
+        update_service.addMoneyAccountByTuteeId(tutee.Id);
+        return {
+            result: "Tutee verified."
+        }
     }
 }
 

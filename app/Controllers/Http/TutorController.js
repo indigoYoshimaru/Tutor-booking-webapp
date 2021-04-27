@@ -41,19 +41,18 @@ class TutorController {
         let decodedObj=jwt.verify(token,'secretKey');
         if (!decodedObj)
             return{
-                result:"No token decoded"
+                error:"No token decoded"
             }
         let tutorId= decodedObj.tutorId;
         update_service.addTutor(tutorId);
         update_service.deleteUnverifiedTutor(tutorId);// query needs writing
-        update_service.addMoneyAccountByTutorId(tutorId); 
         let tutor = query_service.getRecentlyAddedTutor(); 
         if (!tutor){
             return {
-                result:"Error"
+                error:"No tutor found"
             }
         }
-
+        update_service.addMoneyAccountByTutorId(tutor.Id); 
         let tutorProfile = JSON.parse(tutor.Profile); 
         let teachingCourses= tutorProfile.Background; 
         for (var course in teachingCourses){
