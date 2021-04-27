@@ -1,19 +1,13 @@
-'use strict'
 const nodemailer = require('nodemailer');
-
-class UtilityController {
-    async testMail(){
-        console.log(this.mySendMail('shensafi235@gmail.com','hello hello hello').result);
-
-    }
-    async mySendMail(receiver,content){
+module.exports = {
+    async sendMail(receiver, content) {
         let transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
             auth: {
-            user: 'sendmailserviceweb@gmail.com',
-            pass: '12211991LTK'
+                user: 'sendmailserviceweb@gmail.com',
+                pass: '12211991LTK'
             }
         });
         console.log(receiver);
@@ -25,18 +19,16 @@ class UtilityController {
             // text: `Click this URL to verify account ${url}`
             text: content
         };
-        
-        transporter.sendMail(mailOptions, function(error, info){
+
+        transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-            return {
-                result: error
+                return {
+                    result: error
                 }
             }
             return {
                 result: "successful"
-            } 
+            }
         });
-        
     }
 }
-module.exports = UtilityController

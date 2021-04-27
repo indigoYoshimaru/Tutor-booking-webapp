@@ -18,47 +18,48 @@ class TutorController {
         requestCloseContract
         confirmConflictResolution
     */
-    async register({request, session}){
-        let tutor = request.all(); 
+    async register({ request, session }) {
+        let tutor = request.all();
+        console.log(tutor);
         //let existedAccount=query_service.getTutorByUserName(tutor.username); 
-        if (query_service.getTutorByUserName(tutor.username)||query_service.getTuteeByUserName(tutor.username)||getAdminByUserName(tutor.username))
+        if (query_service.getTutorByUserName(tutor.username) || query_service.getTuteeByUserName(tutor.username) || getAdminByUserName(tutor.username))
             return {
                 result: "Existed Username"
             }
-        if (query_service.getTutorByEmail(tutor.email),query_service.getTuteeByEmail(email), query_service.getAdminByEmail(email))    
-            return{
+        if (query_service.getTutorByEmail(tutor.email), query_service.getTuteeByEmail(tutor.email), query_service.getAdminByEmail(tutor.email))
+            return {
                 result: "Email registered"
             }
-        tutor.password=Encryption.encrypt(tutor.password);
+        tutor.password = Encryption.encrypt(tutor.password);
         update_service.addUnverifiedTutor(tutor);
         return {
             result: "Please wait for admin verification."
         }
 
     }
-    async verify({request, session, params}){
-        let token= params.token; 
-        let decodedObj=jwt.verify(token,'secretKey');
+    async verify({ request, session, params }) {
+        let token = params.token;
+        let decodedObj = jwt.verify(token, 'secretKey');
         if (!decodedObj)
-            return{
-                error:"No token decoded"
+            return {
+                error: "No token decoded"
             }
-        let tutorId= decodedObj.tutorId;
+        let tutorId = decodedObj.tutorId;
         update_service.addTutor(tutorId);
         update_service.deleteUnverifiedTutor(tutorId);// query needs writing
-        let tutor = query_service.getRecentlyAddedTutor(); 
-        if (!tutor){
+        let tutor = query_service.getRecentlyAddedTutor();
+        if (!tutor) {
             return {
-                error:"No tutor found"
+                error: "No tutor found"
             }
         }
-        update_service.addMoneyAccountByTutorId(tutor.Id); 
-        let tutorProfile = JSON.parse(tutor.Profile); 
-        let teachingCourses= tutorProfile.Background; 
-        for (var course in teachingCourses){
+        update_service.addMoneyAccountByTutorId(tutor.Id);
+        let tutorProfile = JSON.parse(tutor.Profile);
+        let teachingCourses = tutorProfile.Background;
+        for (var course in teachingCourses) {
             update_service.addTeachingCourses(tutorId, course.Id);// query needs writing
-        } 
-        return{
+        }
+        return {
             result: "Tutor verified."
         }
 

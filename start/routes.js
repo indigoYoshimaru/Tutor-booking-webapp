@@ -18,21 +18,26 @@ const GetDatumController = require('../app/Controllers/Http/GetDatumController')
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
-const nodemailer= use('nodemailer')
+const nodemailer = use('nodemailer')
 
 Route.on('/').render('welcome')
 Route.get('/general/get-tutors', 'GetDatumController.getTutors')
-Route.get('/tutor/verify/:token','TutorController.verify')
-Route.get('/tutee/verify/:token','TuteeController.verify')
+Route.post('/tutor/register', 'TutorController.register')
+Route.post('/tutee/register', 'TuteeController.register')
+Route.get('/verify-tutor/:token', 'TutorController.verify')
+Route.get('/verify-tutee/:token', 'TuteeController.verify')
 Route.get('/testmailuti', 'UtilityController.testMail')
-Route
-    .post('login', 'UserController.login')
-Route
-    .get('users/:id', 'UserController.show')//page that can be access by admin
-    .middleware('auth:admin')
-Route
-    .get('users/:id', 'UserController.show')//page that can be access by tutor
-    .middleware('auth:tutor')
-Route
-    .get('users/:id', 'UserController.show') //pages that can be access by tutee
-    .middleware('auth:tutee')
+
+// Route
+//     .post('login', 'UserController.login')
+// Route
+//     .get('users/:id', 'UserController.show')//page that can be access by admin
+//     .middleware('auth:admin')
+// Route
+//     .get('users/:id', 'UserController.show')//page that can be access by tutor
+//     .middleware('auth:tutor')
+// Route
+//     .get('users/:id', 'UserController.show') //pages that can be access by tutee
+//     .middleware('auth:tutee')
+
+// comment for testing register first

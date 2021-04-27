@@ -52,27 +52,28 @@ module.exports = {
 
     async getTutorByUserName(username) {
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE UserName =?', [username]);
+
         if (!rows.length)
             return null;
-
+        console.log(rows);
         return rows;
     },
-    
-    async getTutorByEmail(email){
+
+    async getTutorByEmail(email) {
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE Email =?', [email]);
         if (!rows.length)
             return null;
 
         return rows;
-    }, 
+    },
 
-    async getTuteeByEmail(email){
+    async getTuteeByEmail(email) {
         let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Email =?', [email]);
         if (!rows.length)
             return null;
 
         return rows;
-    }, 
+    },
 
     async getTuteeByUserName(username) {
         let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE UserName =?', [username]);
@@ -90,14 +91,14 @@ module.exports = {
         return rows;
     },
 
-    async getAdminByEmail(email){
+    async getAdminByEmail(email) {
         let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Email =?', [email]);
         if (!rows.length)
             return null;
 
         return rows;
-    }, 
-    
+    },
+
     async getTutorByCourseName(courseName) {
         let [rows, _] = await Database.raw(`SELECT * FROM courseteaching 
         LEFT JOIN tutor ON tutor.Id=courseteaching.tutorId
@@ -108,8 +109,16 @@ module.exports = {
 
         return rows;
     },
-    async getRecentlyAddedTutor(){
+    async getRecentlyAddedTutor() {
         let [rows, _] = await Database.raw('SELECT * FROM tutor ORDER BY DESC');
+        if (!rows.length)
+            return null;
+
+        return rows[0];
+    },
+
+    async getRecentlyAddedTutee() {
+        let [rows, _] = await Database.raw('SELECT * FROM tutee ORDER BY DESC');
         if (!rows.length)
             return null;
 

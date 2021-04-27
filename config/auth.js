@@ -28,48 +28,49 @@ module.exports = {
   |
   */
   session: {
-    serializer: 'Lucid',
-    scheme: 'session',
+    serializer: 'lucid',
+    scheme: 'basic',
     model: 'App/Models/User',
     uid: 'email',
     password: 'password'
   },
 
-  admin: {
-    serializer: 'database',
-    scheme: 'jwt',
-    uid: 'Username',
-    password: 'Password',
-    table: 'admin',
-    options: {
-      secret: Env.get("APP_KEY_AUTH_ADMIN"),
-      expiresIn: 2592000
-    }
-  },
+  // admin: {
+  //   serializer: 'database',
+  //   scheme: 'jwt',
+  //   uid: 'Username',
+  //   password: 'Password',
+  //   table: 'admin',
+  //   options: {
+  //     secret: Env.get("APP_KEY_AUTH_ADMIN"),
+  //     expiresIn: 2592000
+  //   }
+  // },
 
-  tutor: {
-    serializer: 'database',
-    scheme: 'jwt',
-    uid: 'Username',
-    password: 'Password',
-    table: 'tutor',
-    options: {
-      secret: Env.get("APP_KEY_AUTH_TUTOR"),
-      expiresIn: 2592000
-    }
-  },
+  // tutor: {
+  //   serializer: 'database',
+  //   scheme: 'jwt',
+  //   uid: 'Username',
+  //   password: 'Password',
+  //   table: 'tutor',
+  //   options: {
+  //     secret: Env.get("APP_KEY_AUTH_TUTOR"),
+  //     expiresIn: 2592000
+  //   }
+  // },
 
-  tutee: {
-    serializer: 'database',
-    scheme: 'jwt',
-    uid: 'Username',
-    password: 'Password',
-    table: 'tutee',
-    options: {
-      secret: Env.get("APP_KEY_AUTH_TUTEE"),
-      expiresIn: 2592000
-    }
-  },
+  // tutee: {
+  //   serializer: 'database',
+  //   scheme: 'jwt',
+  //   uid: 'Username',
+  //   password: 'Password',
+  //   table: 'tutee',
+  //   options: {
+  //     secret: Env.get("APP_KEY_AUTH_TUTEE"),
+  //     expiresIn: 2592000
+  //   }
+  // },
+  // comment to test register
   /*
   |--------------------------------------------------------------------------
   | Basic Auth
