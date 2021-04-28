@@ -44,7 +44,7 @@ module.exports = {
 
         return rows;
     },
-    async getRecentlyAddedTutor(){
+    async getRecentlyAddedTutors(){
         let [rows, _] = await Database.raw('SELECT * FROM tutor ORDER BY DESC');
         if (!rows.length)
             return null;
@@ -65,7 +65,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-
+        console.log(rows);
         return rows;
     },
 
@@ -77,12 +77,20 @@ module.exports = {
         return rows;
     },
 
-    async getTuteeByEmail(email){
+    async getTuteeByEmail(email) {
         let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Email =?', [email]);
         if (!rows.length)
             return null;
 
         return rows;
+    },
+
+    async getRecentlyAddedTutees() {
+        let [rows, _] = await Database.raw('SELECT * FROM tutee ORDER BY DESC');
+        if (!rows.length)
+            return null;
+
+        return rows[0];
     },
 
     /*=====ADMIN=====*/
@@ -110,14 +118,13 @@ module.exports = {
         return rows;
     },
 
-    async getAdminByEmail(email){
+    async getAdminByEmail(email) {
         let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Email =?', [email]);
         if (!rows.length)
             return null;
 
         return rows;
-    }, 
-    
+    },
 
     /*=====ISSUE and CONTRACT=====*/
     async getContracts() {
@@ -152,7 +159,7 @@ module.exports = {
         return rows;
     },
 
-    async getIssuesById(Id) {
+    async getIssueById(Id) {
         let [rows, _] = await Database.raw('SELECT * FROM issue WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
@@ -251,7 +258,7 @@ module.exports = {
 
         return rows;
     },
-    async getMessageByChatRoomId(chatroomId) {
+    async getMessageByChatroomId(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=?', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
@@ -275,7 +282,7 @@ module.exports = {
 
     /*=====EXTRA FUNCTIONS=====*/
     //for conflict resolve assignment, we get the admin who resolves least issue 
-    async getLeastResolveAdmin() {
+    async getLeastResolveAdmins() {
         let [rows, _] = await Database.raw(`SELECT *, SUM(num) FROM (
             SELECT * CASE WHEN Issue.Id is null THEN 0 ELSE 1 END as num
             FROM admin LEFT JOIN admin.Id=Issue.ResolveAdminId)

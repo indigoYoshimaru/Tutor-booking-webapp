@@ -2,7 +2,9 @@
 const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
-const Encryption = use('Encryption')
+const utility = require("../../Models/utility");
+const Config = use('Config');
+const Encryption = use('Encryption');
 
 class TuteeController {
     /*
@@ -15,37 +17,48 @@ class TuteeController {
         raiseIssue
         confirmConflictResolution
     */
-    async register({request,response}){
+    async register({ request, session }) {
         // register --> sendmail --> click--> add
-        let tutee=request.all();
-        if (query_service.getTutorByUserName(tutee.username)||query_service.getTuteeByUserName(tutee.username)||getAdminByUserName(tutee.username))
+        let tutee = request.all();
+        console.log(tutee);
+        let existed1 = await query_service.getTutorByUserName(tutee.UserName);
+        let existed2 = await query_service.getTuteeByUserName(tutee.UserName);
+        let existed3 = await query_service.getAdminByUserName(tutee.UserName);
+        if (existed1 || existed2 || existed3) {
+            console.log(existed1);
             return {
                 result: "Existed Username"
             }
-        if (query_service.getTutorByEmail(tutee.email),query_service.getTuteeByEmail(tutee.email), query_service.getAdminByEmail(tutee.email))    
-            return{
+        }
+
+        if (await query_service.getTutorByEmail(tutee.Email), await query_service.getTuteeByEmail(tutee.Email), await query_service.getAdminByEmail(tutee.Email))
+            return {
                 result: "Email registered"
             }
-        tutee.password=Encryption.encrypt(tutor.password);
-
-        let token = jwt.sign(tutee,'secretKey');
-        let host = config.host
-        let url=`${host}/verify/${token}`;
-        let content=`Click this URL to verify account ${url}`
-        let res = UtilityController.mySendMail(tutee.email, content);
+        tutee.Password = Encryption.encrypt(tutee.Password);
+        console.log(tutee.Password);
+        let token = jwt.sign(tutee, 'secretKey');
+        let host = Config.get('database.mysql.connection.host');
+        let url = `${host}:3333/verify-tutee/${token}`;
+        let content = `Click this URL to verify account ${url}`;
+        console.log(content);
+        let res = await utility.sendMail(tutee.Email, content);
         return res;
     }
 
-    async verify({request,response,params}){
-        let token= params.token; 
-        let decodedObj=jwt.verify(token,'secretKey');
+    async verify({ request, session, params }) {
+        let token = params.token;
+        let decodedObj = jwt.verify(token, 'secretKey');
+        console.log(decodedObj);
+        delete decodedObj.iat;
         if (!decodedObj)
-            return{
-                result:"No token decoded"
+            return {
+                result: "No token decoded"
             }
-        let tutee= decodedObj.tutee;
+        let tutee = decodedObj;
+        console.log(tutee);
         update_service.addTutee(tutee);
-        let tutee = query_service.getRecentlyAddedTutee(); 
+        tutee = query_service.getRecentlyAddedTutee();
         if (!tutee)
             return {
                 error: "No tutee found"

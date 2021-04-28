@@ -5,21 +5,21 @@ module.exports = {
         await Database.raw(`SELECT * INTO tutor FROM UnverifiedTutor as UT WHERE UT.Id =?`, parseInt(tutorId));
 
     },
-    async addUnverifiedTutor(tutorInfo){
-        await Database.raw(`INSERT INTO UnverifiedTutor VALUES(?,?,?,?,?,?,?)`, [tutorInfo.firstName, tutorInfo.lastName, tutorInfo.userName,
-            tutorInfo.password,tutorInfo.dateOfBirth, tutorInfo.profile])
+    async addUnverifiedTutor(tutorInfo) {
+        await Database.raw(`INSERT INTO UnverifiedTutor VALUES(?,?,?,?,?,?,?)`, [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName,
+        tutorInfo.Password, tutorInfo.DateOfBirth, tutorInfo.Profile])
     },
     async addTutee(tuteeInfo) {
-        await Database.raw(`INSERT INTO Tutor VALUES(?,?,?,?,?,?)`, [tuteeInfo.firstName, tuteeInfo.lastName, tuteeInfo.userName,
-        tuteeInfo.password,tuteeInfo.dateOfBirth])
-    }, 
+        await Database.raw(`INSERT INTO tutee (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [tuteeInfo.FirstName, tuteeInfo.LastName, tuteeInfo.UserName, tuteeInfo.Email,
+        tuteeInfo.Password, tuteeInfo.DateofBirth])
+    },
     /*used by admins only*/
     async addCourse(name) {
         await Database.raw(`INSERT INTO Course VALUES(?)`, [name])
     },
     async addAdmin(adminInfo) {
-        await Database.raw(`INSERT INTO Admin VALUES(?,?,?,?,?,?)`, [adminInfo.firstName, adminInfo.lastName, adminInfo.userName,
-            adminInfo.password,adminInfo.dateOfBirth])
+        await Database.raw(`INSERT INTO Admin VALUES(?,?,?,?,?,?)`, [adminInfo.FirstName, adminInfo.LastName, adminInfo.UserName,
+        adminInfo.Password, adminInfo.DateOfBirth])
     },
     async deleteTutor(tutorId) {
         await Database.raw(`DELETE FROM Tutor where Id = ?`, [parseInt(tutorId)]);
@@ -45,11 +45,11 @@ module.exports = {
         await Database.raw(`INSERT INTO MoneyAccount VALUES(?,?)`, [code, 0])
     },
     async addMoneyAccountByTutorId(tutorId) {
-        let code = 'tutor' + tutorId;
+        let code = 'tutor/' + tutorId;
         await Database.raw(`INSERT INTO MoneyAccount VALUES(?,?)`, [code, 0])
     },
     async addMoneyAccountByTuteeId(tuteeId) {
-        let code = 'tutor' + tuteeId;
+        let code = 'tutee/' + tuteeId;
         await Database.raw(`INSERT INTO MoneyAccount VALUES(?,?)`, [code, 0])
     },
     async addTransaction(transaction) {
