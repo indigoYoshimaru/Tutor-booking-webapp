@@ -1,25 +1,9 @@
 const Database = use('Database');
 
 module.exports = {
-    /*=====TUTOR, TUTEE and ADMIN=====*/
+    /*=====TUTOR=====*/
     async getTutors() {
         let [rows, _] = await Database.raw('SELECT * FROM tutor');
-        if (!rows.length)
-            return null;
-
-        return rows;
-    },
-
-    async getTutees() {
-        let [rows, _] = await Database.raw('SELECT * FROM tutee');
-        if (!rows.length)
-            return null;
-
-        return rows;
-    },
-
-    async getAdmins() {
-        let [rows, _] = await Database.raw('SELECT * FROM admin');
         if (!rows.length)
             return null;
 
@@ -34,22 +18,6 @@ module.exports = {
         return rows;
     },
 
-    async getTuteeById(Id) {
-        let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Id = ?', [parseInt(Id)]);
-        if (!rows.length)
-            return null;
-
-        return rows;
-    },
-
-    async getAdminsById(Id) {
-        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Id = ?', [parseInt(Id)]);
-        if (!rows.length)
-            return null;
-
-        return rows;
-    },
-
     async getTutorByUserName(username) {
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE UserName =?', [username]);
         if (!rows.length)
@@ -57,7 +25,7 @@ module.exports = {
 
         return rows;
     },
-    
+
     async getTutorByEmail(email){
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE Email =?', [email]);
         if (!rows.length)
@@ -66,38 +34,6 @@ module.exports = {
         return rows;
     }, 
 
-    async getTuteeByEmail(email){
-        let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Email =?', [email]);
-        if (!rows.length)
-            return null;
-
-        return rows;
-    }, 
-
-    async getTuteeByUserName(username) {
-        let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE UserName =?', [username]);
-        if (!rows.length)
-            return null;
-
-        return rows;
-    },
-
-    async getAdminByUserName(username) {
-        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE UserName =?', [username]);
-        if (!rows.length)
-            return null;
-
-        return rows;
-    },
-
-    async getAdminByEmail(email){
-        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Email =?', [email]);
-        if (!rows.length)
-            return null;
-
-        return rows;
-    }, 
-    
     async getTutorByCourseName(courseName) {
         let [rows, _] = await Database.raw(`SELECT * FROM courseteaching 
         LEFT JOIN tutor ON tutor.Id=courseteaching.tutorId
@@ -115,6 +51,73 @@ module.exports = {
 
         return rows[0];
     },
+
+    /*=====TUTEE=====*/
+    async getTutees() {
+        let [rows, _] = await Database.raw('SELECT * FROM tutee');
+        if (!rows.length)
+            return null;
+
+        return rows;
+    },
+
+    async getTuteeById(Id) {
+        let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Id = ?', [parseInt(Id)]);
+        if (!rows.length)
+            return null;
+
+        return rows;
+    },
+
+    async getTuteeByUserName(username) {
+        let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE UserName =?', [username]);
+        if (!rows.length)
+            return null;
+
+        return rows;
+    },
+
+    async getTuteeByEmail(email){
+        let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Email =?', [email]);
+        if (!rows.length)
+            return null;
+
+        return rows;
+    },
+
+    /*=====ADMIN=====*/
+    async getAdmins() {
+        let [rows, _] = await Database.raw('SELECT * FROM admin');
+        if (!rows.length)
+            return null;
+
+        return rows;
+    },
+
+    async getAdminById(Id) {
+        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Id = ?', [parseInt(Id)]);
+        if (!rows.length)
+            return null;
+
+        return rows;
+    },
+    
+    async getAdminByUserName(username) {
+        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE UserName =?', [username]);
+        if (!rows.length)
+            return null;
+
+        return rows;
+    },
+
+    async getAdminByEmail(email){
+        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Email =?', [email]);
+        if (!rows.length)
+            return null;
+
+        return rows;
+    }, 
+    
 
     /*=====ISSUE and CONTRACT=====*/
     async getContracts() {
