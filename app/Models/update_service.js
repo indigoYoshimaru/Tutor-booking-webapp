@@ -44,7 +44,7 @@ module.exports = {
         contract.startDate, contract.closeDate, parseFloat(teachingHours), 0, contract.listofTeachingDay]);
     },
     async addMoneyAccountByContractId(contractId) {
-        let code = 'contract' + contractId;
+        let code = 'contract/' + contractId;
         await Database.raw(`INSERT INTO MoneyAccount VALUES(?,?)`, [code, 0])
     },
     async addMoneyAccountByTutorId(tutorId) {
