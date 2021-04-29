@@ -15,15 +15,23 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
-    async getTutorByUserName(username) {
-        let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE Username =?', [username]);
+    async getUnverifiedTutorById(Id) {
+        let [rows, _] = await Database.raw('SELECT * FROM unverifiedtutor WHERE Id = ?', parseInt(Id));
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
+    },
+
+    async getTutorByUserName(username) {
+        let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE UserName =?', [username]);
+        if (!rows.length)
+            return null;
+
+        return rows[0];
     },
 
     async getTutorByEmail(email) {
@@ -31,7 +39,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getTutorByCourseName(courseName) {
@@ -42,7 +50,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
     async getRecentlyAddedTutors() {
         let [rows, _] = await Database.raw('SELECT * FROM tutor ORDER BY DESC');
@@ -58,7 +66,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getTuteeById(Id) {
@@ -66,7 +74,7 @@ module.exports = {
         if (!rows.length)
             return null;
         console.log(rows);
-        return rows;
+        return rows[0];
     },
 
     async getTuteeByUserName(username) {

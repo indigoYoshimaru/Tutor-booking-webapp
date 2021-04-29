@@ -1,14 +1,16 @@
 const Database = use('Database');
 
 module.exports = {
-    async addTutor(tutorId) {
-        await Database.raw(`SELECT * INTO tutor FROM UnverifiedTutor as UT WHERE UT.Id =?`, parseInt(tutorId));
-
+    async addTutor(tutorInfo) {
+        // await Database.raw(`SELECT * INTO tutor FROM unverifiedtutor as UT WHERE UT.Id =?`, parseInt(tutorId));
+        let result = await Database.raw(`INSERT INTO tutor (FirstName, LastName, UserName,
+            Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`,
+            [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName, tutorInfo.Email, tutorInfo.Password, tutorInfo.DateofBirth, tutorInfo.Profile])
+        return result;
     },
     async addUnverifiedTutor(tutorInfo) {
-        await Database.raw(`INSERT INTO UnverifiedTutor (FirstName, LastName, UserName, Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`,
-            [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName,
-            tutorInfo.Password, tutorInfo.DateOfBirth, tutorInfo.Profile])
+        let result = await Database.raw(`INSERT INTO unverifiedtutor (FirstName, LastName, UserName,
+            Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`, [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName, tutorInfo.Email, tutorInfo.Password, tutorInfo.DateofBirth, tutorInfo.Profile])
     },
     async addTutee(tuteeInfo) {
         await Database.raw(`INSERT INTO tutee (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [tuteeInfo.FirstName, tuteeInfo.LastName, tuteeInfo.UserName, tuteeInfo.Email,
@@ -20,7 +22,7 @@ module.exports = {
     },
     async addAdmin(adminInfo) {
         await Database.raw(`INSERT INTO Admin VALUES(?,?,?,?,?,?)`, [adminInfo.FirstName, adminInfo.LastName, adminInfo.UserName,
-        adminInfo.Password, adminInfo.DateOfBirth])
+        adminInfo.Password, adminInfo.DateofBirth])
     },
     async deleteTutor(tutorId) {
         await Database.raw(`DELETE FROM Tutor where Id = ?`, [parseInt(tutorId)]);
