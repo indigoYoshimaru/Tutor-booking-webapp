@@ -4,7 +4,6 @@ const { getAdminByUserName } = require("../../Models/query_service");
 const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
-const { errorMonitor } = require("node:events");
 const Encryption = use('Encryption')
 
 class TutorController {
@@ -22,15 +21,15 @@ class TutorController {
         let tutor = request.all();
         console.log(tutor);
         //let existedAccount=query_service.getTutorByUserName(tutor.username); 
-        if (await query_service.getTutorByUserName(tutor.username) || await query_service.getTuteeByUserName(tutor.username) || await getAdminByUserName(tutor.username))
+        if (await query_service.getTutorByUserName(tutor.Username) || await query_service.getTuteeByUserName(tutor.Username) || await getAdminByUserName(tutor.Username))
             return {
                 result: "Existed Username"
             }
-        if (await query_service.getTutorByEmail(tutor.email) || await query_service.getTuteeByEmail(tutor.email) || query_service.getAdminByEmail(tutor.email))
+        if (await query_service.getTutorByEmail(tutor.Email) || await query_service.getTuteeByEmail(tutor.Email) || query_service.getAdminByEmail(tutor.Email))
             return {
                 result: "Email registered"
             }
-        tutor.password = Encryption.encrypt(tutor.password);
+        tutor.Password = Encryption.encrypt(tutor.Password);
         update_service.addUnverifiedTutor(tutor);
         return {
             result: "Please wait for admin verification."

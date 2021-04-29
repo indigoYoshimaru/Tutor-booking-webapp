@@ -6,8 +6,9 @@ module.exports = {
 
     },
     async addUnverifiedTutor(tutorInfo) {
-        await Database.raw(`INSERT INTO UnverifiedTutor VALUES(?,?,?,?,?,?,?)`, [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName,
-        tutorInfo.Password, tutorInfo.DateOfBirth, tutorInfo.Profile])
+        await Database.raw(`INSERT INTO UnverifiedTutor (FirstName, LastName, UserName, Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`,
+            [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName,
+            tutorInfo.Password, tutorInfo.DateOfBirth, tutorInfo.Profile])
     },
     async addTutee(tuteeInfo) {
         await Database.raw(`INSERT INTO tutee (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [tuteeInfo.FirstName, tuteeInfo.LastName, tuteeInfo.UserName, tuteeInfo.Email,

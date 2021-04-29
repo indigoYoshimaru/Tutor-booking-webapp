@@ -19,20 +19,20 @@ module.exports = {
     },
 
     async getTutorByUserName(username) {
-        let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE UserName =?', [username]);
+        let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE Username =?', [username]);
         if (!rows.length)
             return null;
 
         return rows;
     },
 
-    async getTutorByEmail(email){
+    async getTutorByEmail(email) {
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE Email =?', [email]);
         if (!rows.length)
             return null;
 
         return rows;
-    }, 
+    },
 
     async getTutorByCourseName(courseName) {
         let [rows, _] = await Database.raw(`SELECT * FROM courseteaching 
@@ -44,7 +44,7 @@ module.exports = {
 
         return rows;
     },
-    async getRecentlyAddedTutors(){
+    async getRecentlyAddedTutors() {
         let [rows, _] = await Database.raw('SELECT * FROM tutor ORDER BY DESC');
         if (!rows.length)
             return null;
@@ -109,7 +109,7 @@ module.exports = {
 
         return rows;
     },
-    
+
     async getAdminByUserName(username) {
         let [rows, _] = await Database.raw('SELECT * FROM admin WHERE UserName =?', [username]);
         if (!rows.length)
