@@ -114,8 +114,8 @@ CREATE TABLE `Admin` (
   KEY `Unique Key` (`UserName`)
 );
 
-DROP TABLE IF EXISTS `UnverfiedTutor`;
-CREATE TABLE `UnverfiedTutor` (
+DROP TABLE IF EXISTS `UnverifiedTutor`;
+CREATE TABLE `UnverifiedTutor` (
   `Id` Integer auto_increment,
   `FirstName` Varchar(25),
   `LastName` Varchar(25),
