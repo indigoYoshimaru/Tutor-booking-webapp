@@ -2,7 +2,6 @@
 
 const query_service = require("../../Models/query_service");
 
-const Database = use('Database');
 class GetDatumController {
     /*=====Tutor=====*/
     async getTutors({ request }) {
@@ -18,42 +17,42 @@ class GetDatumController {
     async getTutorById({ request }) {
         let query = request.all();
         let tutor = await query_service.getTutorById(query.tutorId);
-        if(!tutor)
+        if (!tutor)
             return {
                 error: 'no tutor with this id'
             }
-        return{
+        return {
             result: tutor
         }
     }
     async getTutorByUserName({ request }) {
         let query = request.all();
         let tutor = await query_service.getTutorByUserName(query.tutorUsername);
-        if(!tutor)
+        if (!tutor)
             return {
                 error: 'no tutor with this username'
             }
-        return{
+        return {
             result: tutor
         }
     }
     async getTutorByEmail({ request }) {
         let query = request.all();
         let tutor = await query_service.getTutorByEmail(query.tutorEmail);
-        if(!tutor)
+        if (!tutor)
             return {
                 error: 'no tutor with this email'
             }
-        return{
+        return {
             result: tutor
         }
     }
     async getTutorByCourseName({ request }) {
         let query = request.all();
         let tutor = await query_service.getTutorByCourseName(query.coursename);
-        if(!tutor)
+        if (!tutor)
             return {
-                error:'no tutor teach this course'
+                error: 'no tutor teach this course'
             }
         return {
             result: tutor
@@ -83,33 +82,33 @@ class GetDatumController {
     async getTuteeById({ request }) {
         let query = request.all();
         let tutee = await query_service.getTuteeById(query.tuteeId);
-        if(!tutee)
+        if (!tutee)
             return {
                 error: 'no tutee with this id'
             }
-        return{
+        return {
             result: tutee
         }
     }
     async getTuteeByUserName({ request }) {
         let query = request.all();
         let tutee = await query_service.getTuteeByUserName(query.tuteeUsername);
-        if(!tutee)
+        if (!tutee)
             return {
                 error: 'no tutee with this username'
             }
-        return{
+        return {
             result: tutee
         }
     }
     async getTuteeByEmail({ request }) {
         let query = request.all();
         let tutee = await query_service.getTuteeByEmail(query.tuteeEmail);
-        if(!tutee)
+        if (!tutee)
             return {
                 error: 'no tutee with this email'
             }
-        return{
+        return {
             result: tutee
         }
     }
@@ -137,33 +136,33 @@ class GetDatumController {
     async getAdminById({ request }) {
         let query = request.all();
         let admin = await query_service.getAdminById(query.adminId);
-        if(!admin)
+        if (!admin)
             return {
                 error: 'no admin with this id'
             }
-        return{
+        return {
             result: admin
         }
     }
     async getAdminByUserName({ request }) {
         let query = request.all();
         let admin = await query_service.getAdminByUserName(query.adminUsername);
-        if(!admin)
+        if (!admin)
             return {
                 error: 'no admin with this username'
             }
-        return{
+        return {
             result: admin
         }
     }
     async getAdminByEmail({ request }) {
         let query = request.all();
         let admin = await query_service.getTuteeByEmail(query.adminEmail);
-        if(!admin)
+        if (!admin)
             return {
                 error: 'no admin with this email'
             }
-        return{
+        return {
             result: admin
         }
     }
@@ -181,22 +180,22 @@ class GetDatumController {
     async getContractById({ request }) {
         let query = request.all();
         let contract = await query_service.getContractById(query.contractId);
-        if(!contract)
+        if (!contract)
             return {
                 error: 'no contract with this id'
             }
-        return{
+        return {
             result: contract
         }
     }
     async getContractByTutorIdAndTuteeId({ request }) {
         let query = request.all();
-        let contract = await query_service.getContractByTutorIdandTuteeId(query.tutorId,query.tuteeId);
-        if(!contract)
+        let contract = await query_service.getContractByTutorIdandTuteeId(query.tutorId, query.tuteeId);
+        if (!contract)
             return {
                 error: 'no contract was made between this tutor and tutee'
             }
-        return{
+        return {
             result: contract
         }
     }
@@ -213,33 +212,33 @@ class GetDatumController {
     async getIssueById({ request }) {
         let query = request.all();
         let issue = await query_service.getIssueById(query.issueId);
-        if(!issue)
+        if (!issue)
             return {
                 error: 'no issue with this id'
             }
-        return{
+        return {
             result: issue
         }
     }
     async getIssueByContractId({ request }) {
         let query = request.all();
         let issue = await query_service.getIssueByContractId(query.contractId);
-        if(!issue)
+        if (!issue)
             return {
                 error: 'no issue with this contract'
             }
-        return{
+        return {
             result: issue
         }
     }
     async getIssueByResolveAdminId({ request }) {
         let query = request.all();
         let issue = await query_service.getIssueByResolveAdminId(query.adminId);
-        if(!issue)
+        if (!issue)
             return {
                 error: 'no issue found solved by this admin'
             }
-        return{
+        return {
             result: issue
         }
     }
@@ -248,44 +247,44 @@ class GetDatumController {
     async getMoneyAccountByTutorId({ request }) {
         let query = request.all();
         let account = await query_service.getMoneyAccountByTutorId(query.tutorId);
-        if(!account)
+        if (!account)
             return {
                 error: 'no account of this tutor'
             }
-        return{
+        return {
             result: account
         }
     }
     async getMoneyAccountByTuteeId({ request }) {
         let query = request.all();
         let account = await query_service.getMoneyAccountByTuteeId(query.tuteeId);
-        if(!account)
+        if (!account)
             return {
                 error: 'no account of this tutee'
             }
-        return{
+        return {
             result: account
         }
     }
     async getMoneyAccountByCode({ request }) {
         let query = request.all();
         let account = await query_service.getMoneyAccountByCode(query.code);
-        if(!account)
+        if (!account)
             return {
                 error: 'no account with this code'
             }
-        return{
+        return {
             result: account
         }
     }
     async getMoneyAccountById({ request }) {
         let query = request.all();
         let account = await query_service.getMoneyAccountById(query.accountId);
-        if(!account)
+        if (!account)
             return {
                 error: 'no account with this id'
             }
-        return{
+        return {
             result: account
         }
     }
@@ -302,22 +301,22 @@ class GetDatumController {
     async getTransactionById({ request }) {
         let query = request.all();
         let transaction = await query_service.getTransactionById(query.transactionId);
-        if(!transaction)
+        if (!transaction)
             return {
                 error: 'no transaction with this id'
             }
-        return{
+        return {
             result: transaction
         }
     }
     async getTransactionbySenderAccountId({ request }) {
         let query = request.all();
         let transaction = await query_service.getTransactionbySenderAccountId(query.accountId);
-        if(!transaction)
+        if (!transaction)
             return {
                 error: 'no account with this id'
             }
-        return{
+        return {
             result: transaction
         }
     }
@@ -326,55 +325,55 @@ class GetDatumController {
     async getChatroomById({ request }) {
         let query = request.all();
         let chatroom = await query_service.getChatroomById(query.chatroomId);
-        if(!chatroom)
+        if (!chatroom)
             return {
                 error: 'no chatroom with this id'
             }
-        return{
+        return {
             result: chatroom
         }
     }
     async getChatroomByTutorIdAndTuteeId({ request }) {
         let query = request.all();
-        let chatroom = await query_service.getChatroomByTutorIdandTuteeId(query.tutorId,query.tuteeId);
-        if(!chatroom)
+        let chatroom = await query_service.getChatroomByTutorIdandTuteeId(query.tutorId, query.tuteeId);
+        if (!chatroom)
             return {
                 error: 'no chatroom was made between this tutor and tutee'
             }
-        return{
+        return {
             result: chatroom
         }
     }
     async getMessageByChatroomId({ request }) {
         let query = request.all();
         let message = await query_service.getMessageByChatroomId(query.chatroomId);
-        if(!message)
+        if (!message)
             return {
                 error: 'no message in this chatroom'
             }
-        return{
+        return {
             result: message
         }
     }
     async getMessageInChatroomByTutor({ request }) {
         let query = request.all();
         let message = await query_service.getMessageInChatroomByTutor(query.chatroomId);
-        if(!message)
+        if (!message)
             return {
                 error: 'no message in this chatroom by tutor'
             }
-        return{
+        return {
             result: message
         }
     }
     async getMessageInChatroomByTutee({ request }) {
         let query = request.all();
         let message = await query_service.getMessageInChatroomByTutee(query.chatroomId);
-        if(!message)
+        if (!message)
             return {
                 error: 'no message in this chatroom by tutee'
             }
-        return{
+        return {
             result: message
         }
     }
@@ -382,11 +381,11 @@ class GetDatumController {
     /*=====EXTRA FUNCTIONS=====*/
     async getLeastResolveAdmins({ request }) {
         let admins = await query_service.getLeastResolveAdmins();
-        if(!admins)
+        if (!admins)
             return {
                 error: 'no admin found'
             }
-        return{
+        return {
             result: admins
         }
     }

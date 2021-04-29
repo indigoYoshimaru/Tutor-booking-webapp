@@ -40,7 +40,7 @@ class TuteeController {
         let token = jwt.sign(tutee, 'secretKey');
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-tutee/${token}`;
-        let content = `Click this URL to verify account ${url}`;
+        let content = `Please click this URL to verify account ${url}`;
         console.log(content);
         let res = await utility.sendMail(tutee.Email, content);
         return res;
@@ -57,13 +57,13 @@ class TuteeController {
             }
         let tutee = decodedObj;
         console.log(tutee);
-        update_service.addTutee(tutee);
+        await update_service.addTutee(tutee);
         tutee = query_service.getRecentlyAddedTutee();
         if (!tutee)
             return {
                 error: "No tutee found"
             }
-        update_service.addMoneyAccountByTuteeId(tutee.Id);
+        await update_service.addMoneyAccountByTuteeId(tutee.Id);
         return {
             result: "Tutee verified."
         }

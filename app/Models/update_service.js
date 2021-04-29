@@ -1,14 +1,16 @@
 const Database = use('Database');
 
 module.exports = {
-    async addTutor(tutorId) {
-        await Database.raw(`SELECT * INTO tutor FROM UnverifiedTutor as UT WHERE UT.Id =?`, parseInt(tutorId));
-
+    async addTutor(tutorInfo) {
+        // await Database.raw(`SELECT * INTO tutor FROM unverifiedtutor as UT WHERE UT.Id =?`, parseInt(tutorId));
+        let result = await Database.raw(`INSERT INTO tutor (FirstName, LastName, UserName,
+            Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`,
+            [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName, tutorInfo.Email, tutorInfo.Password, tutorInfo.DateofBirth, tutorInfo.Profile])
+        return result;
     },
     async addUnverifiedTutor(tutorInfo) {
-        await Database.raw(`INSERT INTO UnverifiedTutor (FirstName, LastName, UserName, Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`,
-            [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName,
-            tutorInfo.Password, tutorInfo.DateOfBirth, tutorInfo.Profile])
+        let result = await Database.raw(`INSERT INTO unverifiedtutor (FirstName, LastName, UserName,
+            Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`, [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName, tutorInfo.Email, tutorInfo.Password, tutorInfo.DateofBirth, tutorInfo.Profile])
     },
     async addTutee(tuteeInfo) {
         await Database.raw(`INSERT INTO tutee (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [tuteeInfo.FirstName, tuteeInfo.LastName, tuteeInfo.UserName, tuteeInfo.Email,
@@ -42,7 +44,7 @@ module.exports = {
         contract.startDate, contract.closeDate, parseFloat(teachingHours), 0, contract.listofTeachingDay]);
     },
     async addMoneyAccountByContractId(contractId) {
-        let code = 'contract' + contractId;
+        let code = 'contract/' + contractId;
         await Database.raw(`INSERT INTO MoneyAccount (Code, BalanceAmount) VALUES(?,?)`, [code, 0])
     },
     async addMoneyAccountByTutorId(tutorId) {

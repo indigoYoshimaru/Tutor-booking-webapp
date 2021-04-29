@@ -53,29 +53,29 @@ Route.post('/general/get-issue-by-contract-id', 'GetDatumController.getIssueByCo
 Route.post('/general/get-issue-by-resolve-admin-id', 'GetDatumController.getIssueByResolveAdminId')
 
 /*=====MONEY ACCOUNT and TRANSACTION=====*/
-Route.post('/general/get-money-account-by-tutor-id','GetDatumController.getMoneyAccountByTutorId')
-Route.post('/general/get-money-account-by-tutee-id','GetDatumController.getMoneyAccountByTuteeId')
-Route.post('/general/get-money-account-by-code','GetDatumController.getMoneyAccountByCode')
-Route.post('/general/get-money-account-by-id','GetDatumController.getMoneyAccountById')
-Route.get('/general/get-transactions','GetDatumController.getTransactions')
-Route.post('/general/get-transaction-by-id','GetDatumController.getTransactionById')
-Route.post('/general/get-transaction-by-sender-account-id','GetDatumController.getTransactionbySenderAccountId')
+Route.post('/general/get-money-account-by-tutor-id', 'GetDatumController.getMoneyAccountByTutorId')
+Route.post('/general/get-money-account-by-tutee-id', 'GetDatumController.getMoneyAccountByTuteeId')
+Route.post('/general/get-money-account-by-code', 'GetDatumController.getMoneyAccountByCode')
+Route.post('/general/get-money-account-by-id', 'GetDatumController.getMoneyAccountById')
+Route.get('/general/get-transactions', 'GetDatumController.getTransactions')
+Route.post('/general/get-transaction-by-id', 'GetDatumController.getTransactionById')
+Route.post('/general/get-transaction-by-sender-account-id', 'GetDatumController.getTransactionbySenderAccountId')
 
 /*=====CHATROOM=====*/
-Route.post('/general/get-chatroom-by-id','GetDatumController.getChatroomById')
+Route.post('/general/get-chatroom-by-id', 'GetDatumController.getChatroomById')
 Route.post('/general/get-chatroom-by-tutor-id-and-tutee-id', 'GetDatumController.getChatroomByTutorIdAndTuteeId')
-Route.post('/general/get-message-by-chatroom-id','GetDatumController.getMessageByChatroomId')
-Route.post('/general/get-message-in-chatroom-by-tutor','GetDatumController.getMessageInChatroomByTutor')
-Route.post('/general/get-message-in-chatroom-by-tutee','GetDatumController.getMessageInChatroomByTutee')
+Route.post('/general/get-message-by-chatroom-id', 'GetDatumController.getMessageByChatroomId')
+Route.post('/general/get-message-in-chatroom-by-tutor', 'GetDatumController.getMessageInChatroomByTutor')
+Route.post('/general/get-message-in-chatroom-by-tutee', 'GetDatumController.getMessageInChatroomByTutee')
 
 /*=====EXTRA FUNCTIONS=====*/
-Route.get('/general/get-least-resolve-admins','GetDatumController.getLeastResolveAdmins')
+Route.get('/general/get-least-resolve-admins', 'GetDatumController.getLeastResolveAdmins')
 
 Route.post('/tutor/register', 'TutorController.register')
 Route.post('/tutee/register', 'TuteeController.register')
 Route.get('/verify-tutor/:token', 'TutorController.verify')
 Route.get('/verify-tutee/:token', 'TuteeController.verify')
-Route.get('/testmailuti', 'UtilityController.testMail')
+Route.post('/admin/verify-tutor-registration', 'AdminController.verifyTutorRegistration')
 
 // Route
 //     .post('login', 'UserController.login')

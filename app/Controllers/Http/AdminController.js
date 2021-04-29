@@ -2,8 +2,8 @@
 
 const query_service = require("../../Models/query_service");
 const jwt = require('jsonwebtoken');
-const UtilityController = require("./UtilityController");
-
+const Config = use('Config');
+const utility = require("../../Models/utility");
 class AdminController {
     /*
     functions to be included:
@@ -36,7 +36,8 @@ class AdminController {
 
         // when admin click verify, we will send a link to verify email to tutor
         // when tutor click this link, we will add all of tutor information to official table
-        tutor = query_service.getTutorById(tutorId);
+        let tutor = await query_service.getUnverifiedTutorById(tutorId);
+        console.log(tutor);
         if (!tutor)
             return {
                 result: "No tutor found"
@@ -46,10 +47,12 @@ class AdminController {
             adminId, tutorId
         }
         let token = jwt.sign(tokenObj, 'secretKey');
-        let host = config.host
-        let url = `${host}/verify-tutor/${token}`;
-        let content = `Click this URL to verify account ${url}`
-        let res = UtilityController.mySendMail(tutor.email, content);
+        let host = Config.get('database.mysql.connection.host');
+        let url = `${host}:3333/verify-tutor/${token}`;
+        let content = `Please click this URL to verify account ${url}`;
+        console.log(content);
+        let res = await utility.sendMail(tutor.Email, content);
+        console.log(res);
         return res;
     }
 }
