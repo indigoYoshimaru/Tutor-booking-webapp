@@ -22,11 +22,11 @@ class TutorController {
         let tutor = request.all();
         console.log(tutor);
         //let existedAccount=query_service.getTutorByUserName(tutor.username); 
-        if (query_service.getTutorByUserName(tutor.username) || query_service.getTuteeByUserName(tutor.username) || getAdminByUserName(tutor.username))
+        if (await query_service.getTutorByUserName(tutor.username) || await query_service.getTuteeByUserName(tutor.username) || await getAdminByUserName(tutor.username))
             return {
                 result: "Existed Username"
             }
-        if (query_service.getTutorByEmail(tutor.email), query_service.getTuteeByEmail(tutor.email), query_service.getAdminByEmail(tutor.email))
+        if (await query_service.getTutorByEmail(tutor.email) || await query_service.getTuteeByEmail(tutor.email) || query_service.getAdminByEmail(tutor.email))
             return {
                 result: "Email registered"
             }

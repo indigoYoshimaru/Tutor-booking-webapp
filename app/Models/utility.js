@@ -15,7 +15,7 @@ module.exports = {
         let mailOptions = {
             from: 'sendmailserviceweb@gmail.com',
             to: receiver,
-            subject: 'Test Send Mail',
+            subject: 'Welcome to TuHub',
             // text: `Click this URL to verify account ${url}`
             text: content
         };

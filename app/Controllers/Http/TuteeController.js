@@ -31,7 +31,7 @@ class TuteeController {
             }
         }
 
-        if (await query_service.getTutorByEmail(tutee.Email), await query_service.getTuteeByEmail(tutee.Email), await query_service.getAdminByEmail(tutee.Email))
+        if (await query_service.getTutorByEmail(tutee.Email) || await query_service.getTuteeByEmail(tutee.Email) || await query_service.getAdminByEmail(tutee.Email))
             return {
                 result: "Email registered"
             }
