@@ -5,7 +5,7 @@ module.exports = {
         // await Database.raw(`SELECT * INTO tutor FROM unverifiedtutor as UT WHERE UT.Id =?`, parseInt(tutorId));
         let result = await Database.raw(`INSERT INTO tutor (FirstName, LastName, UserName,
             Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`,
-            [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName, tutorInfo.Email, tutorInfo.Password, tutorInfo.DateofBirth, tutorInfo.Profile])
+            [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName, tutorInfo.Email, tutorInfo.Password, tutorInfo.DateofBirth, JSON.stringify(tutorInfo.Profile)])
         return result;
     },
     async addUnverifiedTutor(tutorInfo) {
@@ -19,6 +19,10 @@ module.exports = {
     /*used by admins only*/
     async addCourse(name) {
         await Database.raw(`INSERT INTO Course VALUES(?)`, [name])
+    },
+    async addCourseTeaching(tutorId, courseId) {
+        await Database.raw(`INSERT INTO courseteaching (TutorId,CourseId) VALUES (?,?)`, [parseInt(tutorId), parseInt(courseId)]);
+
     },
     async addAdmin(adminInfo) {
         await Database.raw(`INSERT INTO Admin VALUES(?,?,?,?,?,?)`, [adminInfo.FirstName, adminInfo.LastName, adminInfo.UserName,
@@ -37,6 +41,10 @@ module.exports = {
     async deleteCourseTeaching(tutorId) {
         await Database.raw(`DELETE FROM CourseTeaching where TutorId = ?`, [parseInt(tutorId)]);
     },
+    async deleteUnverifiedTutor(unverTutorId) {
+        await Database.raw(`DELETE FROM tutorweb.unverifiedtutor WHERE Id = ?`, [parseInt(unverTutorId)]);
+
+    },
 
     /*==================*/
     async addContract(contract) {
@@ -49,7 +57,7 @@ module.exports = {
     },
     async addMoneyAccountByTutorId(tutorId) {
         let code = 'tutor/' + tutorId;
-        await Database.raw(`INSERT INTO MoneyAccount VALUES(?,?)`, [code, 0])
+        await Database.raw(`INSERT INTO MoneyAccount (Code,BalanceAmount) VALUES(?,?)`, [code, parseInt(0)])
     },
     async addMoneyAccountByTuteeId(tuteeId) {
         let code = 'tutee/' + tuteeId;

@@ -52,8 +52,8 @@ module.exports = {
 
         return rows[0];
     },
-    async getRecentlyAddedTutors() {
-        let [rows, _] = await Database.raw('SELECT * FROM tutor ORDER BY DESC');
+    async getRecentlyAddedTutor() {
+        let [rows, _] = await Database.raw('SELECT * FROM tutorweb.tutor ORDER BY Id DESC');
         if (!rows.length)
             return null;
 

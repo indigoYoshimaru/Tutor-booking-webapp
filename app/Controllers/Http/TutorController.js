@@ -37,32 +37,33 @@ class TutorController {
 
     }
     async verify({ request, session, params }) {
-        let token = params.token;
-        let decodedObj = jwt.verify(token, 'secretKey');
-        if (!decodedObj)
-            return {
-                error: "No token decoded"
-            }
-        let tutorId = decodedObj.tutorId;
-        let tutor = await query_service.getUnverifiedTutorById(tutorId);
-        delete tutor.Id;
-        let result = await update_service.addTutor(tutor);
-        console.log(result);
-        await update_service.deleteUnverifiedTutor(tutorId);// query needs writing
+        // let token = params.token;
+        // let decodedObj = jwt.verify(token, 'secretKey');
+        // if (!decodedObj)
+        //     return {
+        //         error: "No token decoded"
+        //     }
+        // let unverTutorId = decodedObj.tutorId;
+        // let tutor = await query_service.getUnverifiedTutorById(unverTutorId);
+        // let result = await update_service.addTutor(tutor);
+        // console.log(result);
+        // await update_service.deleteUnverifiedTutor(unverTutorId);// query needs writing
         let addedTutor = await query_service.getRecentlyAddedTutor();
-        if (!tutor) {
+        if (!addedTutor) {
             return {
                 error: "No tutor found"
             }
         }
         await update_service.addMoneyAccountByTutorId(addedTutor.Id);
-        let tutorProfile = JSON.parse(addedTutor.Profile.Background);
-        let teachingCourses = tutorProfile.Background;
+
+        let teachingCourses = addedTutor.Profile.Background;
+        //console.log(teachingCourses)
         // for (var course in teachingCourses) {
         //     update_service.addTeachingCourses(tutorId, course.Id);// query needs writing
         // }
-        for (var course in teachingCourses) {
-            await update_service.addTeachingCourses(addedTutor.Id, course.Id);
+        for (var course of teachingCourses) {
+            console.log(course);
+            await update_service.addCourseTeaching(addedTutor.Id, course.Id);
         }
 
         return {
