@@ -37,17 +37,16 @@ class TutorController {
 
     }
     async verify({ request, session, params }) {
-        // let token = params.token;
-        // let decodedObj = jwt.verify(token, 'secretKey');
-        // if (!decodedObj)
-        //     return {
-        //         error: "No token decoded"
-        //     }
-        // let unverTutorId = decodedObj.tutorId;
-        // let tutor = await query_service.getUnverifiedTutorById(unverTutorId);
-        // let result = await update_service.addTutor(tutor);
-        // console.log(result);
-        // await update_service.deleteUnverifiedTutor(unverTutorId);// query needs writing
+        let token = params.token;
+        let decodedObj = jwt.verify(token, 'secretKey');
+        if (!decodedObj)
+            return {
+                error: "No token decoded"
+            }
+        let unverTutorId = decodedObj.tutorId;
+        let tutor = await query_service.getUnverifiedTutorById(unverTutorId);
+        let result = await update_service.addTutor(tutor);
+        await update_service.deleteUnverifiedTutor(unverTutorId);
         let addedTutor = await query_service.getRecentlyAddedTutor();
         if (!addedTutor) {
             return {
@@ -57,12 +56,7 @@ class TutorController {
         await update_service.addMoneyAccountByTutorId(addedTutor.Id);
 
         let teachingCourses = addedTutor.Profile.Background;
-        //console.log(teachingCourses)
-        // for (var course in teachingCourses) {
-        //     update_service.addTeachingCourses(tutorId, course.Id);// query needs writing
-        // }
         for (var course of teachingCourses) {
-            console.log(course);
             await update_service.addCourseTeaching(addedTutor.Id, course.Id);
         }
 
