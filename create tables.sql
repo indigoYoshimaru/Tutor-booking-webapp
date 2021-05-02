@@ -1,139 +1,184 @@
-use tutorweb; /*name it as tutorweb for consistency*/
-DROP TABLE IF EXISTS `Contract`;
-CREATE TABLE `Contract` (
-  `Id` Integer auto_increment,
-  `TutorId` Integer,
-  `TuteeId` Integer,
-  `StartDate` Date,
-  `CloseDate` Date,
-  `TeachingHours` Double,
-  `State` Varchar(25),
-  `ListofTeachingDay` JSON,
-  KEY `Primary Key` (`Id`),
-  KEY `Foreign Key` (`TutorId`, `TuteeId`)
-);
+use tutorweb;
 
-DROP TABLE IF EXISTS `Tutor`;
-CREATE TABLE `Tutor` (
-  `Id` Integer auto_increment,
-  `FirstName` Varchar(25),
-  `LastName` Varchar(25),
-  `UserName` Varchar(25),
-  `Email` Varchar(25),
-  `Password` Varchar(25),
-  `DateofBirth` Date,
-  `Profile` JSON ,
-  KEY `Primary Key` (`Id`),
-  KEY `Unique Key` (`UserName`, `Email`)
-);
-
-DROP TABLE IF EXISTS `CourseTeaching`;
-CREATE TABLE `CourseTeaching` (
-  `Id` Integer,
-  `TutorId` Integer,
-  `CourseId` Integer,
-  KEY `Primary Key` (`Id`),
-  KEY `Foreign Key` (`TutorId`, `CourseId`)
-);
-
-DROP TABLE IF EXISTS `Tutee`;
-CREATE TABLE `Tutee` (
-  `Id` Integer auto_increment,
-  `FirstName` Varchar(25),
-  `LastName` Varchar(25),
-  `UserName` Varchar(25),
-  `Email` Varchar(25),
-  `Password` Varchar(25),
-  `DateofBirth` Date,
-  KEY `Primary Key` (`Id`),
-  KEY `Unique Key` (`UserName`, `Email`)
-);
-
-DROP TABLE IF EXISTS `Message`;
-CREATE TABLE `Message` (
-  `Id` Integer auto_increment,
-  `ChatroomId` Integer,
-  `IsTutor` Tinyint(1),
-  `Timestamp` Date,
-  `Content` Varchar(25),
-  KEY `Primary Key` (`Id`),
-  KEY `Foreign Key` (`ChatroomId`)
-);
-
-DROP TABLE IF EXISTS `MoneyAccount`;
-CREATE TABLE `MoneyAccount` (
-  `Id` Integer auto_increment,
-  `Code` Varchar(25),
-  `BalanceAmount` Double,
-  KEY `Primary Key` (`Id`),
-  KEY `Unique Key` (`Code`)
-);
-
-DROP TABLE IF EXISTS `Issue`;
-CREATE TABLE `Issue` (
-  `Id` Integer auto_increment,
-  `ContractId` Integer,
-  `Type` Tinyint(1),
-  `Content` Varchar(25),
-  `ResolveAdminId` Integer,
-  `TutorAgreement` Tinyint(1),
-  `TuteeAgreement` Tinyint(1),
-  `ReturnPercentage` Integer,
-  KEY `Primary Key` (`Id`),
-  KEY `Foreign Key` (`ContractId`, `ResolveAdminId`),
-  CONSTRAINT UNIQUE(`ContractId`)
-);
-
-DROP TABLE IF EXISTS `Course`;
-CREATE TABLE `Course` (
-  `Id` Integer auto_increment,
-  `Name` Varchar(25),
-  KEY `Primary Key` (`Id`),
-  KEY `Unique Key` (`Name`)
-);
-
-DROP TABLE IF EXISTS `Transaction`;
-CREATE TABLE `Transaction` (
-  `Id` Integer auto_increment,
-  `SenderAccountId` Integer,
-  `ReceiverAccountId` Integer,
-  `Amount` Double,
-  KEY `Primary Key` (`Id`),
-  KEY `Foreign Key` (`SenderAccountId`, `ReceiverAccountId`)
-);
-
-DROP TABLE IF EXISTS `Admin`;
-CREATE TABLE `Admin` (
-  `Id` Integer auto_increment,
-  `FirstName` Varchar(25),
-  `LastName` Varchar(25),
-  `UserName` Varchar(25),
-  `Password` Varchar(25),
-  `DateofBirth` Date,
-  KEY `Primary Key` (`Id`),
-  KEY `Unique Key` (`UserName`)
-);
-
-DROP TABLE IF EXISTS `UnverifiedTutor`;
-CREATE TABLE `UnverifiedTutor` (
-  `Id` Integer auto_increment,
-  `FirstName` Varchar(25),
-  `LastName` Varchar(25),
-  `UserName` Varchar(25),
-  `Email` Varchar(25),
-  `Password` Varchar(25),
-  `DateofBirth` Date,
-  `Profile` JSON ,
-  KEY `Primary Key` (`Id`),
-  KEY `Unique Key` (`UserName`, `Email`)
-);
-
-DROP TABLE IF EXISTS `Chatroom`;
-CREATE TABLE `Chatroom` (
-  `Id` Integer auto_increment,
-  `TutorId` Integer,
-  `TuteeId` Integer,
-  KEY `Primary Key` (`Id`),
-  KEY `Foreign Key` (`TutorId`, `TuteeId`),
-  CONSTRAINT UNIQUE (`TutorId`, `TuteeId`)
-);
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `admin`; SET FOREIGN_KEY_CHECKS=1;
+CREATE TABLE `admin` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `FirstName` varchar(25) DEFAULT NULL,
+   `LastName` varchar(25) DEFAULT NULL,
+   `UserName` varchar(25) DEFAULT NULL,
+   `Password` varchar(100) DEFAULT NULL,
+   `DateofBirth` date DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   UNIQUE KEY `UserName_UNIQUE` (`UserName`),
+   KEY `Primary Key` (`Id`),
+   KEY `Unique Key` (`UserName`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `chatroom`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `chatroom` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `TutorId` int DEFAULT NULL,
+   `TuteeId` int DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   UNIQUE KEY `index7` (`TutorId`,`TuteeId`),
+   KEY `Primary Key` (`Id`),
+   KEY `Foreign Key` (`TutorId`,`TuteeId`),
+   CONSTRAINT `chatroom_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`),
+   CONSTRAINT `chatroom_ibfk_2` FOREIGN KEY (`TuteeId`) REFERENCES `tutee` (`Id`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `contract`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `contract` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `TutorId` int DEFAULT NULL,
+   `TuteeId` int DEFAULT NULL,
+   `StartDate` date DEFAULT NULL,
+   `CloseDate` date DEFAULT NULL,
+   `TeachingHours` double DEFAULT NULL,
+   `State` varchar(25) DEFAULT NULL,
+   `ListofTeachingDay` json DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   KEY `Primary Key` (`Id`),
+   KEY `Foreign Key` (`TutorId`,`TuteeId`),
+   CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`),
+   CONSTRAINT `contract_ibfk_2` FOREIGN KEY (`TuteeId`) REFERENCES `tutee` (`Id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `course`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `course` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `Name` varchar(25) DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   UNIQUE KEY `Name_UNIQUE` (`Name`),
+   KEY `Primary Key` (`Id`),
+   KEY `Unique Key` (`Name`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `courseteaching`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `courseteaching` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `TutorId` int DEFAULT NULL,
+   `CourseId` int DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   KEY `Primary Key` (`Id`),
+   KEY `Foreign Key` (`TutorId`,`CourseId`),
+   CONSTRAINT `courseteaching_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`),
+   CONSTRAINT `courseteaching_ibfk_2` FOREIGN KEY (`CourseId`) REFERENCES `course` (`Id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `issue`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `issue` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `ContractId` int DEFAULT NULL,
+   `Type` tinyint(1) DEFAULT NULL,
+   `Content` varchar(25) DEFAULT NULL,
+   `ResolveAdminId` int DEFAULT NULL,
+   `TutorAgreement` tinyint(1) DEFAULT NULL,
+   `TuteeAgreement` tinyint(1) DEFAULT NULL,
+   `ReturnPercentage` int DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   UNIQUE KEY `ContractId` (`ContractId`),
+   KEY `Primary Key` (`Id`),
+   KEY `Foreign Key` (`ContractId`,`ResolveAdminId`),
+   CONSTRAINT `issue_ibfk_1` FOREIGN KEY (`ContractId`) REFERENCES `contract` (`Id`),
+   CONSTRAINT `issue_ibfk_2` FOREIGN KEY (`ResolveAdminId`) REFERENCES `admin` (`Id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `message`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `message` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `ChatroomId` int DEFAULT NULL,
+   `IsTutor` tinyint(1) DEFAULT NULL,
+   `Timestamp` date DEFAULT NULL,
+   `Content` varchar(25) DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   KEY `Primary Key` (`Id`),
+   KEY `Foreign Key` (`ChatroomId`),
+   CONSTRAINT `message_ibfk_1` FOREIGN KEY (`ChatroomId`) REFERENCES `chatroom` (`Id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `moneyaccount`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `moneyaccount` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `Code` varchar(25) DEFAULT NULL,
+   `BalanceAmount` double DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   UNIQUE KEY `Code_UNIQUE` (`Code`),
+   KEY `Primary Key` (`Id`),
+   KEY `Unique Key` (`Code`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `transaction`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `transaction` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `SenderAccountId` int DEFAULT NULL,
+   `ReceiverAccountId` int DEFAULT NULL,
+   `Amount` double DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   KEY `Primary Key` (`Id`),
+   KEY `Foreign Key` (`SenderAccountId`,`ReceiverAccountId`),
+   CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`SenderAccountId`) REFERENCES `moneyaccount` (`Id`),
+   CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`ReceiverAccountId`) REFERENCES `moneyaccount` (`Id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutee`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `tutee` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `FirstName` varchar(25) DEFAULT NULL,
+   `LastName` varchar(25) DEFAULT NULL,
+   `UserName` varchar(25) DEFAULT NULL,
+   `Email` varchar(100) DEFAULT NULL,
+   `Password` varchar(100) DEFAULT NULL,
+   `DateofBirth` date DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   UNIQUE KEY `UserName_UNIQUE` (`UserName`),
+   UNIQUE KEY `Email_UNIQUE` (`Email`),
+   KEY `Primary Key` (`Id`),
+   KEY `Unique Key` (`UserName`,`Email`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutor`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `tutor` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `FirstName` varchar(25) DEFAULT NULL,
+   `LastName` varchar(25) DEFAULT NULL,
+   `UserName` varchar(25) DEFAULT NULL,
+   `Email` varchar(100) DEFAULT NULL,
+   `Password` varchar(100) DEFAULT NULL,
+   `DateofBirth` date DEFAULT NULL,
+   `Profile` json DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   UNIQUE KEY `UserName_UNIQUE` (`UserName`),
+   UNIQUE KEY `Email_UNIQUE` (`Email`),
+   KEY `Primary Key` (`Id`),
+   KEY `Unique Key` (`UserName`,`Email`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+ 
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `unverifiedtutor`; SET FOREIGN_KEY_CHECKS=1;
+ CREATE TABLE `unverifiedtutor` (
+   `Id` int NOT NULL AUTO_INCREMENT,
+   `FirstName` varchar(25) DEFAULT NULL,
+   `LastName` varchar(25) DEFAULT NULL,
+   `UserName` varchar(25) DEFAULT NULL,
+   `Email` varchar(100) DEFAULT NULL,
+   `Password` varchar(100) DEFAULT NULL,
+   `DateofBirth` date DEFAULT NULL,
+   `Profile` json DEFAULT NULL,
+   PRIMARY KEY (`Id`),
+   UNIQUE KEY `Id_UNIQUE` (`Id`),
+   UNIQUE KEY `UserName_UNIQUE` (`UserName`),
+   UNIQUE KEY `Email_UNIQUE` (`Email`),
+   KEY `Primary Key` (`Id`),
+   KEY `Unique Key` (`UserName`,`Email`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
