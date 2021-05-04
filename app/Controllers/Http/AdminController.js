@@ -4,6 +4,8 @@ const query_service = require("../../Models/query_service");
 const jwt = require('jsonwebtoken');
 const Config = use('Config');
 const utility = require("../../Models/utility");
+// const Encryption = use('Encryption');
+const Hash = use('Hash');
 class AdminController {
     /*
     functions to be included:
@@ -60,12 +62,36 @@ class AdminController {
     async login({ request, session }) {
         let admin = request.all()
         // validate admin account
-        let adminDB = query_service.getAdminByUserName();
+        let adminDB = await query_service.getAdminByUserName(admin.UserName);
         if (!adminDB) {
             return {
                 error: "No admin username found"
             }
         }
+
+        let isSamePassword = await Hash.verify(admin.Password, adminDB.Password);
+        if (!isSamePassword) {
+            return {
+                error: "Invalid password"
+            }
+        }
+        // create Token
+        let adminId = adminDB.Id;
+        let adminUserName = adminDB.UserName;
+        let adminObject = {
+            adminId, adminUserName
+        }
+
+        let token = jwt.sign(adminObject, 'secretKey');
+        //add to session
+        session.token = token;
+        return {
+            result: {
+                "token": token,
+                "message": "Login successfully."
+            }
+        }
+
     }
 }
 

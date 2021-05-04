@@ -4,7 +4,7 @@ const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
 const utility = require("../../Models/utility");
 const Config = use('Config');
-const Encryption = use('Encryption');
+const Hash = use('Hash');
 
 class TuteeController {
     /*
@@ -35,7 +35,7 @@ class TuteeController {
             return {
                 result: "Email registered"
             }
-        tutee.Password = Encryption.encrypt(tutee.Password);
+        tutee.Password = await Hash.make(tutee.Password);
         console.log(tutee.Password);
         let token = jwt.sign(tutee, 'secretKey');
         let host = Config.get('database.mysql.connection.host');

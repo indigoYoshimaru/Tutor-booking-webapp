@@ -4,7 +4,7 @@ const { getAdminByUserName } = require("../../Models/query_service");
 const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
-const Encryption = use('Encryption')
+const Hash = use('Hash');
 
 class TutorController {
     /*
@@ -29,7 +29,7 @@ class TutorController {
             return {
                 result: "Email registered"
             }
-        tutor.Password = Encryption.encrypt(tutor.Password);
+        tutor.Password = await Hash.make(tutor.Password);
         await update_service.addUnverifiedTutor(tutor);
         return {
             result: "Please wait for admin verification."

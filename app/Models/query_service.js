@@ -93,8 +93,8 @@ module.exports = {
         return rows;
     },
 
-    async getRecentlyAddedTutees() {
-        let [rows, _] = await Database.raw('SELECT * FROM tutee ORDER BY DESC');
+    async getRecentlyAddedTutee() {
+        let [rows, _] = await Database.raw('SELECT * FROM tutee ORDER BY Id DESC');
         if (!rows.length)
             return null;
 
@@ -123,7 +123,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getAdminByEmail(email) {
@@ -131,7 +131,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     /*=====ISSUE and CONTRACT=====*/
@@ -140,7 +140,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getContractById(Id) {
@@ -148,7 +148,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getContractByTutorIdandTuteeId(tutorId, tuteeId) {
@@ -156,7 +156,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getIssues() {
@@ -164,7 +164,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getIssueById(Id) {
@@ -172,7 +172,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getIssueByContractId(Id) {
@@ -180,7 +180,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getIssueByResolveAdminId(Id) {
@@ -188,7 +188,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     /*=====MONEY ACCOUNT and TRANSACTION=====*/
@@ -198,7 +198,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getMoneyAccountByTuteeId(tuteeId) {
