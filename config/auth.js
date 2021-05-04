@@ -38,7 +38,7 @@ module.exports = {
   // admin: {
   //   serializer: 'database',
   //   scheme: 'jwt',
-  //   uid: 'Username',
+  //   uid: 'UserName',
   //   password: 'Password',
   //   table: 'admin',
   //   options: {

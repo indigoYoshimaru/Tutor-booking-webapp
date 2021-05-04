@@ -15,10 +15,11 @@ class AdminController {
         createConflictResolution
     */
     //comment for test register
-    // async loginAsAdmin({ auth, request }) {
-    //     const { username, password } = request.all();
+    // async login({ auth, request }) {
+    //     let admin = request.all();
     //     const asAdmin = auth.authenciator("admin");
-    //     const token = await asAdmin.attempt(username, password);
+    //     const token = await asAdmin.attempt(admin.UserName, admin.Password);
+
     //     return 'Logged in successfully'
     // }
 
@@ -54,6 +55,17 @@ class AdminController {
         let res = await utility.sendMail(tutor.Email, content);
         console.log(res);
         return res;
+    }
+
+    async login({ request, session }) {
+        let admin = request.all()
+        // validate admin account
+        let adminDB = query_service.getAdminByUserName();
+        if (!adminDB) {
+            return {
+                error: "No admin username found"
+            }
+        }
     }
 }
 
