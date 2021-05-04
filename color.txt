@@ -1,0 +1,8 @@
+#1e344b (primary)
+#1c3b5c button prim
+#2b629c
+background: linear-gradient(60deg, #376599, #1e344b);
+#638fc2
+#4f7bb0
+rgba(17, 64, 114, 0.6)
+#1c3d61

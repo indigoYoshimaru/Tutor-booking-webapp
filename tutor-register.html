@@ -23,6 +23,8 @@ The above copyright notice and this permission notice shall be included in all c
         Tutor Register
     </title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+    <!--VueJS-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -46,7 +48,8 @@ The above copyright notice and this permission notice shall be included in all c
 </head>
 
 <body class="login-page sidebar-collapse">
-    <!-- <nav class="navbar bg-primary navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100"
+    <!-- Guest Navbar-->
+    <nav class="navbar bg-primary navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100"
         id="sectionsNav">
         <div class="container">
             <div class="navbar-translate">
@@ -64,13 +67,14 @@ The above copyright notice and this permission notice shall be included in all c
 
             </div>
         </div>
-    </nav> -->
+    </nav>
     <!-- <div class="page-header header-filter"
         style="background-image: url('../assets/img/bg7.jpg'); background-size: cover; background-position: top center;"> -->
+    <br><br>
     <div class="page-header">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+                <div class="col-lg-8 col-md-6 ml-auto mr-auto">
                     <div class="card card-login ">
                         <form class="form" method="" action="">
                             <div class="section-signup card-signup card-header card-header-primary text-center">
@@ -81,7 +85,7 @@ The above copyright notice and this permission notice shall be included in all c
                                 <div class="input-group ">
                                     <div class="input-group-prepend ">
                                         <span class="input-group-text">
-                                        </span>                                        
+                                        </span>
                                         <input type="text" class="form-control" placeholder="First Name">
                                         <span class="input-group-text">
                                         </span>
@@ -112,17 +116,27 @@ The above copyright notice and this permission notice shall be included in all c
                                 <div class="input-group ">
                                     <div class="input-group-prepend ">
                                         <span class="input-group-text">
-                                        </span>                                        
-                                            <select class="description text-center" id="subject" name="subject">
-                                                <option value="" disabled selected hidden>Teaching Subject</option>
-                                                <option value="subject1">Subject 1</option>
-                                                <option value="subject2">Subject 2</option>
-                                                <option value="subject3">Subject 3</option>
-                                                <option value="subject4">Subject 4</option>
-                                            </select>                                          
+                                        </span>
+                                        <select class="description text-center" id="subject" name="subject">
+                                            <option value="" disabled selected hidden>Teaching Subject</option>
+                                            <option value="subject1">Subject 1</option>
+                                            <option value="subject2">Subject 2</option>
+                                            <option value="subject3">Subject 3</option>
+                                            <option value="subject4">Subject 4</option>
+                                        </select>
                                         <span class="input-group-text">
                                         </span>
                                         <input type="number" class="form-control" placeholder="GPA">
+                                        <span class="input-group-text">
+                                        </span>
+                                        <button class="btn btn-primary btn-fab btn-fab-mini btn-round">
+                                            <i class="material-icons">add</i>
+                                        </button>
+                                        <span class="input-group-text">
+                                        </span>
+                                        <button class="btn btn-primary btn-fab btn-fab-mini btn-round">
+                                            <i class="material-icons">remove</i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="input-group ">
@@ -136,15 +150,16 @@ The above copyright notice and this permission notice shall be included in all c
                                     <span class="input-group-text">
                                     </span>
                                     <div class="form-group">
-                                        <label class="label-control">D.O.B.</label>
-                                        <input type="text" class="form-control datetimepicker" value="01/01/2000">
+                                        <label class="label-control">D.O.B.</label><br>
+                                        <input class="description" type="date" id="" name="" value="2000-01-01">
                                     </div>
                                 </div>
 
                             </div>
-                            <br><br>
-                            <div class="footer text-center">
-                                <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">Sign Up</a>
+                            <div class="card-footer">
+                                <div class="text-center ml-auto mr-auto">
+                                    <button type="button" class="btn btn-primary">Signup</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -154,29 +169,15 @@ The above copyright notice and this permission notice shall be included in all c
         <footer class="footer">
             <div class="container">
                 <nav class="float-left">
-                    <ul>
-                        <li>
-                            <a href=#>
-                                About
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href=#>
-                                Blog
-                            </a>
-                        </li>
-                        <li>
-                            <a href=#>
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
+                    <!-- Empty -->
                 </nav>
-                
+
             </div>
         </footer>
     </div>
+    <script type="text\javascript">
+
+    </script>
 </body>
 
 </html>
