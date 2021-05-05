@@ -13,7 +13,7 @@ CREATE TABLE `admin` (
    UNIQUE KEY `UserName_UNIQUE` (`UserName`),
    KEY `Primary Key` (`Id`),
    KEY `Unique Key` (`UserName`)
- ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `chatroom`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `chatroom` (
@@ -24,10 +24,10 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `chatroom`; SET FOREIGN_KEY_CHECK
    UNIQUE KEY `Id_UNIQUE` (`Id`),
    UNIQUE KEY `index7` (`TutorId`,`TuteeId`),
    KEY `Primary Key` (`Id`),
-   KEY `Foreign Key` (`TutorId`,`TuteeId`),
+   KEY `Foreign Key` (`TutorId`,`TuteeId`),/*check the pair of foreign key here*/
    CONSTRAINT `chatroom_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`),
    CONSTRAINT `chatroom_ibfk_2` FOREIGN KEY (`TuteeId`) REFERENCES `tutee` (`Id`)
- ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `contract`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `contract` (
@@ -56,7 +56,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `contract`; SET FOREIGN_KEY_CHECK
    UNIQUE KEY `Name_UNIQUE` (`Name`),
    KEY `Primary Key` (`Id`),
    KEY `Unique Key` (`Name`)
- ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `courseteaching`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `courseteaching` (
@@ -145,7 +145,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutee`; SET FOREIGN_KEY_CHECKS=1
    UNIQUE KEY `Email_UNIQUE` (`Email`),
    KEY `Primary Key` (`Id`),
    KEY `Unique Key` (`UserName`,`Email`)
- ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutor`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `tutor` (
@@ -163,7 +163,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutor`; SET FOREIGN_KEY_CHECKS=1
    UNIQUE KEY `Email_UNIQUE` (`Email`),
    KEY `Primary Key` (`Id`),
    KEY `Unique Key` (`UserName`,`Email`)
- ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `unverifiedtutor`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `unverifiedtutor` (
@@ -181,4 +181,4 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `unverifiedtutor`; SET FOREIGN_KE
    UNIQUE KEY `Email_UNIQUE` (`Email`),
    KEY `Primary Key` (`Id`),
    KEY `Unique Key` (`UserName`,`Email`)
- ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
