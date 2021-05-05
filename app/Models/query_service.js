@@ -66,7 +66,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return rows;
     },
 
     async getTuteeById(Id) {
@@ -82,7 +82,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getTuteeByEmail(email) {
@@ -90,7 +90,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getRecentlyAddedTutee() {
@@ -120,14 +120,6 @@ module.exports = {
 
     async getAdminByUserName(username) {
         let [rows, _] = await Database.raw('SELECT * FROM admin WHERE UserName =?', [username]);
-        if (!rows.length)
-            return null;
-
-        return rows[0];
-    },
-
-    async getAdminByEmail(email) {
-        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Email =?', [email]);
         if (!rows.length)
             return null;
 

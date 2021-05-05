@@ -49,7 +49,7 @@ class GetDatumController {
     }
     async getTutorByCourseName({ request }) {
         let query = request.all();
-        let tutor = await query_service.getTutorByCourseName(query.coursename);
+        let tutor = await query_service.getTutorByCourseName(query.courseName);
         if (!tutor)
             return {
                 error: 'no tutor teach this course'
@@ -58,8 +58,8 @@ class GetDatumController {
             result: tutor
         }
     }
-    async getRecentlyAddedTutors({ request }) {
-        let tutor = await query_service.getRecentlyAddedTutors();
+    async getRecentlyAddedTutor({ request }) {
+        let tutor = await query_service.getRecentlyAddedTutor();
         if (!tutor)
             return {
                 error: 'no tutor added recently'
@@ -112,8 +112,8 @@ class GetDatumController {
             result: tutee
         }
     }
-    async getRecentlyAddedTutees({ request }) {
-        let tutee = await query_service.getRecentlyAddedTutees();
+    async getRecentlyAddedTutee({ request }) {
+        let tutee = await query_service.getRecentlyAddedTutee();
         if (!tutee)
             return {
                 error: 'no tutee added recently'
@@ -150,17 +150,6 @@ class GetDatumController {
         if (!admin)
             return {
                 error: 'no admin with this username'
-            }
-        return {
-            result: admin
-        }
-    }
-    async getAdminByEmail({ request }) {
-        let query = request.all();
-        let admin = await query_service.getTuteeByEmail(query.adminEmail);
-        if (!admin)
-            return {
-                error: 'no admin with this email'
             }
         return {
             result: admin
