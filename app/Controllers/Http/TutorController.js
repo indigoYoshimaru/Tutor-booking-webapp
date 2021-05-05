@@ -65,6 +65,38 @@ class TutorController {
         }
 
     }
+
+    async loginAsTutor({ request, session }) {
+        let tutor = request.all()
+        let tutorDB = await query_service.getTutorByUserName(tutor.UserName);
+        if (!tutorDB) {
+            return {
+                error: "No tutor username found"
+            }
+        }
+
+        let isSamePassword = await Hash.verify(tutor.Password, tutorDB.Password);
+        if (!isSamePassword) {
+            return {
+                error: "Invalid password"
+            }
+        }
+        let tutorId = tutorDB.Id;
+        let tutorUserName = tutorDB.UserName;
+        let tutorObject = {
+            tutorId, tutorUserName
+        }
+
+        let token = jwt.sign(tutorObject, 'secretKey');
+        session.token = token;
+        return {
+            result: {
+                "token": token,
+                "message": "Login successfully."
+            }
+        }
+
+    }
 }
 
 module.exports = TutorController

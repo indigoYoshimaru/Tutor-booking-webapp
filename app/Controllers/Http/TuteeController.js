@@ -68,6 +68,38 @@ class TuteeController {
             result: "Tutee verified."
         }
     }
+
+    async loginAsTutee({ request, session }) {
+        let tutee = request.all()
+        let tuteeDB = await query_service.getTuteeByUserName(tutee.UserName);
+        if (!tuteeDB) {
+            return {
+                error: "No tutee with this username found"
+            }
+        }
+
+        let isSamePassword = await Hash.verify(tutee.Password, tuteeDB.Password);
+        if (!isSamePassword) {
+            return {
+                error: "Invalid password"
+            }
+        }
+        let tuteeId = tuteeDB.Id;
+        let tuteeUserName = tuteeDB.UserName;
+        let tuteeObject = {
+            tuteeId, tuteeUserName
+        }
+
+        let token = jwt.sign(tuteeObject, 'secretKey');
+        session.token = token;
+        return {
+            result: {
+                "token": token,
+                "message": "Login successfully."
+            }
+        }
+
+    }
 }
 
 module.exports = TuteeController
