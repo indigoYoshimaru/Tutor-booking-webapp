@@ -1,5 +1,6 @@
 import HomePage from '/components/HomePage.vue'
 import AboutPage from '/components/AboutPage.vue'
+import LoginPage from '/components/LoginPage.vue'
 
 export default [
   {
@@ -10,4 +11,8 @@ export default [
     path: '/about/',
     component: AboutPage,
   },
+  {
+    path: '/login/',
+    component: LoginPage,
+  }
 ]

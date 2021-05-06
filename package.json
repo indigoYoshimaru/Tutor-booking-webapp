@@ -13,6 +13,7 @@
   "dependencies": {
     "framework7": "^6.0.17",
     "framework7-vue": "^6.0.17",
+    "vite": "^2.2.4",
     "vue": "^3.0.11"
   },
   "devDependencies": {
