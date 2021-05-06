@@ -1,5 +1,5 @@
 use tutorweb;
-INSERT INTO `admin` VALUE (1, 'Adam', 'Smasher', 'AdaSma', 'admin', '1990-11-11');
+INSERT INTO `admin` VALUE (1, 'Adam', 'Smasher', 'AdaSma','adasma@gmail.com', 'admin', '1990-11-11');
 INSERT INTO `tutor` VALUEs (1, 'John', 'Cena', 'WWE', 'CenaJ@wwe.com', 'u cant see me', '2000-11-18', '{"Background": [{"Id": 1, "Name": "Intro to AI", "GPA": 3.75}, 
 {"Id": 2, "Name": "Intro to Computing", "GPA": 3.9}], "Description": "I am handsome"}'), (2, 'John', 'Wick', 'PencilKiller', 'ILoveDog@gov.us', 'doggy cute', '1998-05-16',
 '{"Background": [{"Id": 3, "Name": "Writing AE2", "GPA": 3.9}], "Description": "Study or Die"}');
