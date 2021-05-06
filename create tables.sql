@@ -3,9 +3,9 @@ use tutorweb;
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `admin`; SET FOREIGN_KEY_CHECKS=1;
 CREATE TABLE `admin` (
    `Id` int NOT NULL AUTO_INCREMENT,
-   `FirstName` varchar(25) DEFAULT NULL,
-   `LastName` varchar(25) DEFAULT NULL,
-   `UserName` varchar(25) DEFAULT NULL,
+   `FirstName` varchar(50) DEFAULT NULL,
+   `LastName` varchar(50) DEFAULT NULL,
+   `UserName` varchar(50) DEFAULT NULL,
    `Password` varchar(100) DEFAULT NULL,
    `DateofBirth` date DEFAULT NULL,
    PRIMARY KEY (`Id`),
@@ -37,7 +37,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `contract`; SET FOREIGN_KEY_CHECK
    `StartDate` date DEFAULT NULL,
    `CloseDate` date DEFAULT NULL,
    `TeachingHours` double DEFAULT NULL,
-   `State` varchar(25) DEFAULT NULL,
+   `State` varchar(50) DEFAULT NULL,
    `ListofTeachingDay` json DEFAULT NULL,
    PRIMARY KEY (`Id`),
    UNIQUE KEY `Id_UNIQUE` (`Id`),
@@ -50,7 +50,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `contract`; SET FOREIGN_KEY_CHECK
  SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `course`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `course` (
    `Id` int NOT NULL AUTO_INCREMENT,
-   `Name` varchar(25) DEFAULT NULL,
+   `Name` varchar(100) DEFAULT NULL,
    PRIMARY KEY (`Id`),
    UNIQUE KEY `Id_UNIQUE` (`Id`),
    UNIQUE KEY `Name_UNIQUE` (`Name`),
@@ -76,7 +76,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `issue`; SET FOREIGN_KEY_CHECKS=1
    `Id` int NOT NULL AUTO_INCREMENT,
    `ContractId` int DEFAULT NULL,
    `Type` tinyint(1) DEFAULT NULL,
-   `Content` varchar(25) DEFAULT NULL,
+   `Content` varchar(5000) DEFAULT NULL,
    `ResolveAdminId` int DEFAULT NULL,
    `TutorAgreement` tinyint(1) DEFAULT NULL,
    `TuteeAgreement` tinyint(1) DEFAULT NULL,
@@ -96,7 +96,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `issue`; SET FOREIGN_KEY_CHECKS=1
    `ChatroomId` int DEFAULT NULL,
    `IsTutor` tinyint(1) DEFAULT NULL,
    `Timestamp` date DEFAULT NULL,
-   `Content` varchar(25) DEFAULT NULL,
+   `Content` varchar(5000) DEFAULT NULL,
    PRIMARY KEY (`Id`),
    UNIQUE KEY `Id_UNIQUE` (`Id`),
    KEY `Primary Key` (`Id`),
@@ -107,7 +107,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `issue`; SET FOREIGN_KEY_CHECKS=1
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `moneyaccount`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `moneyaccount` (
    `Id` int NOT NULL AUTO_INCREMENT,
-   `Code` varchar(25) DEFAULT NULL,
+   `Code` varchar(30) DEFAULT NULL,
    `BalanceAmount` double DEFAULT NULL,
    PRIMARY KEY (`Id`),
    UNIQUE KEY `Id_UNIQUE` (`Id`),
@@ -133,9 +133,9 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `transaction`; SET FOREIGN_KEY_CH
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutee`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `tutee` (
    `Id` int NOT NULL AUTO_INCREMENT,
-   `FirstName` varchar(25) DEFAULT NULL,
-   `LastName` varchar(25) DEFAULT NULL,
-   `UserName` varchar(25) DEFAULT NULL,
+   `FirstName` varchar(50) DEFAULT NULL,
+   `LastName` varchar(50) DEFAULT NULL,
+   `UserName` varchar(50) DEFAULT NULL,
    `Email` varchar(100) DEFAULT NULL,
    `Password` varchar(100) DEFAULT NULL,
    `DateofBirth` date DEFAULT NULL,
@@ -150,9 +150,9 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutee`; SET FOREIGN_KEY_CHECKS=1
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutor`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `tutor` (
    `Id` int NOT NULL AUTO_INCREMENT,
-   `FirstName` varchar(25) DEFAULT NULL,
-   `LastName` varchar(25) DEFAULT NULL,
-   `UserName` varchar(25) DEFAULT NULL,
+   `FirstName` varchar(50) DEFAULT NULL,
+   `LastName` varchar(50) DEFAULT NULL,
+   `UserName` varchar(50) DEFAULT NULL,
    `Email` varchar(100) DEFAULT NULL,
    `Password` varchar(100) DEFAULT NULL,
    `DateofBirth` date DEFAULT NULL,
@@ -168,9 +168,9 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutor`; SET FOREIGN_KEY_CHECKS=1
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `unverifiedtutor`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `unverifiedtutor` (
    `Id` int NOT NULL AUTO_INCREMENT,
-   `FirstName` varchar(25) DEFAULT NULL,
-   `LastName` varchar(25) DEFAULT NULL,
-   `UserName` varchar(25) DEFAULT NULL,
+   `FirstName` varchar(50) DEFAULT NULL,
+   `LastName` varchar(50) DEFAULT NULL,
+   `UserName` varchar(50) DEFAULT NULL,
    `Email` varchar(100) DEFAULT NULL,
    `Password` varchar(100) DEFAULT NULL,
    `DateofBirth` date DEFAULT NULL,
