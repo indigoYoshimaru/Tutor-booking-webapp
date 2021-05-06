@@ -1,0 +1,31 @@
+import {
+    f7App,
+    f7View,
+    f7Page,
+    f7Popup,
+    f7Navbar,
+    f7Block,
+    f7NavRight,
+    f7NavLeft,
+    f7Button,
+    f7Panel,
+    f7Row,
+    f7Col,
+    f7Link,
+} from "framework7-vue";
+
+export default {
+    f7App,
+    f7View,
+    f7Page,
+    f7Popup,
+    f7Navbar,
+    f7Block,
+    f7NavRight,
+    f7NavLeft,
+    f7Button,
+    f7Panel,
+    f7Row,
+    f7Col,
+    f7Link,
+}
