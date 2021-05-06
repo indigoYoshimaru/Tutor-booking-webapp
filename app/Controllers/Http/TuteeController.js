@@ -69,7 +69,7 @@ class TuteeController {
         }
     }
 
-    async loginAsTutee({ request, session }) {
+    async login({ request, session }) {
         let tutee = request.all()
         let tuteeDB = await query_service.getTuteeByUserName(tutee.UserName);
         if (!tuteeDB) {

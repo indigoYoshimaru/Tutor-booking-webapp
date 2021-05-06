@@ -59,7 +59,7 @@ class AdminController {
         return res;
     }
 
-    async loginAsAdmin({ request, session }) {
+    async login({ request, session }) {
         let admin = request.all()
         // validate admin account
         let adminDB = await query_service.getAdminByUserName(admin.UserName);

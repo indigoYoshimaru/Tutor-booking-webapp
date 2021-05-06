@@ -66,7 +66,7 @@ class TutorController {
 
     }
 
-    async loginAsTutor({ request, session }) {
+    async login({ request, session }) {
         let tutor = request.all()
         let tutorDB = await query_service.getTutorByUserName(tutor.UserName);
         if (!tutorDB) {

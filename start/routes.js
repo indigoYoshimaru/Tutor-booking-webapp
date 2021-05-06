@@ -76,9 +76,9 @@ Route.get('/verify-tutor/:token', 'TutorController.verify')
 Route.get('/verify-tutee/:token', 'TuteeController.verify')
 Route.post('/admin/verify-tutor-registration', 'AdminController.verifyTutorRegistration')
 
-Route.post('/admin/login', 'AdminController.loginAsAdmin')
-Route.post('/tutee/login', 'TuteeController.loginAsTutee')
-Route.post('/tutor/login', 'TutorController.loginAsTutor')
+Route.post('/admin/login', 'AdminController.login')
+Route.post('/tutee/login', 'TuteeController.login')
+Route.post('/tutor/login', 'TutorController.login')
 
 // Route
 //     .get('users/:id', 'UserController.show')//page that can be access by admin
