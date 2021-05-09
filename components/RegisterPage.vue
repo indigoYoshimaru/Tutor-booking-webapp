@@ -1,8 +1,15 @@
 <template>
-  <f7-page no-toolbar no-swipeback login-screen>
+  <f7-page id="tutor-res" no-toolbar no-swipeback login-screen>
     <f7-navbar back-link=""></f7-navbar>
-    <f7-login-screen-title>Login</f7-login-screen-title>
+    <f7-login-screen-title>Register</f7-login-screen-title>
     <f7-list form>
+      <f7-list-input
+        label="First Name"
+        type="text"
+        placeholder="Your first name"
+        :value="username"
+        @input="username = $event.target.value"
+      ></f7-list-input>
       <f7-list-input
         label="Username"
         type="text"
@@ -17,14 +24,14 @@
         :value="password"
         @input="password = $event.target.value"
       ></f7-list-input>
-      <f7-list-input 
-        label="Usertype" 
-        type="select" 
-        placeholder="Please chose"
-        @change="usertype = $event.target.value">
-        <option value="tutee">Tutee</option>
-        <option value="tutor">Tutor</option>
-      </f7-list-input>
+      <f7-list-input
+        label="Confirm Password"
+        type="password"
+        placeholder="Re-enter your password"
+        :value="confirmedPassword"
+        @input="confirmedPassword = $event.target.value"
+      ></f7-list-input>
+      <f7-list-input label="Usertype"> </f7-list-input>
     </f7-list>
     <f7-list>
       <f7-list-button @click="signIn">Sign In</f7-list-button>
@@ -47,9 +54,15 @@ export default {
   },
   data() {
     return {
+      firstName:"",
+      lastName:"",      
       username: "",
       password: "",
-      usertype: ""
+      email:"",
+      confirmedPassword: "",
+      dob:"",
+      subject_gpa: [],
+      description:""
     };
   },
   methods: {

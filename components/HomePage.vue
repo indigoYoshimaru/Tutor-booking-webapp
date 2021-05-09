@@ -1,22 +1,25 @@
 <template>
   <f7-page>
-    <f7-navbar title="Awesome App"></f7-navbar>
+    <f7-navbar>     
+      <f7-nav-title>TUHUB</f7-nav-title>
+      <f7-nav-right>
+        <f7-button panel-open="right"
+          ><span class="material-icons">menu</span></f7-button
+        >
+      </f7-nav-right>      
+    </f7-navbar>
     <!-- Page content -->
     <f7-block>
-      <p>Here comes main view page text</p>
+      <p>Here comes MAIN view page text</p>
+      
     </f7-block>
-    <!-- Buttons to open panels -->
-    <f7-row>
-      <f7-col>
-        <f7-button panel-open="left">Left Panel</f7-button>
-      </f7-col>
-      <f7-col>
-        <f7-button panel-open="right">Right Panel</f7-button>
-      </f7-col>
-    </f7-row>
     <!-- Button to open popup -->
     <f7-button popup-open="#my-popup">Open Popup</f7-button>
-    <f7-link href="/about/">About</f7-link>
+    <f7-list>
+      <f7-list-item link="/login/" title="Login"></f7-list-item>
+      <f7-list-item link="/register/" title="Register"> </f7-list-item>
+      <f7-list-item link="/about/" title="About"></f7-list-item>
+    </f7-list>
   </f7-page>
 </template>
 

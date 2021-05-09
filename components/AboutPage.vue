@@ -1,12 +1,15 @@
+
 <template>
   <f7-page>
-    <f7-navbar title="About"></f7-navbar>
-    <!-- Page content -->
+    <f7-navbar title="About" back-link=""></f7-navbar>
+  
     <f7-block>
       <p>About page</p>
     </f7-block>
   </f7-page>
 </template>
+
+
 
 <script>
 import share from "/modules/share";
