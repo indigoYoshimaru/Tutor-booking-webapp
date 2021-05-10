@@ -9,6 +9,7 @@
       </f7-nav-right>
     </f7-navbar>
     <!-- Page content -->
+
     <video autoplay muted loop id="background-vid">
       <source
         src="images/Don't Feed The Kois twice a course.mp4"
@@ -40,7 +41,7 @@
     </f7-block>
     <f7-block-title>JOIN US</f7-block-title>
     <!-- Button to open popup -->
-    <f7-button popup-open="#my-popup">Open Popup</f7-button>
+    <!-- <f7-button popup-open="#my-popup">Open Popup</f7-button> -->
     <f7-list>
       <f7-list-item link="/login/" title="Login"></f7-list-item>
       <f7-list-item link="/register/" title="Register"> </f7-list-item>
