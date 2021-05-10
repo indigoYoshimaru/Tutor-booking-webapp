@@ -10,11 +10,10 @@
     </f7-navbar>
     <!-- Page content -->
     <f7-block>
-      <p>Here comes MAIN view page text</p>
-      
+      <p>Nothing to see here.</p>      
     </f7-block>
     <!-- Button to open popup -->
-    <f7-button popup-open="#my-popup">Open Popup</f7-button>
+    <!-- <f7-button popup-open="#my-popup">Open Popup</f7-button> -->
     <f7-list>
       <f7-list-item link="/login/" title="Login"></f7-list-item>
       <f7-list-item link="/register/" title="Register"> </f7-list-item>

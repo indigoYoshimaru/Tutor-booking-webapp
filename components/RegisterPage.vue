@@ -51,16 +51,18 @@
         placeholder="Your D.O.B."
         value="2000-01-01"
         @change="dob = $event.target.value"
-      ></f7-list-input>
-      <f7-block>
+      ></f7-list-input>      
+
+      <div v-for="(input, index) in subject_gpa" :key="`pairInput-${index}`">
         <f7-row no-gap>
           <f7-col>
             <f7-list-input
               label="Teaching"
               type="select"
               placeholder="Please chose"
-              @change="subjects = $event.target.value"
+              v-model="input.subject"
             >
+              <option value="" disabled selected>Select subject</option>
               <option value="ai">AI</option>
               <option value="web">Web</option>
               <option value="probs">Probability</option>
@@ -73,12 +75,22 @@
               min="0"
               max="100"
               placeholder="Enter your GPA"
-              :value="gpas"
-              @input="gpas = $event.target.value"
-            ></f7-list-input>
+              v-model="input.gpa"
+            >
+            </f7-list-input>
+          </f7-col>
+          <f7-col>
+            <f7-button @click="addField(input, subject_gpa)"
+              ><span class="material-icons">add</span></f7-button
+            >
+            <f7-button
+              v-show="subject_gpa.length > 1"
+              @click="removeField(index, subject_gpa)"
+              ><span class="material-icons">remove</span></f7-button
+            >
           </f7-col>
         </f7-row>
-      </f7-block>
+      </div>
       <f7-list-input
         label="Description"
         type="textarea"
@@ -90,11 +102,11 @@
     </f7-list>
     <f7-list>
       <f7-list-button @click="register">Register</f7-list-button>
-      <f7-block-footer
+      <!-- <f7-block-footer
         >Some text about login information.<br />Lorem ipsum dolor sit amet,
         consectetur adipiscing elit.</f7-block-footer
-      >
-    </f7-list>
+      > -->
+    </f7-list>    
   </f7-page>
 </template>
 <script>
@@ -118,22 +130,34 @@ export default {
       dob: "",
       subjects: [],
       gpas: [],
+      subject_gpa: [
+        {
+          subjects: "",
+          gpas: "",
+        },
+      ],
       description: "",
+      phoneNumbers: [{ phone: "" }],
     };
   },
   methods: {
     register() {
       const self = this;
       f7.dialog.alert(
-        `Username: ${self.userName}<br>
-        Password: ${self.password}<br>  
-        D.O.B: ${self.dob}<br>      
-        Subjects: ${self.subjects}
-        GPAs: ${self.gpas}`,
+        `Firstname: ${self.firstName}<br>        
+        Subjects: ${self.subject_gpa.subjects}
+        GPAs: ${self.subject_gpa.gpas}<br>`,
         () => {
           self.f7router.back();
         }
       );
+    },
+    addField(value, fieldType) {
+      fieldType.push({ value: "" });
+      console.log(fieldType);
+    },
+    removeField(index, fieldType) {
+      fieldType.splice(index, 1);
     },
   },
 };
