@@ -23,14 +23,12 @@
 
     <!-- Right Panel with "reveal" effect -->
     <f7-panel right cover dark>
-      <f7-view>
+      <f7-view links-view=".view-main">
         <f7-page>
           <f7-navbar title="Menu">
-            <f7-nav-right>
-              <f7-button panel-close
-                ><span class="material-icons">close</span></f7-button
-              >
-            </f7-nav-right>
+            <f7-button panel-close
+              ><span class="material-icons">close</span></f7-button
+            >
           </f7-navbar>
           <f7-list>
             <f7-list-item link="/login/" title="Login"></f7-list-item>
@@ -60,8 +58,8 @@
           <f7-block>
             <f7-col>
               <f7-row>
-                <f7-button >Tutor</f7-button>
-                <f7-button >Tutee</f7-button>
+                <f7-button>Tutor</f7-button>
+                <f7-button>Tutee</f7-button>
               </f7-row>
             </f7-col>
           </f7-block>
@@ -72,6 +70,8 @@
 </template>
 
 <script>
+import f7 from "framework7/lite-bundle";
+
 import share from "/modules/share";
 import routes from "/modules/routes";
 
@@ -81,6 +81,12 @@ export default {
   components: {
     ...f7components,
   },
+  computed: {
+    f7() {
+      f7;
+    },
+  },
+
   data() {
     return {
       app: {
