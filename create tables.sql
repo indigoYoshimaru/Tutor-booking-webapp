@@ -53,22 +53,23 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `tutor`; SET FOREIGN_KEY_CHECKS=1
  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `contract`; SET FOREIGN_KEY_CHECKS=1;
- CREATE TABLE `contract` (
+  CREATE TABLE `contract` (
    `Id` int NOT NULL AUTO_INCREMENT,
    `TutorId` int DEFAULT NULL,
    `TuteeId` int DEFAULT NULL,
    `StartDate` date DEFAULT NULL,
    `CloseDate` date DEFAULT NULL,
    `TeachingHours` double DEFAULT NULL,
-   `State` varchar(50) DEFAULT NULL,
+   `State` varchar(50) NOT NULL,
    `ListofTeachingDay` json DEFAULT NULL,
    PRIMARY KEY (`Id`),
    UNIQUE KEY `Id_UNIQUE` (`Id`),
    KEY `Primary Key` (`Id`),
    KEY `Foreign Key` (`TutorId`,`TuteeId`),
-   CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`),
-   CONSTRAINT `contract_ibfk_2` FOREIGN KEY (`TuteeId`) REFERENCES `tutee` (`Id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+   KEY `contract_ibfk_2` (`TuteeId`),
+   CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`) ON DELETE SET NULL,
+   CONSTRAINT `contract_ibfk_2` FOREIGN KEY (`TuteeId`) REFERENCES `tutee` (`Id`) ON DELETE SET NULL
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
  SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `course`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `course` (
@@ -92,7 +93,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `courseteaching`; SET FOREIGN_KEY
    KEY `Foreign Key` (`TutorId`,`CourseId`),
    CONSTRAINT `courseteaching_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`),
    CONSTRAINT `courseteaching_ibfk_2` FOREIGN KEY (`CourseId`) REFERENCES `course` (`Id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `issue`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `issue` (
@@ -111,7 +112,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `issue`; SET FOREIGN_KEY_CHECKS=1
    KEY `Foreign Key` (`ContractId`,`ResolveAdminId`),
    CONSTRAINT `issue_ibfk_1` FOREIGN KEY (`ContractId`) REFERENCES `contract` (`Id`),
    CONSTRAINT `issue_ibfk_2` FOREIGN KEY (`ResolveAdminId`) REFERENCES `admin` (`Id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `moneyaccount`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `moneyaccount` (
@@ -123,7 +124,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `moneyaccount`; SET FOREIGN_KEY_C
    UNIQUE KEY `Code_UNIQUE` (`Code`),
    KEY `Primary Key` (`Id`),
    KEY `Unique Key` (`Code`)
- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `transaction`; SET FOREIGN_KEY_CHECKS=1;
  CREATE TABLE `transaction` (
@@ -137,7 +138,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `transaction`; SET FOREIGN_KEY_CH
    KEY `Foreign Key` (`SenderAccountId`,`ReceiverAccountId`),
    CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`SenderAccountId`) REFERENCES `moneyaccount` (`Id`),
    CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`ReceiverAccountId`) REFERENCES `moneyaccount` (`Id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
  
  
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `unverifiedtutor`; SET FOREIGN_KEY_CHECKS=1;
@@ -167,9 +168,10 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `unverifiedtutor`; SET FOREIGN_KE
    UNIQUE KEY `Id_UNIQUE` (`Id`),
    UNIQUE KEY `index7` (`TutorId`,`TuteeId`),
    KEY `Primary Key` (`Id`),
-   KEY `Foreign Key` (`TutorId`,`TuteeId`),/*check the pair of foreign key here*/
-   CONSTRAINT `chatroom_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`),
-   CONSTRAINT `chatroom_ibfk_2` FOREIGN KEY (`TuteeId`) REFERENCES `tutee` (`Id`)
+   KEY `Foreign Key` (`TutorId`,`TuteeId`),
+   KEY `chatroom_ibfk_2` (`TuteeId`),
+   CONSTRAINT `chatroom_ibfk_1` FOREIGN KEY (`TutorId`) REFERENCES `tutor` (`Id`) ON DELETE SET NULL,
+   CONSTRAINT `chatroom_ibfk_2` FOREIGN KEY (`TuteeId`) REFERENCES `tutee` (`Id`) ON DELETE SET NULL
  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `message`; SET FOREIGN_KEY_CHECKS=1;
