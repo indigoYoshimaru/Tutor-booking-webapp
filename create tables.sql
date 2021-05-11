@@ -186,4 +186,4 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `message`; SET FOREIGN_KEY_CHECKS
    KEY `Primary Key` (`Id`),
    KEY `Foreign Key` (`ChatroomId`),
    CONSTRAINT `message_ibfk_1` FOREIGN KEY (`ChatroomId`) REFERENCES `chatroom` (`Id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
