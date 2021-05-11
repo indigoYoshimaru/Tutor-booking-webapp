@@ -13,13 +13,14 @@ font-weight: 300;
 }
 
 .grid-homepage div[class*="col"] { 
-  background: rgb(30, 52, 75);
   text-align: center;
+  /* background: rgb(30, 52, 75);
+  
   border-radius: 10px;
   box-sizing: border-box;
   box-shadow: 0px 0px 20px 0px #4d4c4c;
   color: white;
   outline: none;
   margin-bottom: 16px;
-  font-size: 20px;
+  font-size: 20px; */
 }
