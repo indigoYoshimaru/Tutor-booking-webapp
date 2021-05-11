@@ -100,6 +100,58 @@ class TuteeController {
         }
 
     }
+
+    async createContract({ request, session }) {
+        let contract = request.all()
+        let tutorDB = await query_service.getTutorById(contract.tutorId)
+        let tuteeDB = await query_service.getTuteeById(contract.tuteeId)
+        if (!tutorDB) {
+            return {
+                error: "No tutor with this Id"
+            }
+        }
+        if (!tuteeDB) {
+            return {
+                error: "No tutee with this Id"
+            }
+        }
+        let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, contract.tuteeId)
+        if (contractDB && contractDB.State=='CLOSED') {
+            return {
+                error: "The contract has not been closed yet"
+            }
+        }
+        /* =====THIS IS IF INPUT FROM FRONT END IS JSON=====
+        let teachingDays = JSON.parse(contract.ListofTeachingDays) //parse JSON data type
+        for (i in teachingDays.TeachingDays) { //loop through each teaching days
+            i = new Date(i) //parse teaching days to Date
+            if (i < contract.StartDate || i > contract.CloseDate) {//compare with start and close date
+                return {
+                    error: "The teaching days are not in the contract's period"
+                }
+            }
+        } */
+
+        /* IN CASE THE INPUT TEACHING DAYS IS AN ARRAY OF STRINGS */
+        let teachingDays = []
+        for (d in contract.ListOfTeachingDays) {
+            if (d < contract.StartDate || d > contract.CloseDate) {//compare with start and close date
+                return {
+                    error: "The teaching days are not in the contract's period"
+                }
+            }
+            teachingDays.push(d)
+        }
+        contract.ListOfTeachingDays = JSON.stringify(teachingDays)//convert array of days back to JSON but looks NOT GOOD
+
+        await update_service.addContract(contract)
+
+        var amount = contract.TeachingHours * 50000;
+        let tutorAccount = await query_service.getMoneyAccountByTutorId(contract.tutorId)
+        let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contract.tuteeID)
+
+        await makeTransaction(tuteeAccount, tutorAccount, amount)
+    }
 }
 
 module.exports = TuteeController

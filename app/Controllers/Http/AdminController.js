@@ -100,7 +100,7 @@ class AdminController {
         let adminDB = await query_service.getAdminByUserName(admin.UserName);
         if (adminDB) {
             return {
-                result: "Existed Username"
+                error: "Existed Username"
             }
         }
 
@@ -143,7 +143,7 @@ class AdminController {
         let tutorDB = await query_service.getTutorById(tutor.tutorId)
         if (!tutorDB) {
             return {
-                result: "No tutor with this Id"
+                error: "No tutor with this Id"
             }
         }
         await update_service.deleteTutor(tutor.tutorId)
@@ -164,7 +164,7 @@ class AdminController {
         let tuteeDB = await query_service.getTuteeById(tutee.tuteeId)
         if (!tuteeDB) {
             return {
-                result: "No tutee with this Id"
+                error: "No tutee with this Id"
             }
         }
         await update_service.deleteTutee(tutee.tuteeId)
@@ -177,10 +177,6 @@ class AdminController {
         return {
             result: "Deleted Tutee"
         }
-    }
-
-    async createContract({ request, session }) {
-        
     }
 }
 
