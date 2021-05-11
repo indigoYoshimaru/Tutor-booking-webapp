@@ -158,6 +158,30 @@ class AdminController {
             result: "Deleted Tutor"
         }
     }
+
+    async banTutee({ request, session }) {
+        let tutee = request.all()
+        let tuteeDB = await query_service.getTuteeById(tutee.tuteeId)
+        if (!tuteeDB) {
+            return {
+                result: "No tutee with this Id"
+            }
+        }
+        await update_service.deleteTutee(tutee.tuteeId)
+        let check = await query_service.getTuteeById(tutee.tuteeId)
+        if (check) {
+            return {
+                result: "Delete tutee failed"
+            }
+        }
+        return {
+            result: "Deleted Tutee"
+        }
+    }
+
+    async createContract({ request, session }) {
+        
+    }
 }
 
 module.exports = AdminController

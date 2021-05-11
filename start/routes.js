@@ -84,6 +84,7 @@ Route.post('/tutee/login', 'TuteeController.login')
 Route.post('/tutor/login', 'TutorController.login')
 
 Route.post('/admin/ban-verified-tutor', 'AdminController.banVerifiedTutor')
+Route.post('/admin/ban-tutee', 'AdminController.banTutee')
 
 // Route
 //     .get('users/:id', 'UserController.show')//page that can be access by admin
