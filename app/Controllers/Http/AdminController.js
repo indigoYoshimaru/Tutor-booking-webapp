@@ -4,6 +4,7 @@ const query_service = require("../../Models/query_service");
 const jwt = require('jsonwebtoken');
 const Config = use('Config');
 const utility = require("../../Models/utility");
+const update_service = require("../../Models/update_service");
 // const Encryption = use('Encryption');
 const Hash = use('Hash');
 class AdminController {
@@ -91,7 +92,71 @@ class AdminController {
                 "message": "Login successfully."
             }
         }
+        
+    }
 
+    async addNewAdmin({ request, session }) {
+        let admin = request.all()
+        let adminDB = await query_service.getAdminByUserName(admin.UserName);
+        if (adminDB) {
+            return {
+                result: "Existed Username"
+            }
+        }
+
+        admin.Password = await Hash.make(admin.Password);
+        console.log(admin.Password);
+        let token = jwt.sign(admin, 'secretKey');
+        let host = Config.get('database.mysql.connection.host');
+        let url = `${host}:3333/verify-admin/${token}`;
+        let content = `Please click this URL to verify account ${url}`;
+        console.log(content);
+        let res = await utility.sendMail(admin.Email, content);
+        return res;
+
+    }
+
+    async verify({ request, session, params }) {
+        let token = params.token;
+        let decodedObj = jwt.verify(token, 'secretKey');
+        console.log(decodedObj);
+        delete decodedObj.iat;
+        if (!decodedObj)
+            return {
+                result: "No token decoded"
+            }
+        let admin = decodedObj;
+        console.log(admin);
+        await update_service.addAdmin(admin);
+        admin = query_service.getRecentlyAddedAdmin();
+        if (!admin)
+            return {
+                error: "No admin found"
+            }
+        return {
+            result: "Admin verified and added."
+        }
+    }
+
+    async banVerifiedTutor({ request, session }) {
+        let tutor = request.all()
+        let tutorDB = await query_service.getTutorById(tutor.tutorId)
+        if (!tutorDB) {
+            return {
+                result: "No tutor with this Id"
+            }
+        }
+        await update_service.deleteTutor(tutor.tutorId)
+        await update_service.deleteCourseTeaching(tutor.tutorId)
+        let check = await query_service.getTutorById(tutor.tutorId)
+        if (check) {
+            return {
+                result: "Delete tutor failed"
+            }
+        }
+        return {
+            result: "Deleted Tutor"
+        }
     }
 }
 

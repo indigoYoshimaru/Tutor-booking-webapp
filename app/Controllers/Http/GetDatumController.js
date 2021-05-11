@@ -155,6 +155,16 @@ class GetDatumController {
             result: admin
         }
     }
+    async getRecentlyAddedAdmin({ request }) {
+        let admin = await query_service.getRecentlyAddedAdmin();
+        if (!admin)
+            return {
+                error: 'no admin added recently'
+            }
+        return {
+            result: admin
+        }
+    }
     /*=====ISSUE and CONTRACT=====*/
     async getContracts({ request }) {
         let contracts = await query_service.getContracts();

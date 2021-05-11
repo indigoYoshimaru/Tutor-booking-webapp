@@ -126,6 +126,14 @@ module.exports = {
         return rows[0];
     },
 
+    async getRecentlyAddedAdmin() {
+        let [rows, _] = await Database.raw('SELECT * FROM admin ORDER BY Id DESC');
+        if (!rows.length)
+            return null;
+
+        return rows[0];
+    },
+
     /*=====ISSUE and CONTRACT=====*/
     async getContracts() {
         let [rows, _] = await Database.raw('SELECT * FROM contract');

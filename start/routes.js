@@ -41,6 +41,7 @@ Route.get('/general/get-recently-added-tutee', 'GetDatumController.getRecentlyAd
 Route.get('/general/get-admins', 'GetDatumController.getAdmins')
 Route.post('/general/get-admin-by-id', 'GetDatumController.getAdminById')
 Route.post('/general/get-admin-by-username', 'GetDatumController.getAdminByUserName')
+Route.get('/general/get-recently-added-admin', 'GetDatumController.getRecentlyAddedAdmin')
 
 /*=====ISSUE and CONTRACT=====*/
 Route.get('/general/get-contracts', 'GetDatumController.getContracts')
@@ -72,13 +73,17 @@ Route.get('/general/get-least-resolve-admins', 'GetDatumController.getLeastResol
 
 Route.post('/tutor/register', 'TutorController.register')
 Route.post('/tutee/register', 'TuteeController.register')
+Route.post('/admin/add-new-admin', 'AdminController.addNewAdmin')
 Route.get('/verify-tutor/:token', 'TutorController.verify')
 Route.get('/verify-tutee/:token', 'TuteeController.verify')
 Route.post('/admin/verify-tutor-registration', 'AdminController.verifyTutorRegistration')
+Route.get('/verify-admin/:token', 'AdminController.verify')
 
 Route.post('/admin/login', 'AdminController.login')
 Route.post('/tutee/login', 'TuteeController.login')
 Route.post('/tutor/login', 'TutorController.login')
+
+Route.post('/admin/ban-verified-tutor', 'AdminController.banVerifiedTutor')
 
 // Route
 //     .get('users/:id', 'UserController.show')//page that can be access by admin
