@@ -63,8 +63,8 @@ module.exports = {
         let code = 'tutee/' + tuteeId;
         await Database.raw(`INSERT INTO MoneyAccount (Code, BalanceAmount) VALUES(?,?)`, [code, 0])
     },
-    async addTransaction(transaction) {
-        await Database.raw(`INSERT INTO transaction (SenderAccountId, ReceiverAccountId, Amount) VALUES(?,?,?)`, [parseInt(transaction.senderAccountId), parseInt(transaction.receiverAccountId), parseFloat(amount)]);
+    async addTransaction(senderAccountId, receiverAccountId, amount) {
+        await Database.raw(`INSERT INTO transaction (SenderAccountId, ReceiverAccountId, Amount) VALUES(?,?,?)`, [parseInt(senderAccountId), parseInt(receiverAccountId), parseFloat(amount)]);
     },
     async updateMoneyAccount(moneyAccountId, newBalance) {
         await Database.raw(`UPDATE MoneyAccount SET balanceAmount=? WHERE Id =?`, [parseFloat(newBalance), parseInt(moneyAccountId)])

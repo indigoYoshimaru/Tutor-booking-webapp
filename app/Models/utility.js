@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const query_service = require('./query_service');
-const { updateMoneyAccount } = require('./update_service');
+const { updateMoneyAccount, addTransaction } = require('./update_service');
 module.exports = {
     async sendMail(receiver, content) {
         let transporter = nodemailer.createTransport({
@@ -43,12 +43,13 @@ module.exports = {
 
             // minus money from sender
             // add money to receiver
+            // make transaction
             await updateMoneyAccount(senderAcc.Id, senderAcc.BalanceAmount - amount);
             await updateMoneyAccount(receiverAcc.Id, receiverAcc.BalanceAmount + amount);
-
+            await addTransaction(senderAcc.Id, receiverAcc.Id, amount);
         }
         catch (error) {
-
+            await transaction.rollback();
         }
     }
 
