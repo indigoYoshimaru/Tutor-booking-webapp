@@ -64,13 +64,12 @@ module.exports = {
         await Database.raw(`INSERT INTO MoneyAccount (Code, BalanceAmount) VALUES(?,?)`, [code, 0])
     },
     async addTransaction(transaction) {
-        await Database.raw(`INSERT INTO transaction (Code, BalanceAmount) VALUES(?,?,?)`, [parseInt(transaction.senderAccountId), parseInt(transaction.receiverAccountId), parseFloat(amount)]);
+        await Database.raw(`INSERT INTO transaction (SenderAccountId, ReceiverAccountId, Amount) VALUES(?,?,?)`, [parseInt(transaction.senderAccountId), parseInt(transaction.receiverAccountId), parseFloat(amount)]);
     },
-    async updateMoneyAccount(moneyAccount) {
-        await Database.raw(`UPDATE MoneyAccount SET balanceAmount=? WHERE Id =?`, [parseFloat(moneyAccount.balanceAmount), parseInt(moneyAccount.Id)])
+    async updateMoneyAccount(moneyAccountId, newBalance) {
+        await Database.raw(`UPDATE MoneyAccount SET balanceAmount=? WHERE Id =?`, [parseFloat(newBalance), parseInt(moneyAccountId)])
     },
     async setIsCloseContract(contract) {
         await Database.raw(`UPDATE contract SET isClose=? WHERE Id =?`, [1, parseInt(contract.Id)]);
-    },
-
+    }
 }

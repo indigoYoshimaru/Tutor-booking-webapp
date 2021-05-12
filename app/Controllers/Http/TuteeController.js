@@ -63,7 +63,7 @@ class TuteeController {
             return {
                 error: "No tutee found"
             }
-        await update_service.addMoneyAccountByTuteeId(tutee.Id);
+        await update_service.addMoneyAccountByTuteeId(tutee.Id); // needs checking
         return {
             result: "Tutee verified."
         }
@@ -116,7 +116,7 @@ class TuteeController {
             }
         }
         let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, contract.tuteeId)
-        if (contractDB && contractDB.State=='CLOSED') {
+        if (contractDB && contractDB.State == 'CLOSED') {
             return {
                 error: "The contract has not been closed yet"
             }

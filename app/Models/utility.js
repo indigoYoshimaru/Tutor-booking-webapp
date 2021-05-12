@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const query_service = require('./query_service');
+const { updateMoneyAccount } = require('./update_service');
 module.exports = {
     async sendMail(receiver, content) {
         let transporter = nodemailer.createTransport({
@@ -30,5 +32,24 @@ module.exports = {
                 result: "successful"
             }
         });
+    },
+
+    async makeTransaction(senderAcc, receiverAcc, amount) {
+        const transaction = await Database.beginTransaction();
+        try {
+            // check valid money from sender
+            if (senderAcc.BalanceAmount <= amount)
+                throw new Error("Not enough money in sender's account");
+
+            // minus money from sender
+            // add money to receiver
+            await updateMoneyAccount(senderAcc.Id, senderAcc.BalanceAmount - amount);
+            await updateMoneyAccount(receiverAcc.Id, receiverAcc.BalanceAmount + amount);
+
+        }
+        catch (error) {
+
+        }
     }
+
 }
