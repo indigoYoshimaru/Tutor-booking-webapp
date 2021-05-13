@@ -74,6 +74,10 @@ module.exports = {
     },
 
     async addChatroom(tutorId, tuteeId) {
-        await Database.raw(`INSERT INTO Chatroom (TutorId, TuteeId) VALUES(?,?)`, [parseInt(tutorId), parseInt(tuteeId)])
+        await Database.raw(`INSERT INTO chatroom (TutorId, TuteeId) VALUES(?,?)`, [parseInt(tutorId), parseInt(tuteeId)])
+    },
+
+    async addMessage(chatroomId, isTutor, content) {
+        await Database.raw(`INSERT INTO message (ChatroomId, IsTutor, Content) VALUES(?,?,?,?)`, [parseInt(chatroomId), parseInt(isTutor), content]) // erase timestamp for the sake of simplicity
     }
 }
