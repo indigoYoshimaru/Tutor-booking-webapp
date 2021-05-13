@@ -85,13 +85,13 @@ class TuteeController {
             }
         }
         let tuteeId = tuteeDB.Id;
-        let tuteeUserName = tuteeDB.UserName;
+        let role = 'tutee';
         let tuteeObject = {
-            tuteeId, tuteeUserName
+            tuteeId, role
         }
 
         let token = jwt.sign(tuteeObject, 'secretKey');
-        session.token = token;
+        session.put("token", token);
         return {
             result: {
                 "token": token,

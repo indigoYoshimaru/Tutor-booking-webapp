@@ -86,8 +86,13 @@ Route.post('/tutor/login', 'TutorController.login')
 
 Route.post('/admin/ban-verified-tutor', 'AdminController.banVerifiedTutor')
 Route.post('/admin/ban-tutee', 'AdminController.banTutee')
-Route.post('/tutee/create-contract','TuteeController.createContract')
-
+Route.post('/tutee/create-contract', 'TuteeController.createContract')
+Route.get('/test-login', async function ({ session }) {
+    let token = session.get('token')
+    if (token) {
+        return { result: "logged in" }
+    }
+})
 // Route
 //     .get('users/:id', 'UserController.show')//page that can be access by admin
 //     .middleware('auth:admin')

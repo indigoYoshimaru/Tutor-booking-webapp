@@ -21,7 +21,7 @@ class TutorController {
         let tutor = request.all();
         console.log(tutor.Email);
         //let existedAccount=query_service.getTutorByUserName(tutor.username); 
-        if (await query_service.getTutorByUserName(tutor.UserName) || await query_service.getTuteeByUserName(tutor.UserName) || await getAdminByUserName(tutor.UserName))// must add get unverify Tutor
+        if (await query_service.getTutorByUserName(tutor.UserName) || await query_service.getTuteeByUserName(tutor.UserName) || await query_service.getAdminByUserName(tutor.UserName))// must add get unverify Tutor
             return {
                 result: "Existed Username"
             }
@@ -82,16 +82,16 @@ class TutorController {
             }
         }
         let tutorId = tutorDB.Id;
-        let tutorUserName = tutorDB.UserName;
+        let role = 'tutor';
         let tutorObject = {
-            tutorId, tutorUserName
+            tutorId, role
         }
 
         let token = jwt.sign(tutorObject, 'secretKey');
-        session.token = token;
+        session.put("token", token);
         return {
             result: {
-                "token": token,
+                "token": token, // this is for testing only
                 "message": "Login successfully."
             }
         }

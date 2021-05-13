@@ -126,6 +126,14 @@ module.exports = {
         return rows[0];
     },
 
+    async getAdminByEmail(email) {
+        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Email =?', [email]);
+        if (!rows.length)
+            return null;
+
+        return rows[0];
+    },
+
     async getRecentlyAddedAdmin() {
         let [rows, _] = await Database.raw('SELECT * FROM admin ORDER BY Id DESC');
         if (!rows.length)

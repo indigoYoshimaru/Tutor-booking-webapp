@@ -64,14 +64,14 @@ class AdminController {
         }
         // create Token
         let adminId = adminDB.Id;
-        let adminUserName = adminDB.UserName;
+        let role = 'admin'
         let adminObject = {
-            adminId, adminUserName
+            adminId, role
         }
 
         let token = jwt.sign(adminObject, 'secretKey');
         //add to session
-        session.token = token;
+        session.put('token', token);
         return {
             result: {
                 "token": token,
