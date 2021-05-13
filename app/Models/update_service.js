@@ -71,5 +71,9 @@ module.exports = {
     },
     async setIsCloseContract(contract) {
         await Database.raw(`UPDATE contract SET isClose=? WHERE Id =?`, [1, parseInt(contract.Id)]);
+    },
+
+    async addChatroom(tutorId, tuteeId) {
+        await Database.raw(`INSERT INTO Chatroom (TutorId, TuteeId) VALUES(?,?)`, [parseInt(tutorId), parseInt(tuteeId)])
     }
 }

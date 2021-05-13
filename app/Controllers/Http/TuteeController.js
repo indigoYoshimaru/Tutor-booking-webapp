@@ -152,6 +152,45 @@ class TuteeController {
 
         await makeTransaction(tuteeAccount, tutorAccount, amount)
     }
+
+    async contactTutor({ request, session }) {
+        // if it's 1st time: create chatroom for tutor and tutee
+        // if it's not: get all information of chat related between tutor and tutee
+        let tutorId = request.all();
+        let tuteeId = session.all();
+        let tutor = query_service.getTutorById(tutorId);
+        if (!tutor) {
+            return {
+                error: "No tutor found"
+            }
+        }
+        let tutee = query_service.getTuteeById(tuteeId);
+        if (!tutee) {
+            return {
+                error: "No tutee found"
+            }
+        }
+
+        let chatroom = query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
+        if (!chatroom) {
+            update_service.addChatroom(tutorId, tuteeId);
+            recentChatroom = query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
+            return {
+                result: {
+                    chatroom: recentChatroom,
+                    messages: []
+                }
+            }
+        }
+
+        let messages = query_service.getMessageByChatroomId(chatroom.Id);
+        return {
+            result: {
+                chatroom: chatroom,
+                messages: messages
+            }
+        }
+    }
 }
 
 module.exports = TuteeController
