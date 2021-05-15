@@ -126,6 +126,14 @@ module.exports = {
         return rows[0];
     },
 
+    async getAdminByEmail(email) {
+        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Email =?', [email]);
+        if (!rows.length)
+            return null;
+
+        return rows[0];
+    },
+
     async getRecentlyAddedAdmin() {
         let [rows, _] = await Database.raw('SELECT * FROM admin ORDER BY Id DESC');
         if (!rows.length)
@@ -207,7 +215,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getMoneyAccountByCode(code) {
@@ -215,7 +223,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getMoneyAccountById(Id) {
@@ -223,7 +231,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getTransactions() {
@@ -231,7 +239,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getTransactionById(Id) {
@@ -239,7 +247,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getTransactionbySenderAccountId(senderAccId) {
@@ -247,7 +255,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     /*=====CHATROOM=====*/
@@ -256,7 +264,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     async getChatroomByTutorIdandTuteeId(tutorId, tuteeId) {
@@ -264,28 +272,28 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
     async getMessageByChatroomId(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=?', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
     async getMessageInChatroomByTutor(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=? and IsTutor=1', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
     async getMessageInChatroomByTutee(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=? and IsTutor=0', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
 
-        return rows;
+        return rows[0];
     },
 
     /*=====EXTRA FUNCTIONS=====*/
@@ -300,7 +308,12 @@ module.exports = {
             return null
         return rows[0];
 
+    },
+
+    async getUnverifiedTutorByUserName(username) {
+        let [rows, _] = await Database.raw(`SELECT * FROM unverifiedtutor WHERE UserName=?`, [username]);
+        if (!rows.length)
+            return null
+        return rows[0];
     }
-
-
 }

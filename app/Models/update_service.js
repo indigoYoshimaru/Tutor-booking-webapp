@@ -48,29 +48,38 @@ module.exports = {
 
     /*==================*/
     async addContract(contract) {
-        await Database.raw(`INSERT INTO contract (TutorId, TuteeId, StartDate, CloseDate, TeachingHours, State, ListOfTeachingDay) VALUES(?,?,?,?,?,?,?)`, [parseInt(contract.tutorId), parseInt(contract.tuteeId),
-        contract.startDate, contract.closeDate, parseFloat(teachingHours), 0, contract.listofTeachingDay]);
+        await Database.raw(`INSERT INTO contract (TutorId, TuteeId, StartDate, CloseDate, TeachingHours, State, ListOfTeachingDay) VALUES(?,?,?,?,?,?,?)`
+            , [parseInt(contract.tutorId), parseInt(contract.tuteeId),
+            contract.startDate, null, parseFloat(contract.teachingHours), "WAITING", JSON.stringify(contract.listofTeachingDay)]);
     },
     async addMoneyAccountByContractId(contractId) {
         let code = 'contract/' + contractId;
-        await Database.raw(`INSERT INTO MoneyAccount (Code, BalanceAmount) VALUES(?,?)`, [code, 0])
+        await Database.raw(`INSERT INTO moneyaccount (Code, BalanceAmount) VALUES(?,?)`, [code, 100000])
     },
     async addMoneyAccountByTutorId(tutorId) {
         let code = 'tutor/' + tutorId;
-        await Database.raw(`INSERT INTO MoneyAccount (Code,BalanceAmount) VALUES(?,?)`, [code, parseInt(0)])
+        await Database.raw(`INSERT INTO moneyaccount (Code,BalanceAmount) VALUES(?,?)`, [code, 100000])
     },
     async addMoneyAccountByTuteeId(tuteeId) {
         let code = 'tutee/' + tuteeId;
-        await Database.raw(`INSERT INTO MoneyAccount (Code, BalanceAmount) VALUES(?,?)`, [code, 0])
+        await Database.raw(`INSERT INTO moneyaccount (Code, BalanceAmount) VALUES(?,?)`, [code, 100000])
     },
-    async addTransaction(transaction) {
-        await Database.raw(`INSERT INTO transaction (Code, BalanceAmount) VALUES(?,?,?)`, [parseInt(transaction.senderAccountId), parseInt(transaction.receiverAccountId), parseFloat(amount)]);
+    async addTransaction(senderAccountId, receiverAccountId, amount) {
+        await Database.raw(`INSERT INTO transaction (SenderAccountId, ReceiverAccountId, Amount) VALUES(?,?,?)`, [parseInt(senderAccountId), parseInt(receiverAccountId), parseFloat(amount)]);
     },
-    async updateMoneyAccount(moneyAccount) {
-        await Database.raw(`UPDATE MoneyAccount SET balanceAmount=? WHERE Id =?`, [parseFloat(moneyAccount.balanceAmount), parseInt(moneyAccount.Id)])
+    async updateMoneyAccount(moneyAccountId, newBalance) {
+        console.log(newBalance)
+        await Database.raw(`UPDATE moneyaccount SET BalanceAmount=? WHERE Id =?`, [parseFloat(newBalance), parseInt(moneyAccountId)])
     },
     async setIsCloseContract(contract) {
         await Database.raw(`UPDATE contract SET isClose=? WHERE Id =?`, [1, parseInt(contract.Id)]);
     },
 
+    async addChatroom(tutorId, tuteeId) {
+        await Database.raw(`INSERT INTO chatroom (TutorId, TuteeId) VALUES(?,?)`, [parseInt(tutorId), parseInt(tuteeId)])
+    },
+
+    async addMessage(chatroomId, isTutor, content) {
+        await Database.raw(`INSERT INTO message (ChatroomId, IsTutor, Content) VALUES(?,?,?,?)`, [parseInt(chatroomId), parseInt(isTutor), content]) // erase timestamp for the sake of simplicity
+    }
 }

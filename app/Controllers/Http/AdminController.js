@@ -17,21 +17,7 @@ class AdminController {
         banTutee
         createConflictResolution
     */
-    //comment for test register
-    // async login({ auth, request }) {
-    //     let admin = request.all();
-    //     const asAdmin = auth.authenciator("admin");
-    //     const token = await asAdmin.attempt(admin.UserName, admin.Password);
 
-    //     return 'Logged in successfully'
-    // }
-
-    // showAdmin({ auth, params }) {
-    //     if (auth.admin.id !== Number(params.id)) { //to check the auth with current login id???
-    //         return 'You cannot access this page'
-    //     }
-    //     return auth.admin
-    // }
 
     async verifyTutorRegistration({ request, session }) {
         let req = request.all();
@@ -78,21 +64,21 @@ class AdminController {
         }
         // create Token
         let adminId = adminDB.Id;
-        let adminUserName = adminDB.UserName;
+        let role = 'admin'
         let adminObject = {
-            adminId, adminUserName
+            adminId, role
         }
 
         let token = jwt.sign(adminObject, 'secretKey');
         //add to session
-        session.token = token;
+        session.put('token', token);
         return {
             result: {
                 "token": token,
                 "message": "Login successfully."
             }
         }
-        
+
     }
 
     async addNewAdmin({ request, session }) {
