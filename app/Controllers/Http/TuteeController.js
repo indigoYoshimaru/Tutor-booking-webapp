@@ -56,9 +56,9 @@ class TuteeController {
                 result: "No token decoded"
             }
         let tutee = decodedObj;
-        console.log(tutee);
         await update_service.addTutee(tutee);
-        tutee = query_service.getRecentlyAddedTutee();
+        tutee = await query_service.getRecentlyAddedTutee();
+        console.log(tutee);
         if (!tutee)
             return {
                 error: "No tutee found"
@@ -103,8 +103,10 @@ class TuteeController {
 
     async createContract({ request, session }) {
         let contract = request.all()
-        let tutorDB = await query_service.getTutorById(contract.tutorId)
-        let tuteeDB = await query_service.getTuteeById(contract.tuteeId)
+        let tutorDB = await query_service.getTutorById(contract.tutorId);
+        let tuteeDB = await query_service.getTuteeById(contract.tuteeId);
+        console.log(tutorDB);
+        console.log(tuteeDB)
         if (!tutorDB) {
             return {
                 error: "No tutor with this Id"
@@ -115,17 +117,18 @@ class TuteeController {
                 error: "No tutee with this Id"
             }
         }
-        let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, contract.tuteeId)
+        let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, contract.tuteeId);
         if (contractDB && contractDB.State != 'CLOSED') { // contract is not closed
             return {
                 error: "The contract has not been closed yet"
             }
         }
         //=====THIS IS IF INPUT FROM FRONT END IS JSON=====
-        let teachingDays = JSON.parse(contract.ListofTeachingDays) //parse JSON data type
-        for (i in teachingDays.TeachingDays) { //loop through each teaching days
+        //dont need JSON parse here
+
+        for (var i in contract.listofTeachingDay) { //loop through each teaching days
             let day = new Date(i) //parse teaching days to Date
-            if (day < contract.StartDate) {//|| day > contract.CloseDate compare with start and close date, CloseDate is contract's close date
+            if (day < contract.startDate) {//|| day > contract.CloseDate compare with start and close date, CloseDate is contract's close date
                 return {
                     error: "The teaching days are not in the contract's period"
                 }
@@ -145,14 +148,17 @@ class TuteeController {
         // }
         // contract.ListOfTeachingDays = JSON.stringify(teachingDays)//convert array of days back to JSON but looks NOT GOOD
 
-        console.log(contact);
+
+        //contract.listofTeachingDays = JSON.parse(contract.listofTeachingDays);
+        console.log(contract);
         await update_service.addContract(contract)
 
-        var amount = contract.TeachingHours * 50000;
+        var amount = contract.teachingHours * 50000;
         let tutorAccount = await query_service.getMoneyAccountByTutorId(contract.tutorId)
-        let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contract.tuteeID)
+        let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contract.tuteeId)
 
-        await makeTransaction(tuteeAccount, tutorAccount, amount)
+        console.log(tutorAccount);
+        return await utility.makeTransaction(tuteeAccount, tutorAccount, amount)
     }
 
     async contactTutor({ request, session }) {

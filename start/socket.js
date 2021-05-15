@@ -68,13 +68,13 @@ io.on('connection', function (socket) {
             return;
         }
 
-        let chatroom = await query_service.getChatroomById(chatroomId);
+        //let chatroom = await query_service.getChatroomById(chatroomId);
         if (!chatroom) {
             socket.emit('error', 'invalid chatroom');
             return;
         }
 
-        await update_service.addMessage(chatroomId, socket.info.isTutor, message);
+        //await update_service.addMessage(chatroomId, socket.info.isTutor, message);
 
         for (socket of sockets) {
 
