@@ -24,14 +24,14 @@ class TuteeController {
         let existed1 = await query_service.getTutorByUserName(tutee.UserName);
         let existed2 = await query_service.getTuteeByUserName(tutee.UserName);
         let existed3 = await query_service.getAdminByUserName(tutee.UserName);
-        if (existed1 || existed2 || existed3) {
+        if (existed1 || existed2 || existed3 || await query_service.getUnverifiedTutorByUserName(tutee.UserName)) {
             console.log(existed1);
             return {
                 result: "Existed Username"
             }
         }
 
-        if (await query_service.getTutorByEmail(tutee.Email) || await query_service.getTuteeByEmail(tutee.Email) || await query_service.getAdminByEmail(tutee.Email))
+        if (await query_service.getTutorByEmail(tutee.Email) || await query_service.getTuteeByEmail(tutee.Email) || await query_service.getAdminByEmail(tutee.Email) || await query_service.getUnverifiedTutorByUserName(tutee.UserName))
             return {
                 result: "Email registered"
             }
@@ -116,34 +116,36 @@ class TuteeController {
             }
         }
         let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, contract.tuteeId)
-        if (contractDB && contractDB.State == 'CLOSED') {
+        if (contractDB && contractDB.State != 'CLOSED') { // contract is not closed
             return {
                 error: "The contract has not been closed yet"
             }
         }
-        /* =====THIS IS IF INPUT FROM FRONT END IS JSON=====
+        //=====THIS IS IF INPUT FROM FRONT END IS JSON=====
         let teachingDays = JSON.parse(contract.ListofTeachingDays) //parse JSON data type
         for (i in teachingDays.TeachingDays) { //loop through each teaching days
-            i = new Date(i) //parse teaching days to Date
-            if (i < contract.StartDate || i > contract.CloseDate) {//compare with start and close date
+            let day = new Date(i) //parse teaching days to Date
+            if (day < contract.StartDate) {//|| day > contract.CloseDate compare with start and close date, CloseDate is contract's close date
                 return {
                     error: "The teaching days are not in the contract's period"
                 }
             }
-        } */
+        }
+
 
         /* IN CASE THE INPUT TEACHING DAYS IS AN ARRAY OF STRINGS */
-        let teachingDays = []
-        for (d in contract.ListOfTeachingDays) {
-            if (d < contract.StartDate || d > contract.CloseDate) {//compare with start and close date
-                return {
-                    error: "The teaching days are not in the contract's period"
-                }
-            }
-            teachingDays.push(d)
-        }
-        contract.ListOfTeachingDays = JSON.stringify(teachingDays)//convert array of days back to JSON but looks NOT GOOD
+        // let teachingDays = []
+        // for (d in contract.ListOfTeachingDays) {
+        //     if (d < contract.StartDate) {//compare with start and close date
+        //         return {
+        //             error: "The teaching days are not in the contract's period"
+        //         }
+        //     }
+        //     teachingDays.push(d)
+        // }
+        // contract.ListOfTeachingDays = JSON.stringify(teachingDays)//convert array of days back to JSON but looks NOT GOOD
 
+        console.log(contact);
         await update_service.addContract(contract)
 
         var amount = contract.TeachingHours * 50000;

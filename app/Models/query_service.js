@@ -308,7 +308,12 @@ module.exports = {
             return null
         return rows[0];
 
+    },
+
+    async getUnverifiedTutorByUserName(username) {
+        let [rows, _] = await Database.raw(`SELECT * FROM unverifiedtutor WHERE UserName=?`, [username]);
+        if (!rows.length)
+            return null
+        return rows[0];
     }
-
-
 }

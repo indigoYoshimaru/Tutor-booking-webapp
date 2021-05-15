@@ -49,7 +49,7 @@ module.exports = {
     /*==================*/
     async addContract(contract) {
         await Database.raw(`INSERT INTO contract (TutorId, TuteeId, StartDate, CloseDate, TeachingHours, State, ListOfTeachingDay) VALUES(?,?,?,?,?,?,?)`, [parseInt(contract.tutorId), parseInt(contract.tuteeId),
-        contract.startDate, contract.closeDate, parseFloat(teachingHours), 0, contract.listofTeachingDay]);
+        contract.startDate, null, parseFloat(contract.teachingHours), 0, contract.listofTeachingDay]);
     },
     async addMoneyAccountByContractId(contractId) {
         let code = 'contract/' + contractId;
