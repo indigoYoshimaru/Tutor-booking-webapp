@@ -12,16 +12,16 @@ const io = use('socket.io')(Server.getInstance())
 const tutors = new Map();
 const tutees = new Map();
 
-function get(map, id) {
-    if (!map.has(id))
-        map.set(id, {
-            sockets: []
-        });
+// function get(map, id) {
+//     if (!map.has(id))
+//         map.set(id, {
+//             sockets: []
+//         });
 
-    return map.get(id);
-}
+//     return map.get(id);
+// }
 
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
     console.log(socket.user);
 
     socket.on("from_client", (msg) => {
@@ -42,9 +42,10 @@ io.on('connection', function (socket) {
             socket.emit("error", "Invalid token");
             return;
         }
-        let id = decodedObject.tuteeId;
+        socket.object = decodedObject;
+        socket.join(`${decodedObject.role}/${decodedObject.id}`);
 
-        socket.info = id ? { id, map: tutees, isTutor: 0 } : { id, map: tutors, isTutor: 1 }
+        // socket.info = id ? { id, map: tutees, isTutor: 0 } : { id, map: tutors, isTutor: 1 }
         /*
         socket.info will now have the format
         socket.info={
@@ -54,33 +55,37 @@ io.on('connection', function (socket) {
         }
         */
 
-        get(socket.info.map, socket.info.id).sockets.push(socket);
+        // get(socket.info.map, socket.info.id).sockets.push(socket);
 
         socket.emit("auth", "sucessfully connect");
 
     });
 
-    socket.on('client_message', (chatroomId, message) => {
-        console.log(tutors);
-        console.log(socket.info);
+    socket.on('client_message', async (chatroomId, message) => {
         if (!message) {
             socket.emit('error', 'empty message');
             return;
         }
 
-        //let chatroom = await query_service.getChatroomById(chatroomId);
+        let chatroom = await query_service.getChatroomById(chatroomId);
         if (!chatroom) {
             socket.emit('error', 'invalid chatroom');
             return;
         }
+        let isTutor = false;
+        if (socket.object.role == 'tutor')
+            isTutor = true
 
-        //await update_service.addMessage(chatroomId, socket.info.isTutor, message);
+        await update_service.addMessage(chatroomId, isTutor, message);
 
-        for (socket of sockets) {
+        console.log(socket.object);
+        io.to(`tutor/${chatroom.TutorId}`).to(`tutee/${chatroom.TuteeId}`).emit('message', message);
 
-        }
     });
-})
+
+});
+
+
 
 //io.listen(3000);
 
