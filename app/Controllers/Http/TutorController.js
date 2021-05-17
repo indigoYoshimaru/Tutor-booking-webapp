@@ -81,10 +81,10 @@ class TutorController {
                 error: "Invalid password"
             }
         }
-        let tutorId = tutorDB.Id;
+        let id = tutorDB.Id;
         let role = 'tutor';
         let tutorObject = {
-            tutorId, role
+            id, role
         }
 
         let token = jwt.sign(tutorObject, 'secretKey');
