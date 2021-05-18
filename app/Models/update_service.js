@@ -1,3 +1,5 @@
+const query_service = require("./query_service");
+
 const Database = use('Database');
 
 module.exports = {
@@ -80,6 +82,11 @@ module.exports = {
     },
 
     async addMessage(chatroomId, isTutor, content) {
-        await Database.raw(`INSERT INTO message (ChatroomId, IsTutor, Content) VALUES(?,?,?,?)`, [parseInt(chatroomId), parseInt(isTutor), content]) // erase timestamp for the sake of simplicity
+        await Database.raw("INSERT INTO message (ChatroomId, IsTutor, Timestamp, Content) VALUES(?,?,now(),?);", [parseInt(chatroomId), isTutor, content])
+        let [rows, _] = await Database.raw("SELECT * FROM message WHERE Id= (select LAST_INSERT_ID());")
+        if (!rows) {
+            return null;
+        }
+        return rows[0];
     }
 }
