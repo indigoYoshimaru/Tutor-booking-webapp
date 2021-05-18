@@ -7,6 +7,7 @@ const utility = require("../../Models/utility");
 const update_service = require("../../Models/update_service");
 // const Encryption = use('Encryption');
 const Hash = use('Hash');
+
 class AdminController {
     /*
     functions to be included:
@@ -36,7 +37,7 @@ class AdminController {
         let tokenObj = {
             adminId, tutorId
         }
-        let token = jwt.sign(tokenObj, 'secretKey');
+        let token = jwt.sign(tokenObj, Config.get('app.appKey'));
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-tutor/${token}`;
         let content = `Please click this URL to verify account ${url}`;
@@ -69,7 +70,7 @@ class AdminController {
             adminId, role
         }
 
-        let token = jwt.sign(adminObject, 'secretKey');
+        let token = jwt.sign(adminObject, Config.get('app.appKey'));
         //add to session
         session.put('token', token);
         return {
@@ -92,7 +93,7 @@ class AdminController {
 
         admin.Password = await Hash.make(admin.Password);
         console.log(admin.Password);
-        let token = jwt.sign(admin, 'secretKey');
+        let token = jwt.sign(admin, Config.get('app.appKey'));
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-admin/${token}`;
         let content = `Please click this URL to verify account ${url}`;
@@ -104,7 +105,7 @@ class AdminController {
 
     async verify({ request, session, params }) {
         let token = params.token;
-        let decodedObj = jwt.verify(token, 'secretKey');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         console.log(decodedObj);
         delete decodedObj.iat;
         if (!decodedObj)

@@ -5,6 +5,7 @@ const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
 const Hash = use('Hash');
+const Config = use('Config');
 
 class TutorController {
     /*
@@ -38,7 +39,7 @@ class TutorController {
     }
     async verify({ request, session, params }) {
         let token = params.token;
-        let decodedObj = jwt.verify(token, 'secretKey');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         if (!decodedObj)
             return {
                 error: "No token decoded"
@@ -87,7 +88,7 @@ class TutorController {
             id, role
         }
 
-        let token = jwt.sign(tutorObject, 'secretKey');
+        let token = jwt.sign(tutorObject, Config.get('app.appKey'));
         session.put("token", token);
         return {
             result: {

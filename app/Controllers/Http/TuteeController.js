@@ -37,7 +37,7 @@ class TuteeController {
             }
         tutee.Password = await Hash.make(tutee.Password);
         console.log(tutee.Password);
-        let token = jwt.sign(tutee, 'secretKey');
+        let token = jwt.sign(tutee, Config.get('app.appKey'));
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-tutee/${token}`;
         let content = `Please click this URL to verify account ${url}`;
@@ -48,7 +48,7 @@ class TuteeController {
 
     async verify({ request, session, params }) {
         let token = params.token;
-        let decodedObj = jwt.verify(token, 'secretKey');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         console.log(decodedObj);
         delete decodedObj.iat;
         if (!decodedObj)
@@ -90,7 +90,7 @@ class TuteeController {
             id, role
         }
 
-        let token = jwt.sign(tuteeObject, 'secretKey');
+        let token = jwt.sign(tuteeObject, Config.get('app.appKey'));
         session.put("token", token);
         return {
             result: {

@@ -279,21 +279,21 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return rows;
     },
     async getMessageInChatroomByTutor(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=? and IsTutor=1', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return rows;
     },
     async getMessageInChatroomByTutee(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=? and IsTutor=0', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return rows;
     },
 
     /*=====EXTRA FUNCTIONS=====*/

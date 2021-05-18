@@ -7,7 +7,8 @@ const jwt = require("jsonwebtoken");
 const query_service = require("../app/Models/query_service");
 const update_service = require("../app/Models/update_service");
 const Server = use('Server')
-const io = use('socket.io')(Server.getInstance())
+const io = use('socket.io')(Server.getInstance());
+const Config = use('Config');
 
 const tutors = new Map();
 const tutees = new Map();
@@ -35,7 +36,7 @@ io.on('connection', (socket) => {
             return;
         }
 
-        let decodedObject = jwt.verify(token, 'secretKey');
+        let decodedObject = jwt.verify(token, Config.get('app.appKey'));
 
 
         if (!decodedObject) {
@@ -89,6 +90,23 @@ io.on('connection', (socket) => {
         io.to(`tutor/${chatroom.TutorId}`).to(`tutee/${chatroom.TuteeId}`).emit('server_message', addedMessage);
 
     });
+
+    socket.on('client_chat_history', async (chatroomId) => {
+        let chatroom = await query_service.getChatroomById(chatroomId);
+        if (!chatroom) {
+            socket.emit('error', 'invalid chatroom');
+            return;
+        }
+
+        let messageHis = await query_service.getMessageByChatroomId(chatroomId);
+        console.log(messageHis);
+
+        for (var message of messageHis) {
+            console.log(`${socket.object.role}/${socket.object.id}`)
+            io.to(`${socket.object.role}/${socket.object.id}`).emit('server_message', message);
+        }
+
+    })
 
 });
 
