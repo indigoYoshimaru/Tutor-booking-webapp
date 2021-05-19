@@ -86,13 +86,13 @@ Viết 1 hàm close conflict:</p>
 <ul>
 <li>Kiểm tra nếu cả tutor và tutee đều đã agree chưa.
 <ul>
-<li>nếu rồi thì sẽ close conflict</li>
+<li>nếu rồi thì sẽ close conflict -&gt; set isOpen thành false</li>
 <li>thực hiện chuyển tiền cho tutor theo % trong return amount
 <ul>
 <li>số tiền trả tutor = số tiền trong contract*(1-returnpercentage)</li>
 </ul>
 </li>
-<li>và cuối cùng là close contract</li>
+<li>và cuối cùng là close contract -&gt; set state thành CLOSED</li>
 </ul>
 </li>
 </ul>
