@@ -216,8 +216,7 @@ export default {
             gpas: "",
           },
         ],
-        description: "",
-        phoneNumbers: [{ phone: "" }],
+        description: ""       
       },
       tuteeInfo: {
         firstName: "",
