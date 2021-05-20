@@ -97,6 +97,14 @@ Route.get('/test-login', async function ({ session }) { // put this to middlewar
         error: "not logged in"
     }
 })
+Route.post('/tutor/accept-contract', 'TutorController.acceptContract')
+Route.post('/tutor/reject-contract', 'TutorController.rejectContract')
+Route.post('/tutor/raise-issue', 'TutorController.raiseIssue')
+Route.post('/tutee/raise-issue', 'TuteeController.raiseIssue')
+Route.post('/tutor/confirm-issue-resolution', 'TutorController.confirmIssueResolution')
+Route.post('/tutee/confirm-issue-resolution', 'TuteeController.confirmIssueResolution')
+Route.post('/issue/close-issue', 'IssueController.closeIssue')
+
 // Route
 //     .get('users/:id', 'UserController.show')//page that can be access by admin
 //     .middleware('auth:admin')
