@@ -135,30 +135,10 @@ class TuteeController {
             }
         }
 
-
-        /* IN CASE THE INPUT TEACHING DAYS IS AN ARRAY OF STRINGS */
-        // let teachingDays = []
-        // for (d in contract.ListOfTeachingDays) {
-        //     if (d < contract.StartDate) {//compare with start and close date
-        //         return {
-        //             error: "The teaching days are not in the contract's period"
-        //         }
-        //     }
-        //     teachingDays.push(d)
-        // }
-        // contract.ListOfTeachingDays = JSON.stringify(teachingDays)//convert array of days back to JSON but looks NOT GOOD
-
-
-        //contract.listofTeachingDays = JSON.parse(contract.listofTeachingDays);
         console.log(contract);
         await update_service.addContract(contract)
 
-        var amount = contract.teachingHours * 50000;
-        let tutorAccount = await query_service.getMoneyAccountByTutorId(contract.tutorId)
-        let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contract.tuteeId)
-
         console.log(tutorAccount);
-        return await utility.makeTransaction(tuteeAccount, tutorAccount, amount)
     }
 
     async contactTutor({ request, session }) {
@@ -200,6 +180,39 @@ class TuteeController {
         }
     }
 
+    async raiseIssue({ request, session }) {
+        let issue = request.all()
+        let contractDB = await query_service.getContractById(issue.contracId)
+        if(!contractDB) {
+            return {
+                error:"No contract with this id"
+            }
+        }
+        if (issue.content == null) {
+            return {
+                error: "Content cannot be left blank"
+            }
+        }
+        let resolveAdmin = await getLeastResolveAdmins()
+        let newIssue = {
+            contractId = issue.contracId,
+            isTutor = 0,
+            content = issue.content,
+            resolveAdminId = resolveAdmin.Id
+        }
+        await addIssue(newIssue)
+    }
+
+    async confirmIssueResolution ({ request, session }) {
+        let solution = request.all()
+        let issue = await query_service.getIssueById(solution.issueId)
+        if (!issue) {
+            return {
+                error: "No issue with this id"
+            }
+        }
+        await update_service.tuteeConfirmIssueResolution(issue.Id)
+    }
 }
 
 module.exports = TuteeController

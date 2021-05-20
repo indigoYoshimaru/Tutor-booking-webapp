@@ -72,14 +72,36 @@ module.exports = {
         await Database.raw(`UPDATE moneyaccount SET BalanceAmount=? WHERE Id =?`, [parseFloat(newBalance), parseInt(moneyAccountId)])
     },
     async setIsCloseContract(contract) {
-        await Database.raw(`UPDATE contract SET isClose=? WHERE Id =?`, [1, parseInt(contract.Id)]);
+        await Database.raw(`UPDATE contract SET State=? WHERE Id =?`, ['CLOSED', parseInt(contract.Id)]);
     },
-
+    async setIsOpenContract(contract) {
+        await Database.raw(`UPDATE contract SET State=? WHERE Id =?`, ['OPEN', parseInt(contract.Id)]);
+    },
+    async rejectContract(contract) {
+        await Database.raw(`UPDATE contract SET State=? WHERE Id =?`, ['REJECTED', parseInt(contract.Id)]);
+    },
+    
     async addChatroom(tutorId, tuteeId) {
         await Database.raw(`INSERT INTO chatroom (TutorId, TuteeId) VALUES(?,?)`, [parseInt(tutorId), parseInt(tuteeId)])
     },
 
     async addMessage(chatroomId, isTutor, content) {
         await Database.raw(`INSERT INTO message (ChatroomId, IsTutor, Content) VALUES(?,?,?,?)`, [parseInt(chatroomId), parseInt(isTutor), content]) // erase timestamp for the sake of simplicity
+    },
+
+    async addIssue(issue) {
+        await Database.raw(`INSERT INTO issue (ContractId, IsTutor, Content, IsOpen, ResolveAdminId, TutorAgreement, TuteeAgreement) VALUES(?,?,?,?,?,?,?)`,
+[       parseInt(issue.contractId), parseInt(issue.isTutor), issue.content, 0, parseInt(issue.resolveAdminId), 0, 0])
+    },
+
+    async tutorConfirmIssueResolution(issueId) {
+        await Database.raw(`UPDATE issue SET TutorAgreement=? WHERE Id=?`, [1, parseInt(issueId)])
+    },
+    async tuteeConfirmIssueResolution(issueId) {
+        await Database.raw(`UPDATE issue SET TuteeAgreement=? WHERE Id=?`, [1, parseInt(issueId)])
+    },
+
+    async closeIssue(issueId) {
+        await Database.raw(`UPDATE issue SET IsOpen=? WHERE Id=?`, [0, parseInt(issueId)])
     }
 }
