@@ -99,7 +99,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `issue`; SET FOREIGN_KEY_CHECKS=1
  CREATE TABLE `issue` (
    `Id` int NOT NULL AUTO_INCREMENT,
    `ContractId` int DEFAULT NULL,
-   `IsOpen` tinyint(1) DEFAULT NULL,
+   `IsTutor` tinyint(1) DEFAULT NULL,
    `Content` varchar(5000) DEFAULT NULL,
    `ResolveAdminId` int DEFAULT NULL,
    `TutorAgreement` tinyint(1) DEFAULT NULL,
