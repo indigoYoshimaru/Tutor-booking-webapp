@@ -101,6 +101,7 @@ SET FOREIGN_KEY_CHECKS=0; DROP TABLE if exists `issue`; SET FOREIGN_KEY_CHECKS=1
    `ContractId` int DEFAULT NULL,
    `IsTutor` tinyint(1) DEFAULT NULL,
    `Content` varchar(5000) DEFAULT NULL,
+   `IsOpen` tinyint(1) DEFAULT NULL,
    `ResolveAdminId` int DEFAULT NULL,
    `TutorAgreement` tinyint(1) DEFAULT NULL,
    `TuteeAgreement` tinyint(1) DEFAULT NULL,
