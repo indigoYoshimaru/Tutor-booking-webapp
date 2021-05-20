@@ -6,54 +6,107 @@
           <f7-button tab-link="#tutor-list" tab-link-active
             >Available Tutors</f7-button
           >
-          <f7-button tab-link="#tab2">Tab 2</f7-button>
+          <f7-button tab-link="#chatbox">Tab 2</f7-button>
           <f7-button tab-link="#tab3">Tab 3</f7-button>
         </f7-segmented>
       </f7-subnavbar>
     </f7-navbar>
     <f7-tabs>
       <f7-tab id="tutor-list" tab-active class="page-content">
-        <f7-row>
-          <f7-block v-for="tutor in tutorList" :key="tutor.id">
-            <f7-col width="col-66">
-              <f7-card>
-                <f7-card-header
-                  >{{ tutor.firstName }} {{ tutor.lastName }}
-                </f7-card-header>
-                <f7-card-content>
-                  <f7-col>
-                    <f7-row>
-                      Teaching: {{ tutor.profile.Background.Name }}
-                    </f7-row>
-                    <f7-row> GPA: {{ tutor.profile.Background.GPA }} </f7-row>
-                    <f7-row>Email: {{tutor.email}}</f7-row>
-                    <f7-row>Brief intro: {{tutor.profile.Description}}</f7-row>
+        <f7-block>
+          <f7-card>
+            <f7-card-content>
+              <f7-list style="list-style-type: none" form>
+                <f7-row no-gap>
+                  <f7-col width="10"></f7-col>
+                  <f7-col width="30">
+                    <f7-list-input
+                      outline
+                      label="Name"
+                      floating-label
+                      type="text"
+                      placeholder="Your name"
+                      clear-button
+                  /></f7-col>
+                  <f7-col width="20"
+                    ><f7-list-input
+                      outline
+                      label="Subject filter"
+                      floating-label
+                      type="select"
+                      clear-button
+                    >
+                    </f7-list-input>
                   </f7-col>
-                </f7-card-content>
-                <f7-card-footer>
-                  
-                  <f7-button style="margin-left:auto;" raised
-                    ><span class="material-icons-outlined" @click="chatWith(tutor.id)">
-                      forum
-                    </span></f7-button
+                  <f7-col width="10"
+                    ><span><br /></span
+                    ><f7-button raised
+                      ><span class="material-icons-outlined">
+                        search
+                      </span></f7-button
+                    ></f7-col
                   >
-                </f7-card-footer>
-              </f7-card>
-            </f7-col>
-          </f7-block>
-        </f7-row>
+                  <f7-col width="10"></f7-col>
+                </f7-row>
+              </f7-list>
+              <span><br /></span>
+              <f7-row>
+                <f7-col>
+                  <f7-row>
+                    <f7-block v-for="tutor in tutorList" :key="tutor.id">
+                      <f7-col>
+                        <f7-card outline>
+                          <f7-card-header
+                            >{{ tutor.firstName }} {{ tutor.lastName }}
+                          </f7-card-header>
+                          <f7-card-content>
+                            <f7-col>
+                              <f7-row>
+                                Teaching: {{ tutor.profile.Background.Name }}
+                              </f7-row>
+                              <f7-row>
+                                GPA: {{ tutor.profile.Background.GPA }}
+                              </f7-row>
+                              <f7-row>Email: {{ tutor.email }}</f7-row>
+                              <f7-row
+                                >Brief intro:
+                                {{ tutor.profile.Description }}</f7-row
+                              >
+                            </f7-col>
+                          </f7-card-content>
+                          <f7-card-footer>
+                            <f7-button style="margin-left: auto" raised
+                              ><span
+                                class="material-icons-outlined"
+                                @click="chatWith(tutor.id)"
+                              >
+                                forum
+                              </span></f7-button
+                            >
+                          </f7-card-footer>
+                        </f7-card>
+                      </f7-col>
+                    </f7-block>
+                  </f7-row>
+                </f7-col>
+              </f7-row>
+            </f7-card-content> </f7-card
+          >s
+        </f7-block>
       </f7-tab>
       <f7-tab id="chatbox" class="page-content">
-        <f7-block> chatbox </f7-block>
+        <f7-card>
+          <f7-card-header> </f7-card-header>
+          <f7-card-content> </f7-card-content>
+          <f7-card-footer> </f7-card-footer>
+        </f7-card>
       </f7-tab>
 
       <f7-tab id="tab3" class="page-content">
         <f7-block> Chưa biết/không nhớ để j :V </f7-block>
       </f7-tab>
-    </f7-tabs>  
+    </f7-tabs>
   </f7-page>
-
-  
 </template>
 
 <script>
@@ -159,8 +212,6 @@ export default {
   methods: {
     getTutorList() {},
   },
-  chatWith(tutorId){
-
-  }
+  chatWith(tutorId) {},
 };
 </script>

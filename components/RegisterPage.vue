@@ -17,6 +17,7 @@
         <f7-list style="list-style-type: none" form>
           <f7-list-input
             label="First Name"
+            floating-label
             type="text"
             placeholder="Your first name"
             :value="tutorInfo.firstName"
@@ -24,6 +25,7 @@
           ></f7-list-input>
           <f7-list-input
             label="Last Name"
+            floating-label
             type="text"
             placeholder="Your last name"
             :value="tutorInfo.lastName"
@@ -31,6 +33,7 @@
           ></f7-list-input>
           <f7-list-input
             label="Email"
+            floating-label
             type="email"
             placeholder="Your Email"
             :value="tutorInfo.email"
@@ -38,6 +41,7 @@
           ></f7-list-input>
           <f7-list-input
             label="Username"
+            floating-label
             type="text"
             placeholder="Your username"
             :value="tutorInfo.userName"
@@ -45,6 +49,7 @@
           ></f7-list-input>
           <f7-list-input
             label="Password"
+            floating-label
             type="password"
             placeholder="Your password"
             :value="tutorInfo.password"
@@ -52,6 +57,7 @@
           ></f7-list-input>
           <f7-list-input
             label="Confirm Password"
+            floating-label
             type="password"
             placeholder="Re-enter your password"
             :value="tutorInfo.confirmedPassword"
@@ -59,6 +65,7 @@
           ></f7-list-input>
           <f7-list-input
             label="D.O.B"
+            floating-label
             type="date"
             placeholder="Your D.O.B."
             value="2000-01-01"
@@ -73,6 +80,7 @@
               <f7-col>
                 <f7-list-input
                   label="Teaching"
+                  floating-label
                   type="select"
                   placeholder="Please chose"
                   v-model="input.subject"
@@ -86,6 +94,7 @@
               <f7-col>
                 <f7-list-input
                   label="GPA"
+                  floating-label
                   type="number"
                   min="0"
                   max="100"
