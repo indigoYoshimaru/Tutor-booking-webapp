@@ -23,7 +23,6 @@ class AdminController {
     async verifyTutorRegistration({ request, session }) {
         let req = request.all();
         let tutorId = req.tutorId;
-        let adminId = session.adminId;
 
         // when admin click verify, we will send a link to verify email to tutor
         // when tutor click this link, we will add all of tutor information to official table
@@ -166,6 +165,39 @@ class AdminController {
         }
     }
     async createIssueResolution({ request, session }) {
+        let token = session.get('token');
+        let adminObject = jwt.verify(token, Config.get('app.appKey'))
+        if (!adminObject) {
+            return {
+                error: "Please log in as admin"
+            }
+        }
+        let issue = request.all(); // in json: issue id and result percentage
+
+        let issueDb = await query_service.getIssueById(issue.Id);
+        if (!issueDb) {
+            return {
+                error: "No issue found"
+            }
+        }
+
+        if (issueDb.resolveAdminId != adminObject.id) {
+            return {
+                error: "You don't have rights to resolve this issue"
+            }
+        }
+
+        if (!issueDb.isOpen) {
+            return {
+                error: "Can't resolve this issue right now"
+            }
+        }
+
+        let newIssue = update_service.updateIssue(issueDb.Id, issue.returnPercentage);
+
+        return {
+            result: newIssue
+        }
 
     }
 }
