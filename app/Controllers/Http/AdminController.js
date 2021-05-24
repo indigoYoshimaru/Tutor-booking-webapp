@@ -165,6 +165,9 @@ class AdminController {
             result: "Deleted Tutee"
         }
     }
+    async createIssueResolution({ request, session }) {
+
+    }
 }
 
 module.exports = AdminController

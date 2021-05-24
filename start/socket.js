@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('client_chat_history', async (chatroomId) => {
-        let chatroom = await query_service.getChatroomById(chatroomId);
+        let chatroom = await query_service.getChatroomById(chatroomId); // this will be replace later since we had message from the tutee's contact tutor
         if (!chatroom) {
             socket.emit('error', 'invalid chatroom');
             return;

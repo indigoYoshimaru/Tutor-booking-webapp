@@ -166,20 +166,20 @@ class TuteeController {
         // if it's not: get all information of chat related between tutor and tutee
         let tutorId = request.all();
         let tuteeId = session.all();
-        let tutor = query_service.getTutorById(tutorId);
+        let tutor = await query_service.getTutorById(tutorId);
         if (!tutor) {
             return {
                 error: "No tutor found"
             }
         }
-        let tutee = query_service.getTuteeById(tuteeId);
+        let tutee = await query_service.getTuteeById(tuteeId);
         if (!tutee) {
             return {
                 error: "No tutee found"
             }
         }
 
-        let chatroom = query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
+        let chatroom = await query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
         if (!chatroom) {
             update_service.addChatroom(tutorId, tuteeId);
             recentChatroom = query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
@@ -191,13 +191,45 @@ class TuteeController {
             }
         }
 
-        let messages = query_service.getMessageByChatroomId(chatroom.Id);
+        let messages = await query_service.getMessageByChatroomId(chatroom.Id);
         return {
             result: {
                 chatroom: chatroom,
                 messages: messages
             }
         }
+    }
+
+    async requestCloseContract({ request, session }) {
+        let contractId = request.all();
+        let contract = await query_service.getContractById(contractId);
+        if (!contract) {
+            return {
+                error: "No contract found"
+            }
+        }
+
+        let issue = await query_service.getIssueByContractId(contractId);
+        if (issue && issue.isOpen) {
+            return {
+                error: "Issue of this contract is currently opened"
+            }
+        }
+
+
+        let finalTeachingDate = contract[contract.length];
+        let today = Date.now();
+        if (today < finalTeachingDate) {
+            return {
+                error: "You cannot close the contract by now"
+            }
+        }
+
+        let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.Id}');
+        let tutorAccount = await query_service.getMoneyAccountByCode('tutor/${contract.tutorId}')
+
+        return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.amount);
+
     }
 
 }

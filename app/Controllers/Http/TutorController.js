@@ -98,6 +98,38 @@ class TutorController {
         }
 
     }
+
+    async requestCloseContract({ request, session }) {
+        let contractId = request.all();
+        let contract = await query_service.getContractById(contractId);
+        if (!contract) {
+            return {
+                error: "No contract found"
+            }
+        }
+
+        if (issue && issue.isOpen) {
+            return {
+                error: "Issue of this contract is currently opened"
+            }
+        }
+
+        let thresDate = new Date();
+        thresDate.setDate(contract[contract.length] + 14);
+
+        let today = Date.now();
+        if (today < thresDate) {
+            return {
+                error: "You cannot close the contract by now"
+            }
+        }
+
+        let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.Id}');
+        let tutorAccount = await query_service.getMoneyAccountByCode('tutor/${contract.tutorId}')
+
+        return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.amount);
+
+    }
 }
 
 module.exports = TutorController
