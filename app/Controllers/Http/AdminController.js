@@ -41,7 +41,7 @@ class AdminController {
         let url = `${host}:3333/verify-tutor/${token}`;
         let content = `Please click this URL to verify account ${url}`;
         console.log(content);
-        let res = await utility.sendMail(tutor.Email, content);
+        let res = await utility.sendMail(tutor.email, content);
         console.log(res);
         return res;
     }
@@ -49,21 +49,21 @@ class AdminController {
     async login({ request, session }) {
         let admin = request.all()
         // validate admin account
-        let adminDB = await query_service.getAdminByUserName(admin.UserName);
+        let adminDB = await query_service.getAdminByUserName(admin.username);
         if (!adminDB) {
             return {
                 error: "No admin username found"
             }
         }
 
-        let isSamePassword = await Hash.verify(admin.Password, adminDB.Password);
+        let isSamePassword = await Hash.verify(admin.password, adminDB.password);
         if (!isSamePassword) {
             return {
                 error: "Invalid password"
             }
         }
         // create Token
-        let adminId = adminDB.Id;
+        let adminId = adminDB.id;
         let role = 'admin'
         let adminObject = {
             adminId, role
@@ -83,21 +83,21 @@ class AdminController {
 
     async addNewAdmin({ request, session }) {
         let admin = request.all()
-        let adminDB = await query_service.getAdminByUserName(admin.UserName);
+        let adminDB = await query_service.getAdminByUserName(admin.username);
         if (adminDB) {
             return {
                 error: "Existed Username"
             }
         }
 
-        admin.Password = await Hash.make(admin.Password);
-        console.log(admin.Password);
+        admin.password = await Hash.make(admin.password);
+        console.log(admin.password);
         let token = jwt.sign(admin, Config.get('app.appKey'));
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-admin/${token}`;
         let content = `Please click this URL to verify account ${url}`;
         console.log(content);
-        let res = await utility.sendMail(admin.Email, content);
+        let res = await utility.sendMail(admin.email, content);
         return res;
 
     }
@@ -174,7 +174,7 @@ class AdminController {
         }
         let issue = request.all(); // in json: issue id and result percentage
 
-        let issueDb = await query_service.getIssueById(issue.Id);
+        let issueDb = await query_service.getIssueById(issue.id);
         if (!issueDb) {
             return {
                 error: "No issue found"
@@ -193,7 +193,7 @@ class AdminController {
             }
         }
 
-        let newIssue = update_service.updateIssue(issueDb.Id, issue.returnPercentage);
+        let newIssue = await update_service.updateIssue(issueDb.id, issueDb.returnPercentage);
 
         return {
             result: newIssue

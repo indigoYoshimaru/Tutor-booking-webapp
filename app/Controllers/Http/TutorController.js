@@ -20,17 +20,17 @@ class TutorController {
     */
     async register({ request, session }) {
         let tutor = request.all();
-        console.log(tutor.Email);
+        console.log(tutor.email);
         //let existedAccount=query_service.getTutorByUserName(tutor.username); 
-        if (await query_service.getTutorByUserName(tutor.UserName) || await query_service.getTuteeByUserName(tutor.UserName) || await query_service.getAdminByUserName(tutor.UserName))// must add get unverify Tutor
+        if (await query_service.getTutorByUserName(tutor.username) || await query_service.getTuteeByUserName(tutor.username) || await query_service.getAdminByUserName(tutor.username))// must add get unverify Tutor
             return {
                 result: "Existed Username"
             }
-        if (await query_service.getTutorByEmail(tutor.Email) || await query_service.getTuteeByEmail(tutor.Email) || await query_service.getAdminByEmail(tutor.Email))
+        if (await query_service.getTutorByEmail(tutor.email) || await query_service.getTuteeByEmail(tutor.email) || await query_service.getAdminByEmail(tutor.email))
             return {
                 result: "Email registered"
             }
-        tutor.Password = await Hash.make(tutor.Password);
+        tutor.password = await Hash.make(tutor.password);
         await update_service.addUnverifiedTutor(tutor);
         return {
             result: "Please wait for admin verification."
@@ -54,11 +54,11 @@ class TutorController {
                 error: "No tutor found"
             }
         }
-        await update_service.addMoneyAccountByTutorId(addedTutor.Id);
+        await update_service.addMoneyAccountByTutorId(addedTutor.id);
 
-        let teachingCourses = addedTutor.Profile.Background;
+        let teachingCourses = addedTutor.profile.background;
         for (var course of teachingCourses) {
-            await update_service.addCourseTeaching(addedTutor.Id, course.Id);
+            await update_service.addCourseTeaching(addedTutor.id, course.id);
         }
 
         return {
@@ -69,20 +69,20 @@ class TutorController {
 
     async login({ request, session }) {
         let tutor = request.all()
-        let tutorDB = await query_service.getTutorByUserName(tutor.UserName);
+        let tutorDB = await query_service.getTutorByUserName(tutor.username);
         if (!tutorDB) {
             return {
                 error: "No tutor username found"
             }
         }
 
-        let isSamePassword = await Hash.verify(tutor.Password, tutorDB.Password);
+        let isSamePassword = await Hash.verify(tutor.password, tutorDB.password);
         if (!isSamePassword) {
             return {
                 error: "Invalid password"
             }
         }
-        let id = tutorDB.Id;
+        let id = tutorDB.id;
         let role = 'tutor';
         let tutorObject = {
             id, role
@@ -124,7 +124,7 @@ class TutorController {
             }
         }
 
-        let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.Id}');
+        let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.id}');
         let tutorAccount = await query_service.getMoneyAccountByCode('tutor/${contract.tutorId}')
 
         return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.amount);

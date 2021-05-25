@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
         }
 
         console.log(chatroom);
-        if ((chatroom.TutorId != socket.object.id && socket.object.role == 'tutor') || (chatroom.TuteeId != socket.object.id && socket.object.role == 'tutee')) {
+        if ((chatroom.tutorId != socket.object.id && socket.object.role == 'tutor') || (chatroom.tuteeId != socket.object.id && socket.object.role == 'tutee')) {
             socket.emit('error', 'invalid user');
             return
         }
@@ -87,7 +87,7 @@ io.on('connection', (socket) => {
         let addedMessage = await update_service.addMessage(chatroomId, isTutor, message);
 
         console.log(socket.object);
-        io.to(`tutor/${chatroom.TutorId}`).to(`tutee/${chatroom.TuteeId}`).emit('server_message', addedMessage);
+        io.to(`tutor/${chatroom.tutorId}`).to(`tutee/${chatroom.tuteeId}`).emit('server_message', addedMessage);
 
     });
 
