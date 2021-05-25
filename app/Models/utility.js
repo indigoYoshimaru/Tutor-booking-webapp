@@ -2,6 +2,10 @@ const nodemailer = require('nodemailer');
 const query_service = require('./query_service');
 const { updateMoneyAccount, addTransaction } = require('./update_service');
 const Database = use('Database');
+
+function lowerFirst(str) {
+    return str[0].toLowerCase() + str.slice(1);
+}
 module.exports = {
     async sendMail(receiver, content) {
         let transporter = nodemailer.createTransport({
@@ -57,10 +61,6 @@ module.exports = {
             console.log(error);
             await transaction.rollback();
         }
-    },
-
-    lowerFirst(str) {
-        return str[0].toLowerCase() + str.slice(1);
     },
 
     camel(obj) {

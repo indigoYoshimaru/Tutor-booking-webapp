@@ -24,9 +24,19 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM unverifiedtutor WHERE Id = ?', parseInt(Id));
         if (!rows.length)
             return null;
+        console.log(rows);
+        return camel(rows[0]);
+    },
+
+    async getUnverifiedTutorByEmail(email) {
+        let [rows, _] = await Database.raw('SELECT * FROM unverifiedtutor WHERE Email =?', [email]);
+        if (!rows.length)
+            return null;
 
         return camel(rows[0]);
     },
+
+
 
     async getTutorByUserName(username) {
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE UserName =?', [username]);
@@ -156,6 +166,15 @@ module.exports = {
         return camel(rows[0]);
     },
 
+    async getWaitingContract() {
+        let [rows, _] = await Database.raw(`SELECT * FROM contract WHERE State ='WAITING'`);
+        if (!rows.length)
+            return null;
+
+        rows = rows.map(camel);
+        return rows;
+    },
+
     async getContractById(Id) {
         let [rows, _] = await Database.raw('SELECT * FROM contract WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
@@ -177,7 +196,16 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return camel(rows[0]);
+        rows = rows.map(camel);
+        return rows;
+    },
+
+    async getClosedIssues() {
+        let [rows, _] = await Database.raw('SELECT * FROM issue WHERE issue.IsOpen=?', [false]);
+        if (!rows.length)
+            return null;
+        rows = rows.map(camel);
+        return rows;
     },
 
     async getIssueById(Id) {

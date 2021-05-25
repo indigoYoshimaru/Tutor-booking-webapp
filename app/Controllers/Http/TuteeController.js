@@ -164,8 +164,12 @@ class TuteeController {
     async contactTutor({ request, session }) {
         // if it's 1st time: create chatroom for tutor and tutee
         // if it's not: get all information of chat related between tutor and tutee
-        let tutorId = request.all();
-        let tuteeId = session.all();
+        let tutorId = request.all().tutorId;
+        let token = session.get('token');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
+        let tuteeId = decodedObj.id;
+        console.log(tutorId);
+        console.log(tuteeId);
         let tutor = await query_service.getTutorById(tutorId);
         if (!tutor) {
             return {
@@ -182,7 +186,7 @@ class TuteeController {
         let chatroom = await query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
         if (!chatroom) {
             update_service.addChatroom(tutorId, tuteeId);
-            recentChatroom = query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
+            recentChatroom = await query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
             return {
                 result: {
                     chatroom: recentChatroom,
@@ -201,7 +205,7 @@ class TuteeController {
     }
 
     async requestCloseContract({ request, session }) {
-        let contractId = request.all();
+        let contractId = request.all().contractId;
         let contract = await query_service.getContractById(contractId);
         if (!contract) {
             return {

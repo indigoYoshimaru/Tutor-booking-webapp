@@ -23,7 +23,6 @@ class AdminController {
     async verifyTutorRegistration({ request, session }) {
         let req = request.all();
         let tutorId = req.tutorId;
-
         // when admin click verify, we will send a link to verify email to tutor
         // when tutor click this link, we will add all of tutor information to official table
         let tutor = await query_service.getUnverifiedTutorById(tutorId);
@@ -34,7 +33,7 @@ class AdminController {
             }
 
         let tokenObj = {
-            adminId, tutorId
+            tutor
         }
         let token = jwt.sign(tokenObj, Config.get('app.appKey'));
         let host = Config.get('database.mysql.connection.host');
@@ -83,7 +82,7 @@ class AdminController {
 
     async addNewAdmin({ request, session }) {
         let admin = request.all()
-        let adminDB = await query_service.getAdminByUserName(admin.username);
+        let adminDB = await query_service.getAdminByUserName(admin.username); // needs checking all types of usernames
         if (adminDB) {
             return {
                 error: "Existed Username"
@@ -193,7 +192,7 @@ class AdminController {
             }
         }
 
-        let newIssue = await update_service.updateIssue(issueDb.id, issueDb.returnPercentage);
+        let newIssue = await update_service.updateIssuePercentage(issueDb.id, issueDb.returnPercentage);
 
         return {
             result: newIssue

@@ -44,10 +44,13 @@ class TutorController {
             return {
                 error: "No token decoded"
             }
-        let unverTutorId = decodedObj.tutorId;
+
+        let unverTutorId = decodedObj.tutor.id;
         let tutor = await query_service.getUnverifiedTutorById(unverTutorId);
+        tutor.username = tutor.userName;
+        console.log(tutor);
         let result = await update_service.addTutor(tutor);
-        await update_service.deleteUnverifiedTutor(unverTutorId);
+
         let addedTutor = await query_service.getRecentlyAddedTutor();
         if (!addedTutor) {
             return {
@@ -58,9 +61,10 @@ class TutorController {
 
         let teachingCourses = addedTutor.profile.background;
         for (var course of teachingCourses) {
+            console.log(course)
             await update_service.addCourseTeaching(addedTutor.id, course.id);
         }
-
+        await update_service.deleteUnverifiedTutor(unverTutorId);
         return {
             result: "Tutor verified."
         }
@@ -115,7 +119,7 @@ class TutorController {
         }
 
         let thresDate = new Date();
-        thresDate.setDate(contract[contract.length] + 14);
+        thresDate.setDate(contract.listOfTeachingDay[contract.listOfTeachingDay.length - 1] + 14);
 
         let today = Date.now();
         if (today < thresDate) {

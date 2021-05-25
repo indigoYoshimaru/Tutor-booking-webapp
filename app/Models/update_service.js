@@ -27,7 +27,7 @@ module.exports = {
 
     },
     async addAdmin(adminInfo) {
-        await Database.raw(`INSERT INTO Admin (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [adminInfo.firstName, adminInfo.lastName, adminInfo.username,
+        await Database.raw(`INSERT INTO Admin (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [adminInfo.firstName, adminInfo.lastName, adminInfo.username, adminInfo.email,
         adminInfo.password, adminInfo.dateOfBirth])
     },
     async deleteTutor(tutorId) {
@@ -90,7 +90,16 @@ module.exports = {
         return camel(rows[0]);
     },
 
-    async updateIssue(issueId, returnPercentage) {
+    async updateIssuePercentage(issueId, returnPercentage) {
         await Database.raw("UPDATE issue SET ReturnPercentage=? WHERE Id =?", [parseInt(issueId), parseFloat(returnPercentage)]);
+    },
+
+    async updateIssueState(issueId, state) {
+        await Database.raw("UPDATE issue SET isOpen=? WHERE Id =?", [parseInt(issueId), state]);
+    },
+
+
+    async closeContract(contractId) {
+        await Database.raw("UPDATE contract SET State=?,CloseDate=now() WHERE Id=?", ["CLOSED", parseInt(contractId)]);
     }
 }
