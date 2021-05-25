@@ -77,8 +77,8 @@ Route.post('/tutee/register', 'TuteeController.register')
 Route.post('/admin/add-new-admin', 'AdminController.addNewAdmin')
 Route.get('/verify-tutor/:token', 'TutorController.verify')
 Route.get('/verify-tutee/:token', 'TuteeController.verify')
-Route.post('/admin/verify-tutor-registration', 'AdminController.verifyTutorRegistration')
 Route.get('/verify-admin/:token', 'AdminController.verify')
+Route.post('/admin/verify-tutor-registration', 'AdminController.verifyTutorRegistration')
 
 Route.post('/admin/login', 'AdminController.login')
 Route.post('/tutee/login', 'TuteeController.login')
@@ -97,6 +97,14 @@ Route.get('/test-login', async function ({ session }) { // put this to middlewar
         error: "not logged in"
     }
 })
+
+Route.post('tutor/request-close-contract', 'TutorController.requestCloseContract')
+Route.post('tutee/contact-tutor', 'TuteeController.contactTutor')
+Route.post('tutee/request-close-contract', 'TuteeController.requestCloseContract')
+Route.post('admin/add-new-admin', 'AdminController.addNewAdmin')
+Route.post('admin/create-issue-resolution', 'AdminController.createIssueResolution')
+Route.post('contract/update-contract-close-expiration', 'ContractController.updateContractCloseExpiration')
+Route.post('contract/update-issue-open-expiration', 'ContractController.updateIssueOpenExpiration')
 // Route
 //     .get('users/:id', 'UserController.show')//page that can be access by admin
 //     .middleware('auth:admin')

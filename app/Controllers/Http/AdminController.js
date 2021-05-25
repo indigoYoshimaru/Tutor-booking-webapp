@@ -7,6 +7,7 @@ const utility = require("../../Models/utility");
 const update_service = require("../../Models/update_service");
 // const Encryption = use('Encryption');
 const Hash = use('Hash');
+
 class AdminController {
     /*
     functions to be included:
@@ -22,8 +23,6 @@ class AdminController {
     async verifyTutorRegistration({ request, session }) {
         let req = request.all();
         let tutorId = req.tutorId;
-        let adminId = session.adminId;
-
         // when admin click verify, we will send a link to verify email to tutor
         // when tutor click this link, we will add all of tutor information to official table
         let tutor = await query_service.getUnverifiedTutorById(tutorId);
@@ -34,14 +33,14 @@ class AdminController {
             }
 
         let tokenObj = {
-            adminId, tutorId
+            tutor
         }
-        let token = jwt.sign(tokenObj, 'secretKey');
+        let token = jwt.sign(tokenObj, Config.get('app.appKey'));
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-tutor/${token}`;
         let content = `Please click this URL to verify account ${url}`;
         console.log(content);
-        let res = await utility.sendMail(tutor.Email, content);
+        let res = await utility.sendMail(tutor.email, content);
         console.log(res);
         return res;
     }
@@ -49,27 +48,27 @@ class AdminController {
     async login({ request, session }) {
         let admin = request.all()
         // validate admin account
-        let adminDB = await query_service.getAdminByUserName(admin.UserName);
+        let adminDB = await query_service.getAdminByUserName(admin.username);
         if (!adminDB) {
             return {
                 error: "No admin username found"
             }
         }
 
-        let isSamePassword = await Hash.verify(admin.Password, adminDB.Password);
+        let isSamePassword = await Hash.verify(admin.password, adminDB.password);
         if (!isSamePassword) {
             return {
                 error: "Invalid password"
             }
         }
         // create Token
-        let adminId = adminDB.Id;
+        let adminId = adminDB.id;
         let role = 'admin'
         let adminObject = {
             adminId, role
         }
 
-        let token = jwt.sign(adminObject, 'secretKey');
+        let token = jwt.sign(adminObject, Config.get('app.appKey'));
         //add to session
         session.put('token', token);
         return {
@@ -83,28 +82,28 @@ class AdminController {
 
     async addNewAdmin({ request, session }) {
         let admin = request.all()
-        let adminDB = await query_service.getAdminByUserName(admin.UserName);
+        let adminDB = await query_service.getAdminByUserName(admin.username); // needs checking all types of usernames
         if (adminDB) {
             return {
                 error: "Existed Username"
             }
         }
 
-        admin.Password = await Hash.make(admin.Password);
-        console.log(admin.Password);
-        let token = jwt.sign(admin, 'secretKey');
+        admin.password = await Hash.make(admin.password);
+        console.log(admin.password);
+        let token = jwt.sign(admin, Config.get('app.appKey'));
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-admin/${token}`;
         let content = `Please click this URL to verify account ${url}`;
         console.log(content);
-        let res = await utility.sendMail(admin.Email, content);
+        let res = await utility.sendMail(admin.email, content);
         return res;
 
     }
 
     async verify({ request, session, params }) {
         let token = params.token;
-        let decodedObj = jwt.verify(token, 'secretKey');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         console.log(decodedObj);
         delete decodedObj.iat;
         if (!decodedObj)
@@ -163,6 +162,42 @@ class AdminController {
         return {
             result: "Deleted Tutee"
         }
+    }
+    async createIssueResolution({ request, session }) {
+        let token = session.get('token');
+        let adminObject = jwt.verify(token, Config.get('app.appKey'))
+        if (!adminObject) {
+            return {
+                error: "Please log in as admin"
+            }
+        }
+        let issue = request.all(); // in json: issue id and result percentage
+
+        let issueDb = await query_service.getIssueById(issue.id);
+        if (!issueDb) {
+            return {
+                error: "No issue found"
+            }
+        }
+
+        if (issueDb.resolveAdminId != adminObject.id) {
+            return {
+                error: "You don't have rights to resolve this issue"
+            }
+        }
+
+        if (!issueDb.isOpen) {
+            return {
+                error: "Can't resolve this issue right now"
+            }
+        }
+
+        let newIssue = await update_service.updateIssuePercentage(issueDb.id, issueDb.returnPercentage);
+
+        return {
+            result: newIssue
+        }
+
     }
 }
 

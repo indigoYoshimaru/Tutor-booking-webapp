@@ -1,3 +1,5 @@
+const { camel } = require("./utility");
+
 const Database = use('Database');
 
 module.exports = {
@@ -6,7 +8,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutor');
         if (!rows.length)
             return null;
-
+        rows = rows.map(camel);
         return rows;
     },
 
@@ -15,23 +17,33 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getUnverifiedTutorById(Id) {
         let [rows, _] = await Database.raw('SELECT * FROM unverifiedtutor WHERE Id = ?', parseInt(Id));
         if (!rows.length)
             return null;
-
-        return rows[0];
+        console.log(rows);
+        return camel(rows[0]);
     },
+
+    async getUnverifiedTutorByEmail(email) {
+        let [rows, _] = await Database.raw('SELECT * FROM unverifiedtutor WHERE Email =?', [email]);
+        if (!rows.length)
+            return null;
+
+        return camel(rows[0]);
+    },
+
+
 
     async getTutorByUserName(username) {
         let [rows, _] = await Database.raw('SELECT * FROM tutor WHERE UserName =?', [username]);
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getTutorByEmail(email) {
@@ -39,7 +51,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getTutorByCourseName(courseName) {
@@ -50,14 +62,14 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
     async getRecentlyAddedTutor() {
         let [rows, _] = await Database.raw('SELECT * FROM tutorweb.tutor ORDER BY Id DESC');
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     /*=====TUTEE=====*/
@@ -66,6 +78,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
+        rows = rows.map(camel);
         return rows;
     },
 
@@ -74,7 +87,7 @@ module.exports = {
         if (!rows.length)
             return null;
         console.log(rows);
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getTuteeByUserName(username) {
@@ -82,7 +95,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getTuteeByEmail(email) {
@@ -90,7 +103,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getRecentlyAddedTutee() {
@@ -98,7 +111,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     /*=====ADMIN=====*/
@@ -107,6 +120,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
+        rows = rows.map(camel);
         return rows;
     },
 
@@ -115,6 +129,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
+        rows = rows.map(camel);
         return rows;
     },
 
@@ -123,7 +138,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getAdminByEmail(email) {
@@ -131,7 +146,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getRecentlyAddedAdmin() {
@@ -139,7 +154,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     /*=====ISSUE and CONTRACT=====*/
@@ -148,7 +163,16 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
+    },
+
+    async getWaitingContract() {
+        let [rows, _] = await Database.raw(`SELECT * FROM contract WHERE State ='WAITING'`);
+        if (!rows.length)
+            return null;
+
+        rows = rows.map(camel);
+        return rows;
     },
 
     async getContractById(Id) {
@@ -156,7 +180,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getContractByTutorIdandTuteeId(tutorId, tuteeId) {
@@ -164,7 +188,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getIssues() {
@@ -172,7 +196,16 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        rows = rows.map(camel);
+        return rows;
+    },
+
+    async getClosedIssues() {
+        let [rows, _] = await Database.raw('SELECT * FROM issue WHERE issue.IsOpen=?', [false]);
+        if (!rows.length)
+            return null;
+        rows = rows.map(camel);
+        return rows;
     },
 
     async getIssueById(Id) {
@@ -180,7 +213,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getIssueByContractId(Id) {
@@ -188,7 +221,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getIssueByResolveAdminId(Id) {
@@ -196,7 +229,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     /*=====MONEY ACCOUNT and TRANSACTION=====*/
@@ -206,7 +239,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getMoneyAccountByTuteeId(tuteeId) {
@@ -215,7 +248,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getMoneyAccountByCode(code) {
@@ -223,7 +256,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getMoneyAccountById(Id) {
@@ -231,7 +264,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getTransactions() {
@@ -239,7 +272,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getTransactionById(Id) {
@@ -247,7 +280,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getTransactionbySenderAccountId(senderAccId) {
@@ -255,7 +288,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     /*=====CHATROOM=====*/
@@ -264,7 +297,7 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
 
     async getChatroomByTutorIdandTuteeId(tutorId, tuteeId) {
@@ -272,28 +305,31 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return rows[0];
+        return camel(rows[0]);
     },
     async getMessageByChatroomId(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=?', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
 
-        return rows[0];
+        rows = rows.map(camel);
+        return rows;
     },
     async getMessageInChatroomByTutor(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=? and IsTutor=1', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
 
-        return rows[0];
+        rows = rows.map(camel);
+        return rows;
     },
     async getMessageInChatroomByTutee(chatroomId) {
         let [rows, _] = await Database.raw('SELECT * FROM Message WHERE ChatroomId=? and IsTutor=0', [parseInt(chatroomId)]);
         if (!rows.length)
             return null;
 
-        return rows[0];
+        rows = rows.map(camel);
+        return rows;
     },
 
     /*=====EXTRA FUNCTIONS=====*/
@@ -306,7 +342,7 @@ module.exports = {
         ) `);
         if (!rows.length)
             return null
-        return rows[0];
+        return camel(rows[0]);
 
     },
 
@@ -314,6 +350,6 @@ module.exports = {
         let [rows, _] = await Database.raw(`SELECT * FROM unverifiedtutor WHERE UserName=?`, [username]);
         if (!rows.length)
             return null
-        return rows[0];
+        return camel(rows[0]);
     }
 }

@@ -7,7 +7,8 @@ const jwt = require("jsonwebtoken");
 const query_service = require("../app/Models/query_service");
 const update_service = require("../app/Models/update_service");
 const Server = use('Server')
-const io = use('socket.io')(Server.getInstance())
+const io = use('socket.io')(Server.getInstance());
+const Config = use('Config');
 
 const tutors = new Map();
 const tutees = new Map();
@@ -35,7 +36,7 @@ io.on('connection', (socket) => {
             return;
         }
 
-        let decodedObject = jwt.verify(token, 'secretKey');
+        let decodedObject = jwt.verify(token, Config.get('app.appKey'));
 
 
         if (!decodedObject) {
@@ -72,16 +73,40 @@ io.on('connection', (socket) => {
             socket.emit('error', 'invalid chatroom');
             return;
         }
+
+        console.log(chatroom);
+        if ((chatroom.tutorId != socket.object.id && socket.object.role == 'tutor') || (chatroom.tuteeId != socket.object.id && socket.object.role == 'tutee')) {
+            socket.emit('error', 'invalid user');
+            return
+        }
         let isTutor = false;
         if (socket.object.role == 'tutor')
-            isTutor = true
+            isTutor = true;
 
-        await update_service.addMessage(chatroomId, isTutor, message);
+        console.log(isTutor);
+        let addedMessage = await update_service.addMessage(chatroomId, isTutor, message);
 
         console.log(socket.object);
-        io.to(`tutor/${chatroom.TutorId}`).to(`tutee/${chatroom.TuteeId}`).emit('message', message);
+        io.to(`tutor/${chatroom.tutorId}`).to(`tutee/${chatroom.tuteeId}`).emit('server_message', addedMessage);
 
     });
+
+    socket.on('client_chat_history', async (chatroomId) => {
+        let chatroom = await query_service.getChatroomById(chatroomId); // this will be replace later since we had message from the tutee's contact tutor
+        if (!chatroom) {
+            socket.emit('error', 'invalid chatroom');
+            return;
+        }
+
+        let messageHis = await query_service.getMessageByChatroomId(chatroomId);
+        console.log(messageHis);
+
+        for (var message of messageHis) {
+            console.log(`${socket.object.role}/${socket.object.id}`)
+            io.to(`${socket.object.role}/${socket.object.id}`).emit('server_message', message);
+        }
+
+    })
 
 });
 

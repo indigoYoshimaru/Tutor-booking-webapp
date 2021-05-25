@@ -5,6 +5,7 @@ const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
 const Hash = use('Hash');
+const Config = use('Config');
 
 class TutorController {
     /*
@@ -19,17 +20,17 @@ class TutorController {
     */
     async register({ request, session }) {
         let tutor = request.all();
-        console.log(tutor.Email);
+        console.log(tutor.email);
         //let existedAccount=query_service.getTutorByUserName(tutor.username); 
-        if (await query_service.getTutorByUserName(tutor.UserName) || await query_service.getTuteeByUserName(tutor.UserName) || await query_service.getAdminByUserName(tutor.UserName))// must add get unverify Tutor
+        if (await query_service.getTutorByUserName(tutor.username) || await query_service.getTuteeByUserName(tutor.username) || await query_service.getAdminByUserName(tutor.username))// must add get unverify Tutor
             return {
                 result: "Existed Username"
             }
-        if (await query_service.getTutorByEmail(tutor.Email) || await query_service.getTuteeByEmail(tutor.Email) || await query_service.getAdminByEmail(tutor.Email))
+        if (await query_service.getTutorByEmail(tutor.email) || await query_service.getTuteeByEmail(tutor.email) || await query_service.getAdminByEmail(tutor.email))
             return {
                 result: "Email registered"
             }
-        tutor.Password = await Hash.make(tutor.Password);
+        tutor.password = await Hash.make(tutor.password);
         await update_service.addUnverifiedTutor(tutor);
         return {
             result: "Please wait for admin verification."
@@ -38,28 +39,32 @@ class TutorController {
     }
     async verify({ request, session, params }) {
         let token = params.token;
-        let decodedObj = jwt.verify(token, 'secretKey');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         if (!decodedObj)
             return {
                 error: "No token decoded"
             }
-        let unverTutorId = decodedObj.tutorId;
+
+        let unverTutorId = decodedObj.tutor.id;
         let tutor = await query_service.getUnverifiedTutorById(unverTutorId);
+        tutor.username = tutor.userName;
+        console.log(tutor);
         let result = await update_service.addTutor(tutor);
-        await update_service.deleteUnverifiedTutor(unverTutorId);
+
         let addedTutor = await query_service.getRecentlyAddedTutor();
         if (!addedTutor) {
             return {
                 error: "No tutor found"
             }
         }
-        await update_service.addMoneyAccountByTutorId(addedTutor.Id);
+        await update_service.addMoneyAccountByTutorId(addedTutor.id);
 
-        let teachingCourses = addedTutor.Profile.Background;
+        let teachingCourses = addedTutor.profile.background;
         for (var course of teachingCourses) {
-            await update_service.addCourseTeaching(addedTutor.Id, course.Id);
+            console.log(course)
+            await update_service.addCourseTeaching(addedTutor.id, course.id);
         }
-
+        await update_service.deleteUnverifiedTutor(unverTutorId);
         return {
             result: "Tutor verified."
         }
@@ -68,26 +73,26 @@ class TutorController {
 
     async login({ request, session }) {
         let tutor = request.all()
-        let tutorDB = await query_service.getTutorByUserName(tutor.UserName);
+        let tutorDB = await query_service.getTutorByUserName(tutor.username);
         if (!tutorDB) {
             return {
                 error: "No tutor username found"
             }
         }
 
-        let isSamePassword = await Hash.verify(tutor.Password, tutorDB.Password);
+        let isSamePassword = await Hash.verify(tutor.password, tutorDB.password);
         if (!isSamePassword) {
             return {
                 error: "Invalid password"
             }
         }
-        let id = tutorDB.Id;
+        let id = tutorDB.id;
         let role = 'tutor';
         let tutorObject = {
             id, role
         }
 
-        let token = jwt.sign(tutorObject, 'secretKey');
+        let token = jwt.sign(tutorObject, Config.get('app.appKey'));
         session.put("token", token);
         return {
             result: {
@@ -95,6 +100,38 @@ class TutorController {
                 "message": "Login successfully."
             }
         }
+
+    }
+
+    async requestCloseContract({ request, session }) {
+        let contractId = request.all();
+        let contract = await query_service.getContractById(contractId);
+        if (!contract) {
+            return {
+                error: "No contract found"
+            }
+        }
+
+        if (issue && issue.isOpen) {
+            return {
+                error: "Issue of this contract is currently opened"
+            }
+        }
+
+        let thresDate = new Date();
+        thresDate.setDate(contract.listOfTeachingDay[contract.listOfTeachingDay.length - 1] + 14);
+
+        let today = Date.now();
+        if (today < thresDate) {
+            return {
+                error: "You cannot close the contract by now"
+            }
+        }
+
+        let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.id}');
+        let tutorAccount = await query_service.getMoneyAccountByCode('tutor/${contract.tutorId}')
+
+        return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.amount);
 
     }
 }

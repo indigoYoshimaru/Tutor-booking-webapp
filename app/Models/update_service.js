@@ -1,20 +1,22 @@
+const query_service = require("./query_service");
+const { camel } = require("./utility");
+
 const Database = use('Database');
 
 module.exports = {
     async addTutor(tutorInfo) {
-        // await Database.raw(`SELECT * INTO tutor FROM unverifiedtutor as UT WHERE UT.Id =?`, parseInt(tutorId));
         let result = await Database.raw(`INSERT INTO tutor (FirstName, LastName, UserName,
             Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`,
-            [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName, tutorInfo.Email, tutorInfo.Password, tutorInfo.DateofBirth, JSON.stringify(tutorInfo.Profile)])
+            [tutorInfo.firstName, tutorInfo.lastName, tutorInfo.username, tutorInfo.email, tutorInfo.password, tutorInfo.dateOfBirth, JSON.stringify(tutorInfo.profile)])
         return result;
     },
     async addUnverifiedTutor(tutorInfo) {
         let result = await Database.raw(`INSERT INTO unverifiedtutor (FirstName, LastName, UserName,
-            Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`, [tutorInfo.FirstName, tutorInfo.LastName, tutorInfo.UserName, tutorInfo.Email, tutorInfo.Password, tutorInfo.DateofBirth, tutorInfo.Profile])
+            Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`, [tutorInfo.firstName, tutorInfo.lastName, tutorInfo.username, tutorInfo.email, tutorInfo.password, tutorInfo.dateOfBirth, tutorInfo.profile])
     },
     async addTutee(tuteeInfo) {
-        await Database.raw(`INSERT INTO tutee (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [tuteeInfo.FirstName, tuteeInfo.LastName, tuteeInfo.UserName, tuteeInfo.Email,
-        tuteeInfo.Password, tuteeInfo.DateofBirth])
+        await Database.raw(`INSERT INTO tutee (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [tuteeInfo.firstName, tuteeInfo.lastName, tuteeInfo.username, tuteeInfo.email,
+        tuteeInfo.password, tuteeInfo.dateOfBirth])
     },
     /*used by admins only*/
     async addCourse(name) {
@@ -25,8 +27,8 @@ module.exports = {
 
     },
     async addAdmin(adminInfo) {
-        await Database.raw(`INSERT INTO Admin (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [adminInfo.FirstName, adminInfo.LastName, adminInfo.UserName,
-        adminInfo.Password, adminInfo.DateOfBirth])
+        await Database.raw(`INSERT INTO Admin (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [adminInfo.firstName, adminInfo.lastName, adminInfo.username, adminInfo.email,
+        adminInfo.password, adminInfo.dateOfBirth])
     },
     async deleteTutor(tutorId) {
         await Database.raw(`DELETE FROM Tutor where Id = ?`, [parseInt(tutorId)]);
@@ -72,7 +74,7 @@ module.exports = {
         await Database.raw(`UPDATE moneyaccount SET BalanceAmount=? WHERE Id =?`, [parseFloat(newBalance), parseInt(moneyAccountId)])
     },
     async setIsCloseContract(contract) {
-        await Database.raw(`UPDATE contract SET isClose=? WHERE Id =?`, [1, parseInt(contract.Id)]);
+        await Database.raw(`UPDATE contract SET isClose=? WHERE Id =?`, [1, parseInt(contract.id)]);
     },
 
     async addChatroom(tutorId, tuteeId) {
@@ -80,6 +82,24 @@ module.exports = {
     },
 
     async addMessage(chatroomId, isTutor, content) {
-        await Database.raw(`INSERT INTO message (ChatroomId, IsTutor, Content) VALUES(?,?,?,?)`, [parseInt(chatroomId), parseInt(isTutor), content]) // erase timestamp for the sake of simplicity
+        await Database.raw("INSERT INTO message (ChatroomId, IsTutor, Timestamp, Content) VALUES(?,?,now(),?);", [parseInt(chatroomId), isTutor, content])
+        let [rows, _] = await Database.raw("SELECT * FROM message WHERE Id= (select LAST_INSERT_ID());")
+        if (!rows) {
+            return null;
+        }
+        return camel(rows[0]);
+    },
+
+    async updateIssuePercentage(issueId, returnPercentage) {
+        await Database.raw("UPDATE issue SET ReturnPercentage=? WHERE Id =?", [parseInt(issueId), parseFloat(returnPercentage)]);
+    },
+
+    async updateIssueState(issueId, state) {
+        await Database.raw("UPDATE issue SET isOpen=? WHERE Id =?", [parseInt(issueId), state]);
+    },
+
+
+    async closeContract(contractId) {
+        await Database.raw("UPDATE contract SET State=?,CloseDate=now() WHERE Id=?", ["CLOSED", parseInt(contractId)]);
     }
 }

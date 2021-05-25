@@ -21,34 +21,34 @@ class TuteeController {
         // register --> sendmail --> click--> add
         let tutee = request.all();
         console.log(tutee);
-        let existed1 = await query_service.getTutorByUserName(tutee.UserName);
-        let existed2 = await query_service.getTuteeByUserName(tutee.UserName);
-        let existed3 = await query_service.getAdminByUserName(tutee.UserName);
-        if (existed1 || existed2 || existed3 || await query_service.getUnverifiedTutorByUserName(tutee.UserName)) {
+        let existed1 = await query_service.getTutorByUserName(tutee.username);
+        let existed2 = await query_service.getTuteeByUserName(tutee.username);
+        let existed3 = await query_service.getAdminByUserName(tutee.username);
+        if (existed1 || existed2 || existed3 || await query_service.getUnverifiedTutorByUserName(tutee.username)) {
             console.log(existed1);
             return {
                 result: "Existed Username"
             }
         }
 
-        if (await query_service.getTutorByEmail(tutee.Email) || await query_service.getTuteeByEmail(tutee.Email) || await query_service.getAdminByEmail(tutee.Email) || await query_service.getUnverifiedTutorByUserName(tutee.UserName))
+        if (await query_service.getTutorByEmail(tutee.email) || await query_service.getTuteeByEmail(tutee.email) || await query_service.getAdminByEmail(tutee.email) || await query_service.getUnverifiedTutorByEmail(tutee.email)) // to be updated
             return {
                 result: "Email registered"
             }
-        tutee.Password = await Hash.make(tutee.Password);
-        console.log(tutee.Password);
-        let token = jwt.sign(tutee, 'secretKey');
+        tutee.password = await Hash.make(tutee.password);
+        console.log(tutee.password);
+        let token = jwt.sign(tutee, Config.get('app.appKey'));
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-tutee/${token}`;
         let content = `Please click this URL to verify account ${url}`;
         console.log(content);
-        let res = await utility.sendMail(tutee.Email, content);
+        let res = await utility.sendMail(tutee.email, content);
         return res;
     }
 
     async verify({ request, session, params }) {
         let token = params.token;
-        let decodedObj = jwt.verify(token, 'secretKey');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         console.log(decodedObj);
         delete decodedObj.iat;
         if (!decodedObj)
@@ -63,7 +63,7 @@ class TuteeController {
             return {
                 error: "No tutee found"
             }
-        await update_service.addMoneyAccountByTuteeId(tutee.Id); // needs checking
+        await update_service.addMoneyAccountByTuteeId(tutee.id); // needs checking
         return {
             result: "Tutee verified."
         }
@@ -71,26 +71,26 @@ class TuteeController {
 
     async login({ request, session }) {
         let tutee = request.all()
-        let tuteeDB = await query_service.getTuteeByUserName(tutee.UserName);
+        let tuteeDB = await query_service.getTuteeByUserName(tutee.username);
         if (!tuteeDB) {
             return {
                 error: "No tutee with this username found"
             }
         }
 
-        let isSamePassword = await Hash.verify(tutee.Password, tuteeDB.Password);
+        let isSamePassword = await Hash.verify(tutee.password, tuteeDB.password);
         if (!isSamePassword) {
             return {
                 error: "Invalid password"
             }
         }
-        let id = tuteeDB.Id;
+        let id = tuteeDB.id;
         let role = 'tutee';
         let tuteeObject = {
             id, role
         }
 
-        let token = jwt.sign(tuteeObject, 'secretKey');
+        let token = jwt.sign(tuteeObject, Config.get('app.appKey'));
         session.put("token", token);
         return {
             result: {
@@ -118,7 +118,7 @@ class TuteeController {
             }
         }
         let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, contract.tuteeId);
-        if (contractDB && contractDB.State != 'CLOSED') { // contract is not closed
+        if (contractDB && contractDB.state != 'CLOSED') { // contract is not closed
             return {
                 error: "The contract has not been closed yet"
             }
@@ -164,25 +164,29 @@ class TuteeController {
     async contactTutor({ request, session }) {
         // if it's 1st time: create chatroom for tutor and tutee
         // if it's not: get all information of chat related between tutor and tutee
-        let tutorId = request.all();
-        let tuteeId = session.all();
-        let tutor = query_service.getTutorById(tutorId);
+        let tutorId = request.all().tutorId;
+        let token = session.get('token');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
+        let tuteeId = decodedObj.id;
+        console.log(tutorId);
+        console.log(tuteeId);
+        let tutor = await query_service.getTutorById(tutorId);
         if (!tutor) {
             return {
                 error: "No tutor found"
             }
         }
-        let tutee = query_service.getTuteeById(tuteeId);
+        let tutee = await query_service.getTuteeById(tuteeId);
         if (!tutee) {
             return {
                 error: "No tutee found"
             }
         }
 
-        let chatroom = query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
+        let chatroom = await query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
         if (!chatroom) {
             update_service.addChatroom(tutorId, tuteeId);
-            recentChatroom = query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
+            recentChatroom = await query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
             return {
                 result: {
                     chatroom: recentChatroom,
@@ -191,13 +195,45 @@ class TuteeController {
             }
         }
 
-        let messages = query_service.getMessageByChatroomId(chatroom.Id);
+        let messages = await query_service.getMessageByChatroomId(chatroom.id);
         return {
             result: {
                 chatroom: chatroom,
                 messages: messages
             }
         }
+    }
+
+    async requestCloseContract({ request, session }) {
+        let contractId = request.all().contractId;
+        let contract = await query_service.getContractById(contractId);
+        if (!contract) {
+            return {
+                error: "No contract found"
+            }
+        }
+
+        let issue = await query_service.getIssueByContractId(contractId);
+        if (issue && issue.isOpen) {
+            return {
+                error: "Issue of this contract is currently opened"
+            }
+        }
+
+
+        let finalTeachingDate = contract[contract.length];
+        let today = Date.now();
+        if (today < finalTeachingDate) {
+            return {
+                error: "You cannot close the contract by now"
+            }
+        }
+
+        let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.id}');
+        let tutorAccount = await query_service.getMoneyAccountByCode('tutor/${contract.tutorId}')
+
+        return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.amount);
+
     }
 
 }
