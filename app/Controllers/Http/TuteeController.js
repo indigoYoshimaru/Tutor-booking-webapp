@@ -105,8 +105,7 @@ class TuteeController {
         let contract = request.all()
         let tutorDB = await query_service.getTutorById(contract.tutorId);
         let tuteeDB = await query_service.getTuteeById(contract.tuteeId);
-        console.log(tutorDB);
-        console.log(tuteeDB)
+
         if (!tutorDB) {
             return {
                 error: "No tutor with this Id"
@@ -123,8 +122,6 @@ class TuteeController {
                 error: "The contract has not been closed yet"
             }
         }
-        //=====THIS IS IF INPUT FROM FRONT END IS JSON=====
-        //dont need JSON parse here
 
         for (var i in contract.listofTeachingDay) { //loop through each teaching days
             let day = new Date(i) //parse teaching days to Date
@@ -135,36 +132,18 @@ class TuteeController {
             }
         }
 
-
-        /* IN CASE THE INPUT TEACHING DAYS IS AN ARRAY OF STRINGS */
-        // let teachingDays = []
-        // for (d in contract.ListOfTeachingDays) {
-        //     if (d < contract.StartDate) {//compare with start and close date
-        //         return {
-        //             error: "The teaching days are not in the contract's period"
-        //         }
-        //     }
-        //     teachingDays.push(d)
-        // }
-        // contract.ListOfTeachingDays = JSON.stringify(teachingDays)//convert array of days back to JSON but looks NOT GOOD
-
-
-        //contract.listofTeachingDays = JSON.parse(contract.listofTeachingDays);
-        console.log(contract);
         await update_service.addContract(contract)
 
-        var amount = contract.teachingHours * 50000;
-        let tutorAccount = await query_service.getMoneyAccountByTutorId(contract.tutorId)
-        let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contract.tuteeId)
-
-        console.log(tutorAccount);
-        return await utility.makeTransaction(tuteeAccount, tutorAccount, amount)
+        return {
+            result: "Contract added"
+        }
     }
 
     async contactTutor({ request, session }) {
         // if it's 1st time: create chatroom for tutor and tutee
         // if it's not: get all information of chat related between tutor and tutee
-        let tutorId = request.all().tutorId;
+        let tutorId = request.all();
+        tutorId = tutorId.tutorId;
         let token = session.get('token');
         let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         let tuteeId = decodedObj.id;
@@ -205,7 +184,9 @@ class TuteeController {
     }
 
     async requestCloseContract({ request, session }) {
-        let contractId = request.all().contractId;
+        let req = request.all();
+        contractId = req.contractId;
+        console.log(req);
         let contract = await query_service.getContractById(contractId);
         if (!contract) {
             return {
@@ -221,8 +202,8 @@ class TuteeController {
         }
 
 
-        let finalTeachingDate = contract[contract.length];
-        let today = Date.now();
+        let finalTeachingDate = Date.parse(contract[contract.length]);
+        let today = new Date(Date.now());
         if (today < finalTeachingDate) {
             return {
                 error: "You cannot close the contract by now"
@@ -234,6 +215,46 @@ class TuteeController {
 
         return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.amount);
 
+    }
+
+    async raiseIssue({ request, session }) {
+        let issue = request.all()
+        let contractDB = await query_service.getContractById(issue.contractId)
+        if (!contractDB) {
+            return {
+                error: "No contract with this id"
+            }
+        }
+        if (issue.content == null) {
+            return {
+                error: "Content cannot be left blank"
+            }
+        }
+        let resolveAdmin = await query_service.getLeastResolveAdmins()
+        let newIssue = {
+            contractId: issue.contractId,
+            isTutor: false,
+            content: issue.content,
+            resolveAdminId: resolveAdmin.id
+        }
+        await update_service.addIssue(newIssue);
+        return {
+            result: "Issue added"
+        }
+    }
+
+    async confirmIssueResolution({ request, session }) {
+        let solution = request.all()
+        let issue = await query_service.getIssueById(solution.issueId)
+        if (!issue) {
+            return {
+                error: "No issue with this id"
+            }
+        }
+        await update_service.tuteeConfirmIssueResolution(issue.id);
+        return {
+            result: "Tutee confirmed"
+        }
     }
 
 }

@@ -3,7 +3,9 @@
 const { getAdminByUserName } = require("../../Models/query_service");
 const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
+const utility = require("../../Models/utility");
 const jwt = require("jsonwebtoken");
+const { closeContract } = require("../../Models/update_service");
 const Hash = use('Hash');
 const Config = use('Config');
 
@@ -105,6 +107,8 @@ class TutorController {
 
     async requestCloseContract({ request, session }) {
         let contractId = request.all();
+
+        contractId = contractId.contractId;
         let contract = await query_service.getContractById(contractId);
         if (!contract) {
             return {
@@ -112,6 +116,8 @@ class TutorController {
             }
         }
 
+        console.log(contract);
+        let issue = await query_service.getIssueByContractId(contractId);
         if (issue && issue.isOpen) {
             return {
                 error: "Issue of this contract is currently opened"
@@ -119,21 +125,109 @@ class TutorController {
         }
 
         let thresDate = new Date();
-        thresDate.setDate(contract.listOfTeachingDay[contract.listOfTeachingDay.length - 1] + 14);
+        console.log(contract.listOfTeachingDay[contract.listOfTeachingDay.length - 1])
+        let lastTeachingDate = new Date(Date.parse(contract.listOfTeachingDay[contract.listOfTeachingDay.length - 1]));
+        thresDate.setDate(lastTeachingDate.getDate() + 14);
 
-        let today = Date.now();
+        console.log(thresDate);
+        let today = new Date(Date.now());
         if (today < thresDate) {
             return {
                 error: "You cannot close the contract by now"
             }
         }
 
-        let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.id}');
-        let tutorAccount = await query_service.getMoneyAccountByCode('tutor/${contract.tutorId}')
+        let tutorId = contract.tutorId;
 
-        return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.amount);
+        let contractAccount = await query_service.getMoneyAccountByCode(`contract/${contractId}`);
+        let tutorAccount = await query_service.getMoneyAccountByCode(`tutor/${tutorId}`)
+
+        return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.balanceAmount);
 
     }
+
+    async acceptContract({ request, session }) {
+        let contract = request.all()
+        let contractDB = await query_service.getContractById(contract.contractId)
+        if (!contractDB) {
+            return {
+                error: "Invalid contract Id"
+            }
+        }
+        console.log(contractDB);
+        let contractAccount = await update_service.addMoneyAccountByContractId(contractDB.id);
+
+        var amount = contractDB.teachingHours * 50000;
+        // let tutorAccount = await query_service.getMoneyAccountByTutorId(contractDB.tutorId)
+        let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contractDB.tuteeId)
+        let result = await utility.makeTransaction(tuteeAccount, contractAccount, amount);
+        if (!result.result) {
+            await update_service.closeContract(contractDB.id);
+            return {
+                error: result.error
+            }
+        }
+        await update_service.openContract(contractDB.id);
+        return {
+            result: result.result
+        }
+    }
+
+    async rejectContract({ request, session }) {
+        let contract = request.all()
+        let contractDB = await query_service.getContractById(contract.contractId)
+        console.log(contractDB)
+        if (!contractDB) {
+            return {
+                error: "Invalid contract Id"
+            }
+        }
+        await update_service.rejectContract(contractDB.id);
+        return {
+            result: "Contract rejected"
+        }
+    }
+
+    async raiseIssue({ request, session }) {
+        let issue = request.all()
+        let contractDB = await query_service.getContractById(issue.contractId)
+        if (!contractDB) {
+            return {
+                error: "No contract with this id"
+            }
+        }
+        if (issue.content == null) {
+            return {
+                error: "Content cannot be left blank"
+            }
+        }
+        let resolveAdmin = await query_service.getLeastResolveAdmins()
+        let newIssue = {
+            contractId: issue.contractId,
+            isTutor: true,
+            content: issue.content,
+            resolveAdminId: resolveAdmin.id
+        }
+        await update_service.addIssue(newIssue);
+        return {
+            result: "Issue added"
+        }
+    }
+
+    async confirmIssueResolution({ request, session }) {
+        let solution = request.all()
+        let issue = await query_service.getIssueById(solution.issueId)
+        if (!issue) {
+            return {
+                error: "No issue with this id"
+            }
+        }
+        await update_service.tutorConfirmIssueResolution(issue.id);
+        return {
+            result: "Tutor confirmed"
+        }
+    }
+
 }
 
 module.exports = TutorController

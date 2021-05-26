@@ -62,10 +62,10 @@ class AdminController {
             }
         }
         // create Token
-        let adminId = adminDB.id;
+        let id = adminDB.id;
         let role = 'admin'
         let adminObject = {
-            adminId, role
+            id, role
         }
 
         let token = jwt.sign(adminObject, Config.get('app.appKey'));
@@ -131,8 +131,8 @@ class AdminController {
                 error: "No tutor with this Id"
             }
         }
-        await update_service.deleteTutor(tutor.tutorId)
         await update_service.deleteCourseTeaching(tutor.tutorId)
+        await update_service.deleteTutor(tutor.tutorId)
         let check = await query_service.getTutorById(tutor.tutorId)
         if (check) {
             return {
@@ -145,7 +145,8 @@ class AdminController {
     }
 
     async banTutee({ request, session }) {
-        let tutee = request.all()
+        let tutee = request.all();
+        console.log(tutee)
         let tuteeDB = await query_service.getTuteeById(tutee.tuteeId)
         if (!tuteeDB) {
             return {
@@ -173,12 +174,14 @@ class AdminController {
         }
         let issue = request.all(); // in json: issue id and result percentage
 
-        let issueDb = await query_service.getIssueById(issue.id);
+        let issueDb = await query_service.getIssueById(issue.issueId);
         if (!issueDb) {
             return {
                 error: "No issue found"
             }
         }
+        console.log(adminObject);
+        console.log(issueDb.resolveAdminId)
 
         if (issueDb.resolveAdminId != adminObject.id) {
             return {
@@ -192,7 +195,7 @@ class AdminController {
             }
         }
 
-        let newIssue = await update_service.updateIssuePercentage(issueDb.id, issueDb.returnPercentage);
+        let newIssue = await update_service.updateIssuePercentage(issueDb.id, issue.returnPercentage);
 
         return {
             result: newIssue

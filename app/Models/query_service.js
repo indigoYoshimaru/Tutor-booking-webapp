@@ -1,4 +1,4 @@
-const { camel } = require("./utility");
+const { camel } = require("./formatter");
 
 const Database = use('Database');
 
@@ -335,11 +335,12 @@ module.exports = {
     /*=====EXTRA FUNCTIONS=====*/
     //for conflict resolve assignment, we get the admin who resolves least issue 
     async getLeastResolveAdmins() {
-        let [rows, _] = await Database.raw(`SELECT *, SUM(num) FROM (
-            SELECT * CASE WHEN Issue.Id is null THEN 0 ELSE 1 END as num
-            FROM admin LEFT JOIN admin.Id=Issue.ResolveAdminId)
-            AS t GROUP BY admin.Id ORDER BY SUM(num) asc
-        ) `);
+        let [rows, _] = await Database.raw(`SELECT Id, SUM(num) FROM (
+			SELECT admin.Id,case WHEN Issue.Id is null THEN 0
+            ELSE 1 END as num
+            FROM admin LEFT JOIN issue on admin.Id=Issue.ResolveAdminId)
+            AS t GROUP BY Id ORDER BY SUM(num) asc
+        `);
         if (!rows.length)
             return null
         return camel(rows[0]);

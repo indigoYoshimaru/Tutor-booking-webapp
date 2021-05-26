@@ -1,8 +1,8 @@
 'use strict'
 
 const verify = require('jsonwebtoken/verify')
-const GetDatumController = require('../app/Controllers/Http/GetDatumController')
-const TuteeController = require('../app/Controllers/Http/TuteeController')
+// const GetDatumController = require('../app/Controllers/Http/GetDatumController')
+// const TuteeController = require('../app/Controllers/Http/TuteeController')
 
 /*
 |--------------------------------------------------------------------------
@@ -98,13 +98,24 @@ Route.get('/test-login', async function ({ session }) { // put this to middlewar
     }
 })
 
-Route.post('tutor/request-close-contract', 'TutorController.requestCloseContract')
-Route.post('tutee/contact-tutor', 'TuteeController.contactTutor')
-Route.post('tutee/request-close-contract', 'TuteeController.requestCloseContract')
-Route.post('admin/add-new-admin', 'AdminController.addNewAdmin')
-Route.post('admin/create-issue-resolution', 'AdminController.createIssueResolution')
-Route.post('contract/update-contract-close-expiration', 'ContractController.updateContractCloseExpiration')
-Route.post('contract/update-issue-open-expiration', 'ContractController.updateIssueOpenExpiration')
+Route.post('/tutor/request-close-contract', 'TutorController.requestCloseContract')
+Route.post('/tutee/contact-tutor', 'TuteeController.contactTutor')
+Route.post('/tutee/request-close-contract', 'TuteeController.requestCloseContract')
+Route.post('/admin/add-new-admin', 'AdminController.addNewAdmin')
+Route.post('/admin/create-issue-resolution', 'AdminController.createIssueResolution')
+Route.post('/contract/update-contract-close-expiration', 'ContractController.updateContractCloseExpiration')
+Route.post('/contract/update-issue-open-expiration', 'IssueController.updateIssueOpenExpiration')
+
+
+Route.post('/tutor/accept-contract', 'TutorController.acceptContract')
+Route.post('/tutor/reject-contract', 'TutorController.rejectContract')
+Route.post('/tutor/raise-issue', 'TutorController.raiseIssue')
+Route.post('/tutee/raise-issue', 'TuteeController.raiseIssue')
+Route.post('/tutor/confirm-issue-resolution', 'TutorController.confirmIssueResolution')
+Route.post('/tutee/confirm-issue-resolution', 'TuteeController.confirmIssueResolution')
+Route.post('/issue/close-issue', 'IssueController.closeIssue')
+
+Route.post('/general/add-message', 'GetDatumController.addMessage')
 // Route
 //     .get('users/:id', 'UserController.show')//page that can be access by admin
 //     .middleware('auth:admin')
