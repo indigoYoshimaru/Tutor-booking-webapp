@@ -4,6 +4,7 @@ const { getAdminByUserName } = require("../../Models/query_service");
 const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
+const { closeContract } = require("../../Models/update_service");
 const Hash = use('Hash');
 const Config = use('Config');
 
@@ -134,6 +135,77 @@ class TutorController {
         return await utility.makeTransaction(contractAccount, tutorAccount, contractAccount.amount);
 
     }
+
+    async acceptContract({ request, session }) {
+        let contract = request.all()
+        let contractDB = await query_service.getContractById(contract.contractId)
+        if (!contractDB) {
+            return {
+                error: "Invalid contract Id"
+            }
+        }
+        await update_service.openContract(contractDB)
+        var amount = contract.teachingHours * 50000;
+        let tutorAccount = await query_service.getMoneyAccountByTutorId(contract.tutorId)
+        let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contract.tuteeId)
+        let result = utility.makeTransaction(tuteeAccount, tutorAccount, amount);
+        if (!result.result) {
+            await closeContract(contractDB.id);
+            return {
+                error: result.result
+            }
+        }
+
+        return {
+            result: result.result
+        }
+    }
+
+    async rejectContract({ request, session }) {
+        let contract = request.all()
+        let contractDB = await query_service.getContractById(contract.contractId)
+        if (!contractDB) {
+            return {
+                error: "Invalid contract Id"
+            }
+        }
+        await update_service.rejectContract(contractDB)
+    }
+
+    async raiseIssue({ request, session }) {
+        let issue = request.all()
+        let contractDB = await query_service.getContractById(issue.contracId)
+        if (!contractDB) {
+            return {
+                error: "No contract with this id"
+            }
+        }
+        if (issue.content == null) {
+            return {
+                error: "Content cannot be left blank"
+            }
+        }
+        let resolveAdmin = await query_service.getLeastResolveAdmins()
+        let newIssue = {
+            contractId = issue.contracId,
+            isTutor = 1,
+            content = issue.content,
+            resolveAdminId = resolveAdmin.Id
+        }
+        await addIssue(newIssue)
+    }
+
+    async confirmIssueResolution({ request, session }) {
+        let solution = request.all()
+        let issue = await query_service.getIssueById(solution.issueId)
+        if (!issue) {
+            return {
+                error: "No issue with this id"
+            }
+        }
+        await update_service.tutorConfirmIssueResolution(issue.Id)
+    }
+
 }
 
 module.exports = TutorController

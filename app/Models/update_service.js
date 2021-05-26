@@ -73,7 +73,7 @@ module.exports = {
         console.log(newBalance)
         await Database.raw(`UPDATE moneyaccount SET BalanceAmount=? WHERE Id =?`, [parseFloat(newBalance), parseInt(moneyAccountId)])
     },
-    async setIsCloseContract(contract) {
+    async closeContract(contract) {
         await Database.raw(`UPDATE contract SET isClose=? WHERE Id =?`, [1, parseInt(contract.id)]);
     },
 
@@ -98,8 +98,30 @@ module.exports = {
         await Database.raw("UPDATE issue SET isOpen=? WHERE Id =?", [parseInt(issueId), state]);
     },
 
-
     async closeContract(contractId) {
         await Database.raw("UPDATE contract SET State=?,CloseDate=now() WHERE Id=?", ["CLOSED", parseInt(contractId)]);
+    },
+
+    async openContract(contractId) {
+        await Database.raw(`UPDATE contract SET State=? WHERE Id =?`, ['OPEN', parseInt(contractId)]);
+    },
+    async rejectContract(contract) {
+        await Database.raw(`UPDATE contract SET State=? WHERE Id =?`, ['REJECTED', parseInt(contract.Id)]);
+    },
+
+    async addIssue(issue) {
+        await Database.raw(`INSERT INTO issue (ContractId, IsTutor, Content, IsOpen, ResolveAdminId, TutorAgreement, TuteeAgreement) VALUES(?,?,?,?,?,?,?)`,
+            [parseInt(issue.contractId), parseInt(issue.isTutor), issue.content, 0, parseInt(issue.resolveAdminId), 0, 0])
+    },
+
+    async tutorConfirmIssueResolution(issueId) {
+        await Database.raw(`UPDATE issue SET TutorAgreement=? WHERE Id=?`, [true, parseInt(issueId)])
+    },
+    async tuteeConfirmIssueResolution(issueId) {
+        await Database.raw(`UPDATE issue SET TuteeAgreement=? WHERE Id=?`, [true, parseInt(issueId)])
+    },
+
+    async closeIssue(issueId) {
+        await Database.raw(`UPDATE issue SET IsOpen=? WHERE Id=?`, [false, parseInt(issueId)])
     }
 }
