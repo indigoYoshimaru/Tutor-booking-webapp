@@ -142,7 +142,8 @@ class TuteeController {
     async contactTutor({ request, session }) {
         // if it's 1st time: create chatroom for tutor and tutee
         // if it's not: get all information of chat related between tutor and tutee
-        let tutorId = request.all().tutorId;
+        let tutorId = request.all();
+        tutorId = tutorId.tutorId;
         let token = session.get('token');
         let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         let tuteeId = decodedObj.id;
@@ -183,7 +184,9 @@ class TuteeController {
     }
 
     async requestCloseContract({ request, session }) {
-        let contractId = request.all().contractId;
+        let req = request.all();
+        contractId = req.contractId;
+        console.log(req);
         let contract = await query_service.getContractById(contractId);
         if (!contract) {
             return {
@@ -199,8 +202,8 @@ class TuteeController {
         }
 
 
-        let finalTeachingDate = contract[contract.length];
-        let today = Date.now();
+        let finalTeachingDate = Date.parse(contract[contract.length]);
+        let today = new Date(Date.now());
         if (today < finalTeachingDate) {
             return {
                 error: "You cannot close the contract by now"
@@ -216,7 +219,7 @@ class TuteeController {
 
     async raiseIssue({ request, session }) {
         let issue = request.all()
-        let contractDB = await query_service.getContractById(issue.contracId)
+        let contractDB = await query_service.getContractById(issue.contractId)
         if (!contractDB) {
             return {
                 error: "No contract with this id"
@@ -227,14 +230,17 @@ class TuteeController {
                 error: "Content cannot be left blank"
             }
         }
-        let resolveAdmin = await getLeastResolveAdmins()
+        let resolveAdmin = await query_service.getLeastResolveAdmins()
         let newIssue = {
-            contractId = issue.contracId,
-            isTutor = 0,
-            content = issue.content,
-            resolveAdminId = resolveAdmin.Id
+            contractId: issue.contractId,
+            isTutor: false,
+            content: issue.content,
+            resolveAdminId: resolveAdmin.id
         }
-        await addIssue(newIssue)
+        await update_service.addIssue(newIssue);
+        return {
+            result: "Issue added"
+        }
     }
 
     async confirmIssueResolution({ request, session }) {
@@ -245,7 +251,10 @@ class TuteeController {
                 error: "No issue with this id"
             }
         }
-        await update_service.tuteeConfirmIssueResolution(issue.Id)
+        await update_service.tuteeConfirmIssueResolution(issue.id);
+        return {
+            result: "Tutee confirmed"
+        }
     }
 
 }

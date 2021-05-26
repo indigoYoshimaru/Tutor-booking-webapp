@@ -1,6 +1,7 @@
 'use strict'
 
 const query_service = require("../../Models/query_service");
+const update_service = require("../../Models/update_service");
 
 class GetDatumController {
     /*=====Tutor=====*/
@@ -386,6 +387,13 @@ class GetDatumController {
             }
         return {
             result: admins
+        }
+    }
+
+    async addMessage({ }) {
+        let message = update_service.addMessage(1, true, "hello");
+        return {
+            result: message
         }
     }
 }
