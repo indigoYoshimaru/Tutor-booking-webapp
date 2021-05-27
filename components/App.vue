@@ -35,6 +35,10 @@
             <f7-list-item link="/register/" title="Register"></f7-list-item>
             <f7-list-item link="/about/" title="About"></f7-list-item>
             <f7-list-item link="/tutee/" title="Test component"></f7-list-item>
+            <f7-list-item
+              link="/tutor-list/"
+              title="TestGetTutorList"
+            ></f7-list-item>
           </f7-list>
         </f7-page>
       </f7-view>

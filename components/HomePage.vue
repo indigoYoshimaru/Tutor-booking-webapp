@@ -11,7 +11,7 @@
 
     <video style="width: 100%; height: auto; object-fit: cover" autoplay loop>
       <source
-        src="media/Don't Feed The Kois twice a course.mp4"
+        src="/media/Don't Feed The Kois twice a course.mp4"
         type="video/mp4"
       />
     </video>

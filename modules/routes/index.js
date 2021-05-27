@@ -3,6 +3,7 @@ import AboutPage from '/components/AboutPage.vue'
 import LoginPage from '/components/LoginPage.vue'
 import RegisterPage from '/components/RegisterPage.vue'
 import Test from '/components/Tutee.vue'
+import TestGetTutorList from '/components/TestGetTutorList.vue'
 
 
 export default [
@@ -25,5 +26,9 @@ export default [
   {
     path: '/tutee/',
     component: Test,
+  },
+  {
+    path: '/tutor-list/',
+    component: TestGetTutorList,
   }
 ]
