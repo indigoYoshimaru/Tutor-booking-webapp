@@ -378,6 +378,17 @@ class GetDatumController {
         }
     }
 
+    async getCourses({ request }) {
+        let courses = await query_service.getCourses();
+        if (!courses)
+            return {
+                error: 'no course found in database'
+            }
+        return {
+            result: courses
+        }
+    }
+
     /*=====EXTRA FUNCTIONS=====*/
     async getLeastResolveAdmins({ request }) {
         let admins = await query_service.getLeastResolveAdmins();

@@ -352,5 +352,13 @@ module.exports = {
         if (!rows.length)
             return null
         return camel(rows[0]);
+    },
+
+    async getCourses() {
+        let [rows, _] = await Database.raw(`SELECT * FROM course`);
+        if (!rows.length)
+            return null
+        rows = rows.map(camel);
+        return rows;
     }
 }
