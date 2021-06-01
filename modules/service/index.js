@@ -18,7 +18,28 @@ async function getTutors() {
     return data.result;
 }
 
+async function getCourses() {
+    let response = await fetch('/api/general/get-courses');
+    let data = await response.json();
+    if (data.error) {
+        throw new Error(data.error);
+    }
+    return data.result;
+}
+
+async function registerTutor(tutor) {
+    let response = await getJson('/api/tutor/register', tutor);
+    console.log(response)
+    if (response.error) {
+        return response.error;
+    }
+
+    return "Your registration is successful." + response.result;
+}
+
 export default {
     getJson,
-    getTutors
+    getTutors,
+    getCourses,
+    registerTutor
 }
