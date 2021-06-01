@@ -105,7 +105,8 @@ class TuteeController {
         let token = session.get('token');
         let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         let tuteeId = decodedObj.id;
-        let tutee = await query_service.getTutorById(tuteeId);
+        let tutee = await query_service.getTuteeById(tuteeId);
+        console.log(tuteeId)
         if (!tutee) {
             return {
                 error: "No tutee found"
