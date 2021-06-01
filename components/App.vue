@@ -22,6 +22,7 @@
     </f7-panel> -->
 
     <!-- Right Panel with "reveal" effect -->
+
     <f7-panel right cover dark>
       <f7-view links-view=".view-main">
         <f7-page>
@@ -40,13 +41,29 @@
               title="TestGetTutorList"
             ></f7-list-item>
             <f7-list-item
-              link="/register-tutor"
+              link="/register-tutor/"
               title="Register Tutor"
             ></f7-list-item>
+            <f7-list-item link="/main/" title="Main"></f7-list-item>
           </f7-list>
         </f7-page>
       </f7-view>
     </f7-panel>
+
+    <!-- <f7-panel right cover dark v-if="loggedIn === 'true'">
+      <f7-view links-view=".view-main">
+        <f7-page>
+          <f7-navbar title="Menu">
+            <f7-button panel-close
+              ><f7-icon ios="f7:xmark_circle_fill"></f7-icon
+            ></f7-button>
+          </f7-navbar>
+          <f7-list>
+            <f7-list-item link="/tutor-main/" title="MainPage"></f7-list-item>
+          </f7-list>
+        </f7-page>
+      </f7-view>
+    </f7-panel> -->
 
     <!-- Main view-->
     <f7-view main url="/"> </f7-view>
@@ -102,6 +119,7 @@ export default {
         theme: share.theme,
         routes,
       },
+      loggedIn: share.loggedIn,
     };
   },
 };

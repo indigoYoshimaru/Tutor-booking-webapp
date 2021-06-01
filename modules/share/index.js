@@ -1,6 +1,8 @@
 import { reactive } from 'vue'
 export default reactive({
-    theme: 'ios'
+    theme: 'ios',
+    loggedIn: false,
+    currentUser: {}
 });
 
 

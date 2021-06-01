@@ -71,6 +71,11 @@ export default {
       console.log(this.isTutor);
       if (this.isTutor) {
         let result = await service.loginTutor(this.user);
+        share.loggedIn = true;
+        share.currentUser = await service.getTutorInfo();
+        share.currentUser.role = "tutor";
+        console.log(share.currentUser);
+        //share.currentUser.dateOfBirth = new Date(share.currentUser.dateOfBirth);
         f7.dialog.alert(
           result
           // ,
@@ -80,6 +85,10 @@ export default {
         );
       } else {
         let result = await service.loginTutee(this.user);
+        share.loggedIn = true;
+        share.currentInfo = await service.getTuteeInfo();
+        share.currentInfo.role = "tutee";
+        console.log(share.currentInfo);
         f7.dialog.alert(result);
       } // temp else
 

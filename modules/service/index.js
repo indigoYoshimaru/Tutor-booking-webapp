@@ -57,11 +57,32 @@ async function loginTutee(tutee) {
     return response.result.message;
 }
 
+async function getTutorInfo() {
+    let response = await fetch('/api/tutor/get-info');
+    let data = await response.json();
+    if (data.error) {
+        throw new Error(data.error);
+    }
+    return data.result;
+}
+
+async function getTuteeInfo() {
+    let response = await fetch('/api/tutee/get-info');
+    let data = await response.json();
+    if (data.error) {
+        throw new Error(data.error);
+    }
+    return data.result;
+}
+
+
 export default {
     getJson,
     getTutors,
     getCourses,
     registerTutor,
     loginTutor,
-    loginTutee
+    loginTutee,
+    getTutorInfo,
+    getTuteeInfo
 }
