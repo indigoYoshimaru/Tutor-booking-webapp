@@ -121,7 +121,6 @@ class TuteeController {
                 firstName: tutee.firstName,
                 lastName: tutee.lastName,
                 dateOfBirth: tutee.dateOfBirth,
-                profile: tutee.profile,
                 contracts: contracts,
                 chatrooms: chatrooms
             }
