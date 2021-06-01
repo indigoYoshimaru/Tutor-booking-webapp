@@ -12,8 +12,10 @@ module.exports = {
         return result;
     },
     async addUnverifiedTutor(tutorInfo) {
+        console.log(tutorInfo);
         let result = await Database.raw(`INSERT INTO unverifiedtutor (FirstName, LastName, UserName,
             Email, Password, DateofBirth, Profile) VALUES(?,?,?,?,?,?,?)`, [tutorInfo.firstName, tutorInfo.lastName, tutorInfo.username, tutorInfo.email, tutorInfo.password, tutorInfo.dateOfBirth, tutorInfo.profile])
+
     },
     async addTutee(tuteeInfo) {
         await Database.raw(`INSERT INTO tutee (FirstName, LastName, UserName, Email, Password, DateofBirth) VALUES(?,?,?,?,?,?)`, [tuteeInfo.firstName, tuteeInfo.lastName, tuteeInfo.username, tuteeInfo.email,

@@ -22,18 +22,21 @@ class TutorController {
     */
     async register({ request, session }) {
         let tutor = request.all();
-        console.log(tutor.email);
+        console.log(tutor);
         //let existedAccount=query_service.getTutorByUserName(tutor.username); 
         if (await query_service.getTutorByUserName(tutor.username) || await query_service.getTuteeByUserName(tutor.username) || await query_service.getAdminByUserName(tutor.username))// must add get unverify Tutor
             return {
-                result: "Existed Username"
+                error: "Existed Username"
             }
         if (await query_service.getTutorByEmail(tutor.email) || await query_service.getTuteeByEmail(tutor.email) || await query_service.getAdminByEmail(tutor.email))
             return {
-                result: "Email registered"
+                error: "Email registered"
             }
         tutor.password = await Hash.make(tutor.password);
+        console.log(tutor.password)
         await update_service.addUnverifiedTutor(tutor);
+        let unverifiedtutor = query_service.getUnverifiedTutorById(1);
+        console.log(unverifiedtutor)
         return {
             result: "Please wait for admin verification."
         }
@@ -100,6 +103,33 @@ class TutorController {
             result: {
                 "token": token, // this is for testing only
                 "message": "Login successfully."
+            }
+        }
+
+    }
+
+    async getTutorInfo({ request, session }) {
+        let token = session.get('token');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
+        let tutorId = decodedObj.id;
+        let tutor = await query_service.getTutorById(tutorId);
+        if (!tutor) {
+            return {
+                error: "No tutor found"
+            }
+        }
+
+        let contracts = await query_service.getContractsByTutorId(tutorId);
+        let chatrooms = await query_service.getChatroomsByTutorId(tutorId);
+
+        return {
+            result: {
+                firstName: tutor.firstName,
+                lastName: tutor.lastName,
+                dateOfBirth: tutor.dateOfBirth,
+                profile: tutor.profile,
+                contracts: contracts,
+                chatrooms: chatrooms
             }
         }
 

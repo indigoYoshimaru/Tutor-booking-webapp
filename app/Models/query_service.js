@@ -64,6 +64,17 @@ module.exports = {
 
         return camel(rows[0]);
     },
+
+    async getTutorByCourseId(courseId) {
+        let [rows, _] = await Database.raw(`SELECT * FROM courseteaching 
+        LEFT JOIN tutor ON tutor.Id=courseteaching.tutorId
+        LEFT JOIN course ON course.Id = courseteaching.courseId
+        WHERE course.Id =? `, [parseInt(courseId)]);
+        if (!rows.length)
+            return null;
+
+        return camel(rows[0]);
+    },
     async getRecentlyAddedTutor() {
         let [rows, _] = await Database.raw('SELECT * FROM tutorweb.tutor ORDER BY Id DESC');
         if (!rows.length)
@@ -164,6 +175,24 @@ module.exports = {
             return null;
 
         return camel(rows[0]);
+    },
+
+    async getContractsByTutorId(tutorId) {
+        let [rows, _] = await Database.raw('SELECT * FROM contract WHERE TutorId = ?', [parseInt(tutorId)]);
+        if (!rows.length)
+            return null;
+
+        rows = rows.map(camel);
+        return rows;
+    },
+
+    async getContractsByTuteeId(tuteeId) {
+        let [rows, _] = await Database.raw('SELECT * FROM contract WHERE TuteeId = ?', [parseInt(tuteeId)]);
+        if (!rows.length)
+            return null;
+
+        rows = rows.map(camel);
+        return rows;
     },
 
     async getWaitingContract() {
@@ -298,6 +327,24 @@ module.exports = {
             return null;
 
         return camel(rows[0]);
+    },
+
+    async getChatroomsByTutorId(tutorId) {
+        let [rows, _] = await Database.raw('SELECT * FROM chatroom WHERE TutorId = ?', [parseInt(tutorId)]);
+        if (!rows.length)
+            return null;
+
+        rows = rows.map(camel);
+        return rows;
+    },
+
+    async getChatroomsByTuteeId(tuteeId) {
+        let [rows, _] = await Database.raw('SELECT * FROM chatroom WHERE TuteeId = ?', [parseInt(tuteeId)]);
+        if (!rows.length)
+            return null;
+
+        rows = rows.map(camel);
+        return rows;
     },
 
     async getChatroomByTutorIdandTuteeId(tutorId, tuteeId) {

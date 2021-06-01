@@ -85,6 +85,9 @@ Route.post('/admin/login', 'AdminController.login')
 Route.post('/tutee/login', 'TuteeController.login')
 Route.post('/tutor/login', 'TutorController.login')
 
+Route.get('/tutor/get-info', 'TutorController.getTutorInfo')
+Route.get('/tutee/get-info', 'TuteeController.getTuteeInfo')
+
 Route.post('/admin/ban-verified-tutor', 'AdminController.banVerifiedTutor')
 Route.post('/admin/ban-tutee', 'AdminController.banTutee')
 Route.post('/tutee/create-contract', 'TuteeController.createContract')

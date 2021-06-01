@@ -101,6 +101,33 @@ class TuteeController {
 
     }
 
+    async getTuteeInfo({ request, session }) {
+        let token = session.get('token');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
+        let tuteeId = decodedObj.id;
+        let tutee = await query_service.getTutorById(tuteeId);
+        if (!tutee) {
+            return {
+                error: "No tutee found"
+            }
+        }
+
+        let contracts = await query_service.getContractsByTuteeId(tuteeId);
+        let chatrooms = await query_service.getChatroomsByTuteeId(tuteeId);
+
+        return {
+            result: {
+                firstName: tutee.firstName,
+                lastName: tutee.lastName,
+                dateOfBirth: tutee.dateOfBirth,
+                profile: tutee.profile,
+                contracts: contracts,
+                chatrooms: chatrooms
+            }
+        }
+
+    }
+
     async createContract({ request, session }) {
         let contract = request.all()
         let tutorDB = await query_service.getTutorById(contract.tutorId);

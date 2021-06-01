@@ -15,6 +15,7 @@ class GetDatumController {
             result: tutors
         }
     }
+
     async getTutorById({ request }) {
         let query = request.all();
         let tutor = await query_service.getTutorById(query.tutorId);
