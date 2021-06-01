@@ -27,8 +27,8 @@
         <f7-page>
           <f7-navbar title="Menu">
             <f7-button panel-close
-              ><span class="material-icons">close</span></f7-button
-            >
+              ><f7-icon ios="f7:xmark_circle_fill"></f7-icon
+            ></f7-button>
           </f7-navbar>
           <f7-list>
             <f7-list-item link="/login/" title="Login"></f7-list-item>

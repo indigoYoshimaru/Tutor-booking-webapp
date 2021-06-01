@@ -37,9 +37,31 @@ async function registerTutor(tutor) {
     return "Your registration is successful." + response.result;
 }
 
+async function loginTutor(tutor) {
+    let response = await getJson('/api/tutor/login', tutor);
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result.message;
+}
+
+async function loginTutee(tutee) {
+    let response = await getJson('/api/tutee/login', tutee);
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result.message;
+}
+
 export default {
     getJson,
     getTutors,
     getCourses,
-    registerTutor
+    registerTutor,
+    loginTutor,
+    loginTutee
 }

@@ -6,6 +6,7 @@ import Test from '/components/Tutee.vue'
 import TestGetTutorList from '/components/TestGetTutorList.vue'
 import RegisterTutorPage from '/components/RegisterTutorPage.vue'
 import RegisterTuteePage from '/components/RegisterTuteePage.vue'
+import MainPageTutor from '/components/MainPageTutor.vue'
 
 export default [
   {
@@ -39,5 +40,9 @@ export default [
   {
     path: '/tutor-list/',
     component: TestGetTutorList,
+  },
+  {
+    path: '/tutor-main/',
+    component: MainPageTutor
   }
 ]
