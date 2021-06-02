@@ -26,6 +26,7 @@ Route.on('/').render('welcome')
 /*TUTOR ROUTES*/
 Route.get('/general/get-tutors', 'GetDatumController.getTutors')
 Route.post('/general/get-tutor-by-id', 'GetDatumController.getTutorById')
+Route.post('/general/get-tutor-name-by-id', 'GetDatumController.getTutorNameById')
 Route.post('/general/get-tutor-by-username', 'GetDatumController.getTutorByUserName')
 Route.post('/general/get-tutor-by-email', 'GetDatumController.getTutorByEmail')
 Route.post('/general/get-tutor-by-course-name', 'GetDatumController.getTutorByCourseName')
@@ -34,6 +35,7 @@ Route.get('/general/get-recently-added-tutor', 'GetDatumController.getRecentlyAd
 /*TUTEE ROUTES*/
 Route.get('/general/get-tutees', 'GetDatumController.getTutees')
 Route.post('/general/get-tutee-by-id', 'GetDatumController.getTuteeById')
+Route.post('/general/get-tutee-name-by-id', 'GetDatumController.getTuteeNameById')
 Route.post('/general/get-tutee-by-username', 'GetDatumController.getTuteeByUserName')
 Route.post('/general/get-tutee-by-email', 'GetDatumController.getTuteeByEmail')
 Route.get('/general/get-recently-added-tutee', 'GetDatumController.getRecentlyAddedTutee')

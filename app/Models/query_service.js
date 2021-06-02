@@ -97,7 +97,7 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM tutee WHERE Id = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-        console.log(rows);
+
         return camel(rows[0]);
     },
 
@@ -178,7 +178,7 @@ module.exports = {
     },
 
     async getContractsByTutorId(tutorId) {
-        let [rows, _] = await Database.raw('SELECT * FROM contract WHERE TutorId = ?', [parseInt(tutorId)]);
+        let [rows, _] = await Database.raw('SELECT * FROM contract WHERE TutorId = ? ORDER BY StartDate DESC', [parseInt(tutorId)]);
         if (!rows.length)
             return null;
 

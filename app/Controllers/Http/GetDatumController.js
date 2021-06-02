@@ -27,6 +27,23 @@ class GetDatumController {
             result: tutor
         }
     }
+
+    async getTutorNameById({ request }) { // these two function used for showing the info in the main page
+        let query = request.all();
+        let tutor = await query_service.getTutorById(query.tutorId);
+        if (!tutor)
+            return {
+                error: 'no tutor with this id'
+            }
+        return {
+            result: {
+                tutor: {
+                    firstName: tutor.firstName,
+                    lastName: tutor.lastName
+                }
+            }
+        }
+    }
     async getTutorByUserName({ request }) {
         let query = request.all();
         let tutor = await query_service.getTutorByUserName(query.tutorUsername);
@@ -79,6 +96,23 @@ class GetDatumController {
             }
         return {
             result: tutees
+        }
+    }
+
+    async getTuteeNameById({ request }) {
+        let query = request.all();
+        let tutee = await query_service.getTuteeById(query.tuteeId);
+        if (!tutee)
+            return {
+                error: 'no tutor with this id'
+            }
+        return {
+            result: {
+                tutee: {
+                    firstName: tutee.firstName,
+                    lastName: tutee.lastName
+                }
+            }
         }
     }
     async getTuteeById({ request }) {

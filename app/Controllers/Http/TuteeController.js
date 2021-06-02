@@ -129,9 +129,13 @@ class TuteeController {
     }
 
     async createContract({ request, session }) {
-        let contract = request.all()
+        let contract = request.all();
+        let token = session.get('token');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
+        let tuteeId = decodedObj.id;
+        console.log(tuteeId)
         let tutorDB = await query_service.getTutorById(contract.tutorId);
-        let tuteeDB = await query_service.getTuteeById(contract.tuteeId);
+        let tuteeDB = await query_service.getTuteeById(tuteeId);
 
         if (!tutorDB) {
             return {
@@ -143,15 +147,17 @@ class TuteeController {
                 error: "No tutee with this Id"
             }
         }
-        let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, contract.tuteeId);
+        contract.tuteeId = tuteeId;
+        contract.startDate = new Date(Date.now());
+        let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, tuteeId);
         if (contractDB && contractDB.state != 'CLOSED') { // contract is not closed
             return {
                 error: "The contract has not been closed yet"
             }
         }
-
-        for (var i in contract.listofTeachingDay) { //loop through each teaching days
-            let day = new Date(i) //parse teaching days to Date
+        console.log(contract)
+        for (var i of contract.listOfTeachingDay) { //loop through each teaching days
+            let day = new Date(i); //parse teaching days to Date
             if (day < contract.startDate) {//|| day > contract.CloseDate compare with start and close date, CloseDate is contract's close date
                 return {
                     error: "The teaching days are not in the contract's period"
