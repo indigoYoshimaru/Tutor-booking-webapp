@@ -31,6 +31,7 @@ Route.post('/general/get-tutor-by-username', 'GetDatumController.getTutorByUserN
 Route.post('/general/get-tutor-by-email', 'GetDatumController.getTutorByEmail')
 Route.post('/general/get-tutor-by-course-name', 'GetDatumController.getTutorByCourseName')
 Route.get('/general/get-recently-added-tutor', 'GetDatumController.getRecentlyAddedTutor')
+Route.get('/general/get-unverified-tutor', 'GetDatumController.getUnverifiedTutors')
 
 /*TUTEE ROUTES*/
 Route.get('/general/get-tutees', 'GetDatumController.getTutees')

@@ -20,11 +20,19 @@ module.exports = {
         return camel(rows[0]);
     },
 
+    async getUnverifiedTutors() {
+        let [rows, _] = await Database.raw('SELECT * FROM unverifiedtutor ORDER BY Id DESC');
+        if (!rows.length)
+            return null;
+        rows = rows.map(camel);
+        return rows;
+    },
+
     async getUnverifiedTutorById(Id) {
         let [rows, _] = await Database.raw('SELECT * FROM unverifiedtutor WHERE Id = ?', parseInt(Id));
         if (!rows.length)
             return null;
-        console.log(rows);
+
         return camel(rows[0]);
     },
 

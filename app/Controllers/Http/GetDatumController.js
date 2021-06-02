@@ -87,6 +87,17 @@ class GetDatumController {
             result: tutor
         }
     }
+
+    async getUnverifiedTutors({ request }) {
+        let tutor = await query_service.getUnverifiedTutors();
+        if (!tutor)
+            return {
+                error: 'No tutor found'
+            }
+        return {
+            result: tutor
+        }
+    }
     /*=====Tutee=====*/
     async getTutees({ request }) {
         let tutees = await query_service.getTutees();
