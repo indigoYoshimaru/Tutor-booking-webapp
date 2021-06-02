@@ -75,6 +75,35 @@ async function getTuteeInfo() {
     return data.result;
 }
 
+async function getTuteeNameById(tuteeId) {
+    let response = await getJson('/api/general/get-tutee-name-by-id', { tuteeId });
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+}
+
+async function getTutorNameById(tutorId) {
+    let response = await getJson('/api/general/get-tutor-name-by-id', { tutorId });
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+}
+
+async function getUnverifiedTutors() {
+    let response = await fetch('/api/general/get-unverified-tutor');
+    let data = await response.json();
+    if (data.error) {
+        throw new Error(data.error);
+    }
+    return data.result;
+}
+
 
 export default {
     getJson,
@@ -84,5 +113,8 @@ export default {
     loginTutor,
     loginTutee,
     getTutorInfo,
-    getTuteeInfo
+    getTuteeInfo,
+    getTutorNameById,
+    getTuteeNameById,
+    getUnverifiedTutors
 }

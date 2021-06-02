@@ -44,6 +44,10 @@
               link="/register-tutor/"
               title="Register Tutor"
             ></f7-list-item>
+            <f7-list-item
+              link="admin/verify-tutor/"
+              title="Verify Tutor"
+            ></f7-list-item>
             <f7-list-item link="/main/" title="Main"></f7-list-item>
           </f7-list>
         </f7-page>
