@@ -104,6 +104,16 @@ async function getUnverifiedTutors() {
     return data.result;
 }
 
+async function verifyTutor(tutorId) {
+    let response = await getJson('/api/admin/verify-tutor-registration', { tutorId });
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+}
+
 
 export default {
     getJson,
@@ -116,5 +126,6 @@ export default {
     getTuteeInfo,
     getTutorNameById,
     getTuteeNameById,
-    getUnverifiedTutors
+    getUnverifiedTutors,
+    verifyTutor
 }

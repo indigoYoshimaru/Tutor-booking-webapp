@@ -74,6 +74,24 @@ export default {
         share.loggedIn = true;
         share.currentUser = await service.getTutorInfo();
         share.currentUser.role = "tutor";
+
+        let currentUser = share.currentUser;
+        let otherContractUsers = share.otherContractUsers;
+        let otherChatUsers = share.otherChatUsers;
+        console.log(share.currentUser);
+
+        for (let contract of currentUser.contracts) {
+          let user = await service.getTuteeNameById(contract.tuteeId);
+          otherContractUsers[contract.tuteeId] = user;
+          console.log(otherContractUsers[contract.tuteeId]);
+        }
+        for (let chatroom of currentUser.chatrooms) {
+          console.log(chatroom.tuteeId);
+          let user = await service.getTuteeNameById(chatroom.tuteeId);
+          otherChatUsers[chatroom.tuteeId] = user;
+          console.log(otherContractUsers[chatroom.tuteeId]);
+        }
+
         console.log(share.currentUser);
         //share.currentUser.dateOfBirth = new Date(share.currentUser.dateOfBirth);
         f7.dialog.alert(

@@ -7,8 +7,8 @@ import TestGetTutorList from '/components/TestGetTutorList.vue'
 import RegisterTutorPage from '/components/RegisterTutorPage.vue'
 import RegisterTuteePage from '/components/RegisterTuteePage.vue'
 import MainPage from '/components/MainPage.vue'
-import AdminVerifyTutorPage from '/components/AdminVerifyTutorPage.vue'
-
+import UnverifiedTutorPage from '/components/UnverifiedTutorPage.vue'
+import UnverifyTutorInfoPage from 'components/UnverifyTutorInfoPage.vue'
 
 export default [
   {
@@ -48,7 +48,11 @@ export default [
     component: MainPage
   },
   {
-    path: "/admin/verify-tutor",
-    component: AdminVerifyTutorPage
+    path: "/get-unverified-tutor",
+    component: UnverifiedTutorPage
+  },
+  {
+    path: "/verify-tutor/",
+    component: UnverifyTutorInfoPage
   }
 ]

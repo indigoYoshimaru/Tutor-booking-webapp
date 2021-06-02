@@ -32,42 +32,59 @@
             ></f7-button>
           </f7-navbar>
           <f7-list>
-            <f7-list-item link="/login/" title="Login"></f7-list-item>
-            <f7-list-item link="/register/" title="Register"></f7-list-item>
-            <f7-list-item link="/about/" title="About"></f7-list-item>
-            <f7-list-item link="/tutee/" title="Test component"></f7-list-item>
             <f7-list-item
+              v-if="!loggedIn"
+              link="/login/"
+              title="Login"
+            ></f7-list-item>
+            <f7-list-item
+              v-if="!loggedIn"
+              link="/register/"
+              title="Register"
+            ></f7-list-item>
+            <f7-list-item
+              v-if="!loggedIn"
+              link="/about/"
+              title="About"
+            ></f7-list-item>
+            <f7-list-item
+              v-if="!loggedIn"
+              link="/tutee/"
+              title="Test component"
+            ></f7-list-item>
+            <f7-list-item
+              v-if="!loggedIn"
               link="/tutor-list/"
               title="TestGetTutorList"
             ></f7-list-item>
             <f7-list-item
+              v-if="!loggedIn"
               link="/register-tutor/"
               title="Register Tutor"
             ></f7-list-item>
             <f7-list-item
-              link="admin/verify-tutor/"
-              title="Verify Tutor"
+              v-if="!loggedIn"
+              link="/get-unverified-tutor/"
+              title="Unverified Tutor"
             ></f7-list-item>
-            <f7-list-item link="/main/" title="Main"></f7-list-item>
+            <f7-list-item
+              v-if="loggedIn"
+              link="/main/"
+              title="Main"
+            ></f7-list-item>
           </f7-list>
-        </f7-page>
+          <!-- </f7-page>
       </f7-view>
-    </f7-panel>
-
-    <!-- <f7-panel right cover dark v-if="loggedIn === 'true'">
-      <f7-view links-view=".view-main">
+      <f7-view  links-view=".view-main">
         <f7-page>
           <f7-navbar title="Menu">
             <f7-button panel-close
               ><f7-icon ios="f7:xmark_circle_fill"></f7-icon
             ></f7-button>
-          </f7-navbar>
-          <f7-list>
-            <f7-list-item link="/tutor-main/" title="MainPage"></f7-list-item>
-          </f7-list>
+          </f7-navbar> -->
         </f7-page>
       </f7-view>
-    </f7-panel> -->
+    </f7-panel>
 
     <!-- Main view-->
     <f7-view main url="/"> </f7-view>
@@ -115,6 +132,9 @@ export default {
     f7() {
       f7;
     },
+    loggedIn() {
+      return share.loggedIn;
+    },
   },
 
   data() {
@@ -123,7 +143,6 @@ export default {
         theme: share.theme,
         routes,
       },
-      loggedIn: share.loggedIn,
     };
   },
 };

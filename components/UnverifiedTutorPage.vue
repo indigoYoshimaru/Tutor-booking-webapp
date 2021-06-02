@@ -1,8 +1,6 @@
-
 <template>
-  <!-- this is the homepage after login  -->
   <f7-page>
-    <f7-navbar title="Main Page">
+    <f7-navbar title="Unverified Tutor">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
@@ -10,99 +8,13 @@
       </f7-nav-right>
     </f7-navbar>
 
-    <f7-block-title class="block-title-strong block-title-large"
-      >Profile</f7-block-title
-    >
-    <f7-card class="demo-facebook-card">
-      <f7-card-header class="no-border">
-        <div class="demo-facebook-avatar">
-          <img
-            src="https://cdn0.iconfinder.com/data/icons/animal-icons-flat/128/fox-512.png"
-            width="35"
-            height="35"
-          />
-        </div>
-        <div class="demo-facebook-name">
-          {{ currentUser.firstName }} {{ currentUser.lastName }}
-        </div>
-        <div class="demo-facebook-date" type="datetime-local">
-          BirthDay: {{ currentUser.dateOfBirth }}
-        </div>
-      </f7-card-header>
-      <f7-card-content :padding="false">
-        <img
-          src="https://cdn.framework7.io/placeholder/nature-1000x700-8.jpg"
-          width="100%"
-        />
-      </f7-card-content>
-      <f7-card-content v-if="currentUser.role === 'tutor'">
-        <f7-row>
-          <f7-col><div>Tutoring courses</div></f7-col>
-          <f7-col><div>GPA</div></f7-col>
-        </f7-row>
-        <div v-for="course in currentUser.profile.background" :key="course.id">
-          <f7-row>
-            <f7-col>{{ course.name }} </f7-col>
-            <f7-col>{{ course.GPA }} </f7-col>
-          </f7-row>
-        </div>
-      </f7-card-content>
-    </f7-card>
-
-    <f7-block-title large>Contract History</f7-block-title>
-
-    <f7-list
-      media-list
-      inset
-      v-for="contract in currentUser.contracts"
-      :key="contract.id"
-      ><f7-button fill color="blue" v-if="currentUser.role === 'tutee'"
-        >Want more tutoring session?
-      </f7-button>
-      <f7-list-item
-        v-if="otherContractUsers[contract.tuteeId]"
-        v-bind:title="
-          otherContractUsers[contract.tuteeId].tutee.firstName +
-          ' ' +
-          otherContractUsers[contract.tuteeId].tutee.lastName
-        "
-        v-bind:subtitle="contract.startDate"
-      >
-        <template #after>
-          <f7-button fill v-bind:color="colors[contract.state]" disable>{{
-            contract.state
-          }}</f7-button>
-        </template>
-      </f7-list-item>
-
-      <li
-        v-for="teachingDay in contract.listOfTeachingDay"
-        :key="teachingDay.id"
-      >
-        <ul>
-          <f7-list-item v-bind:subtitle="teachingDay"> </f7-list-item>
-        </ul>
-      </li>
-    </f7-list>
-
-    <f7-block-title class="block-title-strong block-title-large"
-      >Chat With</f7-block-title
-    >
-    <!-- <f7-card>
-      <f7-card-content> -->
-
     <f7-list media-list inset>
       <f7-list-item
-        v-for="chatroom in currentUser.chatrooms"
-        :key="chatroom.id"
-        link="#"
-        v-bind:title="
-          otherChatUsers[chatroom.tuteeId].tutee.firstName +
-          ' ' +
-          otherChatUsers[chatroom.tuteeId].tutee.lastName
-        "
-        v-bind:subtitle="test"
-        after="Chat"
+        v-for="unTutor in unTutors"
+        :key="unTutor.id"
+        link=""
+        v-bind:title="unTutor.firstName + ' ' + unTutor.lastName"
+        after="Verify"
       >
         <template #media>
           <img
@@ -110,10 +22,9 @@
             width="44"
           />
         </template>
+        <!-- <f7-link popup-open="#my-popup">Open Popup</f7-link> -->
       </f7-list-item>
     </f7-list>
-    <!-- </f7-card-content>
-    </f7-card> -->
   </f7-page>
 </template>
 
@@ -123,29 +34,16 @@ import { f7 } from "framework7-vue";
 import f7components from "/components/f7components";
 import service from "/modules/service";
 
+let unTutors = await service.getUnverifiedTutors();
+
 export default {
   components: {
     ...f7components,
   },
-  computed: {
-    currentUser() {
-      return share.currentUser;
-    },
-    otherContractUsers() {
-      return share.otherContractUsers;
-    },
-    otherChatUsers() {
-      return share.otherChatUsers;
-    },
-    colors() {
-      return share.colors;
-    },
-  },
   data() {
-    return {};
+    return {
+      unTutors: unTutors,
+    };
   },
 };
 </script>
-
-<style>
-</style>
