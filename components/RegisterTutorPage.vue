@@ -53,7 +53,7 @@
           floating-label
           type="text"
           placeholder="Your username"
-          info="Username are in range of 3-50 characters, composed of letters, numbers, commas, and hyphens and must NOT start with numbers."
+          error-message="Username are in range of 3-50 characters, composed of letters, numbers, commas, and hyphens and must NOT start with numbers."
           pattern="^(?:[a-zA-Z\.\-_]+[[a-zA-Z\.\-_0-9]*)$"
           minlength="1"
           maxlength="50"
@@ -70,7 +70,7 @@
           validate="true"
           placeholder="Your password"
           pattern="^(?:[A-Za-z0-9%7E%60%21@%23%24%25%5E%26*%28%29%5C-_%3D+%5B%5C%5D%7B%7D%5C%7C%3B%3A%27%22%2C%3C%5C.%3E/%3F]+)"
-          info="Password may be composed of letters, numbers, spaces, and any of the following characters: ~`!@#$%^&amp;*()\-_=+[\]{}\|;:'&quot;,&lt;\.&gt;/?."
+          error-message="Password is in range of 8-16 characters, may be composed of letters, numbers, spaces, and any of the following characters: ~`!@#$%^&amp;*()\-_=+[\]{}\|;:'&quot;,&lt;\.&gt;/?."
           :value="tutorInfo.password"
           @input="tutorInfo.password = $event.target.value"
         ></f7-list-input>
@@ -141,7 +141,7 @@
                 type="number"
                 min="3.0"
                 max="4.0"
-                placeholder="Enter your GPA"
+                info="Range 3.0-4.0"
                 v-model:value="input.GPA"
               >
               </f7-list-input>
