@@ -221,13 +221,17 @@ export default {
           let result = await service.registerTutor(currentInfo);
           console.log(result);
           f7.dialog.alert(
-            result + "\nAnd check your email for account verification.", "Congrats",
+            result + "\nAnd check your email for account verification.",
+            "Congrats",
             () => {
               this.f7router.navigate("/");
             }
           );
         } else {
-          f7.dialog.alert("Please fill all fields and check if your GPA(s) are in range 3.0-4.0 before submitting!", "Warning");
+          f7.dialog.alert(
+            "Please fill all fields and check if your GPA(s) are in range 3.0-4.0 before submitting!",
+            "Warning"
+          );
         }
       }
     },
@@ -276,13 +280,13 @@ export default {
           if (obj.name && obj.GPA && obj.id) {
             allFilled = true;
           }
-          if (parseInt(obj.GPA) > 4 || parseInt(obj.GPA) < 3.0){
+          if (parseInt(obj.GPA) > 4 || parseInt(obj.GPA) < 3.0) {
             validGPA = false;
           }
           // f7.dialog.alert(obj.name + obj.GPA + obj.id);
         }
       }
-      return allFilled&&validGPA;
+      return allFilled && validGPA;
     },
   },
 };
