@@ -6,9 +6,9 @@ import Test from '/components/Tutee.vue'
 import TestGetTutorList from '/components/TestGetTutorList.vue'
 import RegisterTutorPage from '/components/RegisterTutorPage.vue'
 import RegisterTuteePage from '/components/RegisterTuteePage.vue'
-import MainPage from '/components/MainPage.vue'
-import UnverifiedTutorPage from '/components/UnverifiedTutorPage.vue'
-import UnverifyTutorInfoPage from 'components/UnverifyTutorInfoPage.vue'
+// import MainPage from '/components/MainPage.vue'
+// import UnverifiedTutorPage from '/components/UnverifiedTutorPage.vue'
+// import UnverifyTutorInfoPage from 'components/UnverifyTutorInfoPage.vue'
 
 export default [
   {
@@ -43,16 +43,16 @@ export default [
     path: '/tutor-list/',
     component: TestGetTutorList,
   },
-  {
-    path: '/main/',
-    component: MainPage
-  },
-  {
-    path: "/get-unverified-tutor",
-    component: UnverifiedTutorPage
-  },
-  {
-    path: "/verify-tutor/",
-    component: UnverifyTutorInfoPage
-  }
+  // {
+  //   path: '/main/',
+  //   component: MainPage
+  // },
+  // {
+  //   path: "/get-unverified-tutor",
+  //   component: UnverifiedTutorPage
+  // },
+  // {
+  //   path: "/verify-tutor/",
+  //   component: UnverifyTutorInfoPage
+  // }
 ]
