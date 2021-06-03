@@ -4,7 +4,7 @@
       <f7-icon ios="f7:house_fill"></f7-icon>
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
-          ><f7-icon ios="f7:menu"></f7-icon
+          ><f7-icon ios="f7:square_list_fill"></f7-icon
         ></f7-button>
       </f7-nav-right>
     </f7-navbar>

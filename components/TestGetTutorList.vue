@@ -112,7 +112,7 @@
 </template>
 
 <script>
-// import share from "/modules/share";
+import share from "/modules/share";
 import f7components from "/components/f7components";
 import service from "/modules/service";
 
