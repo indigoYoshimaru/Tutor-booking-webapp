@@ -120,6 +120,7 @@ class TuteeController {
             result: {
                 firstName: tutee.firstName,
                 lastName: tutee.lastName,
+                role: decodedObj.role,
                 dateOfBirth: tutee.dateOfBirth,
                 contracts: contracts,
                 chatrooms: chatrooms

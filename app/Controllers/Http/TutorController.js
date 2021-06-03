@@ -126,6 +126,7 @@ class TutorController {
             result: {
                 firstName: tutor.firstName,
                 lastName: tutor.lastName,
+                role: decodedObj.role,
                 dateOfBirth: tutor.dateOfBirth,
                 profile: tutor.profile,
                 contracts: contracts,

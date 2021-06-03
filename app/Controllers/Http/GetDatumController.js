@@ -453,6 +453,10 @@ class GetDatumController {
             result: message
         }
     }
+
+    // async getToken({ session }) {
+    //     let token = session.get('token');
+    // }
 }
 
 module.exports = GetDatumController
