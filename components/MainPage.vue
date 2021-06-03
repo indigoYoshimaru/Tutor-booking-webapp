@@ -13,41 +13,34 @@
     <f7-block-title class="block-title-strong block-title-large"
       >Profile</f7-block-title
     >
-    <f7-card class="demo-facebook-card">
-      <f7-card-header class="no-border">
-        <div class="demo-facebook-avatar">
+
+    <f7-list media-list inset>
+      <f7-list-item
+        v-bind:title="currentUser.firstName + ' ' + currentUser.lastName"
+        v-bind:subtitle="'BirthDay:' + currentUser.dateOfBirth"
+      >
+        <template #media>
           <img
             src="https://cdn0.iconfinder.com/data/icons/animal-icons-flat/128/fox-512.png"
-            width="35"
-            height="35"
+            width="45"
           />
-        </div>
-        <div class="demo-facebook-name">
-          {{ currentUser.firstName }} {{ currentUser.lastName }}
-        </div>
-        <div class="demo-facebook-date" type="datetime-local">
-          BirthDay: {{ currentUser.dateOfBirth }}
-        </div>
-      </f7-card-header>
-      <f7-card-content :padding="false">
-        <img
-          src="https://cdn.framework7.io/placeholder/nature-1000x700-8.jpg"
-          width="100%"
-        />
-      </f7-card-content>
-      <f7-card-content v-if="currentUser.role === 'tutor'">
+        </template>
+      </f7-list-item>
+      <f7-list-item v-if="currentUser.role === 'tutor'">
         <f7-row>
-          <f7-col><div>Tutoring courses</div></f7-col>
-          <f7-col><div>GPA</div></f7-col>
+          <f7-col><div class="block-title inset">Tutoring courses</div></f7-col>
+          <f7-col><div class="block-title inset">GPA</div></f7-col>
         </f7-row>
+      </f7-list-item>
+      <f7-list-item>
         <div v-for="course in currentUser.profile.background" :key="course.id">
           <f7-row>
             <f7-col>{{ course.name }} </f7-col>
             <f7-col>{{ course.GPA }} </f7-col>
           </f7-row>
         </div>
-      </f7-card-content>
-    </f7-card>
+      </f7-list-item>
+    </f7-list>
 
     <f7-block-title large>Contract History</f7-block-title>
 
@@ -95,7 +88,7 @@
       <f7-list-item
         v-for="chatroom in currentUser.chatrooms"
         :key="chatroom.id"
-        link="#"
+        :link="`/tutor-chat/${chatroom.id}/${chatroom.tuteeId}`"
         v-bind:title="
           otherChatUsers[chatroom.tuteeId].tutee.firstName +
           ' ' +

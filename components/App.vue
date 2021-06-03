@@ -72,6 +72,11 @@
               link="/main/"
               title="Main"
             ></f7-list-item>
+            <f7-list-item
+              v-if="loggedIn"
+              link="/tutor-chat/"
+              title="Chatroom"
+            ></f7-list-item>
           </f7-list>
           <!-- </f7-page>
       </f7-view>

@@ -10,7 +10,15 @@ export default reactive({
         WAITING: "blue",
         CLOSED: "black",
         REJECTED: "red"
-    }
+    },
+    chatRoomInfo: {
+        id: {
+            otherUser: {},
+            messages: []
+        }
+    }, // including chatroom Id and tutee/tutor info
+
+
 });
 
 

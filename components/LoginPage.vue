@@ -73,13 +73,11 @@ export default {
         let result = await service.loginTutor(this.user);
         share.loggedIn = true;
         share.currentUser = await service.getTutorInfo();
-        share.currentUser.role = "tutor";
 
         let currentUser = share.currentUser;
         let otherContractUsers = share.otherContractUsers;
         let otherChatUsers = share.otherChatUsers;
         console.log(share.currentUser);
-
         for (let contract of currentUser.contracts) {
           let user = await service.getTuteeNameById(contract.tuteeId);
           otherContractUsers[contract.tuteeId] = user;
@@ -105,7 +103,6 @@ export default {
         let result = await service.loginTutee(this.user);
         share.loggedIn = true;
         share.currentInfo = await service.getTuteeInfo();
-        share.currentInfo.role = "tutee";
         console.log(share.currentInfo);
         f7.dialog.alert(result);
       } // temp else

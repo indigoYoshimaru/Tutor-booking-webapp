@@ -1,3 +1,21 @@
+import share from '../share'
+
+let s;
+
+
+
+async function initSocket(token) {
+    s = io();
+    s.on('auth', console.log);
+    s.on('error', console.log);
+    s.on('server_message', (message) => {
+        share.chatRoomInfo.messages.push(message); // error???
+    });
+    s.on('connect', () => {
+        s.emit('client_token', token)
+    });
+}
+
 async function getJson(route, params) {
     return await (await fetch(route, {
         method: 'post',
@@ -43,6 +61,7 @@ async function loginTutor(tutor) {
     if (response.error) {
         return response.error;
     }
+    initSocket(response.result.token);
 
     return response.result.message;
 }
@@ -53,7 +72,7 @@ async function loginTutee(tutee) {
     if (response.error) {
         return response.error;
     }
-
+    initSocket(response.result.token);
     return response.result.message;
 }
 
@@ -114,6 +133,14 @@ async function verifyTutor(tutorId) {
     return response.result;
 }
 
+async function chat(chatroomId, message) {
+    s.emit('client_message', chatroomId, message);
+}
+
+async function getChatHistory(chatroomId) {
+    s.emit('client_chat_history', chatroomId)
+}
+
 
 export default {
     getJson,
@@ -127,5 +154,7 @@ export default {
     getTutorNameById,
     getTuteeNameById,
     getUnverifiedTutors,
-    verifyTutor
+    verifyTutor,
+    getChatHistory,
+    chat,
 }

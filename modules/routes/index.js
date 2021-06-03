@@ -8,7 +8,8 @@ import RegisterTutorPage from '/components/RegisterTutorPage.vue'
 import RegisterTuteePage from '/components/RegisterTuteePage.vue'
 import MainPage from '/components/MainPage.vue'
 import UnverifiedTutorPage from '/components/UnverifiedTutorPage.vue'
-import UnverifyTutorInfoPage from 'components/UnverifyTutorInfoPage.vue'
+import UnverifyTutorInfoPage from '/components/UnverifyTutorInfoPage.vue'
+import TutorChatPage from '/components/TutorChatPage.vue'
 
 export default [
   {
@@ -54,5 +55,9 @@ export default [
   {
     path: "/verify-tutor/",
     component: UnverifyTutorInfoPage
+  },
+  {
+    path: "/tutor-chat/:chatroomId/:otherUserId",
+    component: TutorChatPage
   }
 ]
