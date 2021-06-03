@@ -12,52 +12,52 @@ import UnverifyTutorInfoPage from '/components/UnverifyTutorInfoPage.vue'
 import TutorChatPage from '/components/TutorChatPage.vue'
 
 export default [
-  {
-    path: '/',
-    component: HomePage,
-  },
-  {
-    path: '/about/',
-    component: AboutPage,
-  },
-  {
-    path: '/login/',
-    component: LoginPage,
-  },
-  {
-    path: '/register/',
-    component: RegisterPage,
-  },
-  {
-    path: '/register-tutor',
-    component: RegisterTutorPage,
-  },
-  {
-    path: '/register-tutee',
-    component: RegisterTuteePage,
-  },
-  {
-    path: '/tutee/',
-    component: Test,
-  },
-  {
-    path: '/tutor-list/',
-    component: TestGetTutorList,
-  },
-  {
-    path: '/main/',
-    component: MainPage
-  },
-  {
-    path: "/get-unverified-tutor",
-    component: UnverifiedTutorPage
-  },
-  {
-    path: "/verify-tutor/",
-    component: UnverifyTutorInfoPage
-  },
-  {
-    path: "/tutor-chat/:chatroomId/:otherUserId",
-    component: TutorChatPage
-  }
+    {
+        path: '/',
+        component: HomePage,
+    },
+    {
+        path: '/about/',
+        component: AboutPage,
+    },
+    {
+        path: '/login/',
+        component: LoginPage,
+    },
+    {
+        path: '/register/',
+        component: RegisterPage,
+    },
+    {
+        path: '/register-tutor',
+        component: RegisterTutorPage,
+    },
+    {
+        path: '/register-tutee',
+        component: RegisterTuteePage,
+    },
+    {
+        path: '/tutee/',
+        component: Test,
+    },
+    {
+        path: '/tutor-list/',
+        component: TestGetTutorList,
+    },
+    {
+        path: '/main/',
+        component: MainPage
+    },
+    {
+        path: "/get-unverified-tutor",
+        component: UnverifiedTutorPage
+    },
+    {
+        path: "/verify-tutor/",
+        component: UnverifyTutorInfoPage
+    },
+    {
+        path: "/tutor-chat/:chatroomId/:otherUserId",
+        component: TutorChatPage
+    }
 ]
