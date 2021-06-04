@@ -78,39 +78,57 @@ export default {
         let otherContractUsers = share.otherContractUsers;
         let otherChatUsers = share.otherChatUsers;
         console.log(share.currentUser);
+
+        currentUser.chatroomMap = {};
+
         for (let contract of currentUser.contracts) {
           let user = await service.getTuteeNameById(contract.tuteeId);
           otherContractUsers[contract.tuteeId] = user;
           console.log(otherContractUsers[contract.tuteeId]);
         }
         for (let chatroom of currentUser.chatrooms) {
+          chatroom.messages = [];
+          currentUser.chatroomMap[chatroom.id] = chatroom;
           console.log(chatroom.tuteeId);
           let user = await service.getTuteeNameById(chatroom.tuteeId);
           otherChatUsers[chatroom.tuteeId] = user;
           console.log(otherContractUsers[chatroom.tuteeId]);
         }
 
-        console.log(share.currentUser);
         //share.currentUser.dateOfBirth = new Date(share.currentUser.dateOfBirth);
-        f7.dialog.alert(
-          result
-          // ,
-          // () => {
-          //   self.f7router.navigate("\mainpage");
-          // }
-        );
+        f7.dialog.alert(result, () => {
+          this.f7router.navigate("/tutor-main/");
+        });
       } else {
         let result = await service.loginTutee(this.user);
         share.loggedIn = true;
-        share.currentInfo = await service.getTuteeInfo();
-        console.log(share.currentInfo);
-        f7.dialog.alert(result);
-      } // temp else
+        share.currentUser = await service.getTuteeInfo();
 
-      // ,
-      // () => {
-      //   self.f7router.back();
-      // }
+        let currentUser = share.currentUser;
+        let otherContractUsers = share.otherContractUsers;
+        let otherChatUsers = share.otherChatUsers;
+        console.log(share.currentUser);
+
+        currentUser.chatroomMap = {};
+
+        for (let contract of currentUser.contracts) {
+          let user = await service.getTutorNameById(contract.tutorId);
+          otherContractUsers[contract.tutorId] = user;
+          console.log(otherContractUsers[contract.tutorId]);
+        }
+
+        for (let chatroom of currentUser.chatrooms) {
+          chatroom.messages = [];
+          currentUser.chatroomMap[chatroom.id] = chatroom;
+          let user = await service.getTutorNameById(chatroom.tutorId);
+          otherChatUsers[chatroom.tutorId] = user;
+          console.log(otherChatUsers[chatroom.tutorId]);
+        }
+
+        f7.dialog.alert(result, () => {
+          this.f7router.navigate("/tutee-main/");
+        });
+      } // temp else
     },
   },
 };

@@ -1,34 +1,41 @@
 <template>
   <f7-page>
-    <f7-navbar title="Message">
+    <f7-navbar v-bind:title="otherUser.firstName + ' ' + otherUser.lastName">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
         ></f7-button>
       </f7-nav-right>
     </f7-navbar>
-    <f7-message
-      v-for="message in chatRoomInfo.messages"
-      :key="message.id"
-      :type="message.type"
-      :name="message.name"
-      :avatar="message.avatar"
+    <f7-messagebar
+      ref="messagebar"
+      v-model:value="messageText"
+      :placeholder="Message"
+      :sheet-visible="sheetVisible"
     >
-      <template #text>
-        <!-- eslint-disable-next-line -->
-        <span v-if="message.content" v-html="message.content"></span>
+      <template #inner-end>
+        <f7-link
+          icon-ios="f7:paperplane_fill"
+          icon-aurora="f7:arrow_up_circle_fill"
+          icon-md="material:send"
+          @click="sendMessage"
+        />
       </template>
-    </f7-message>
-    <f7-message
-      v-if="typingMessage"
-      type="received"
-      :typing="true"
-      :first="true"
-      :last="true"
-      :tail="true"
-      :header="`${typingMessage.name} is typing`"
-      :avatar="typingMessage.avatar"
-    ></f7-message>
+    </f7-messagebar>
+    <f7-messages>
+      <f7-message
+        v-for="(message, index) in messages"
+        :key="index"
+        :type="message.type"
+        :name="message.name"
+        :avatar="message.avatar"
+      >
+        <template #text>
+          <!-- eslint-disable-next-line -->
+          <span v-if="message.content" v-html="message.content"></span>
+        </template>
+      </f7-message>
+    </f7-messages>
   </f7-page>
 </template>
 
@@ -51,62 +58,110 @@ export default {
       return share.currentUser;
     },
     chatRoomInfo() {
-      let chatRoomInfo = share.chatRoomInfo[this.chatroomId];
+      return share.currentUser.chatroomMap[this.chatroomId]
+        ? share.currentUser.chatroomMap[this.chatroomId]
+        : null;
+      // share.chatRoomInfo.id = this.chatroomId;
 
-      if (!chatRoomInfo) {
-        chatRoomInfo = { id: this.chatroomId };
-        share.chatRoomInfo[this.chatroomId] = chatRoomInfo;
-      }
+      // let chatRoomInfo = share.chatRoomInfo[this.chatroomId];
 
-      // if (this.currentUser.role == "tutor") {
-      // chatRoomInfo.tutor = this.currentUser;
-      chatRoomInfo.otherUser = share.otherChatUsers[this.otherUserId];
-      chatRoomInfo.otherUser.id = this.otherUserId;
-      // } else {
-      //   chatRoomInfo.id.tutee = this.currentUser;
-      //   chatRoomInfo.tutor = share.otherChatUsers[this.otherUserId];
-      //   chatRoomInfo.tutor.id = this.otherUserId;
+      // if (!chatRoomInfo) {
+      //   chatRoomInfo = { id: this.chatroomId, messages: [] };
+      //   share.chatRoomInfo[this.chatroomId] = chatRoomInfo;
       // }
-      service.getChatHistory(chatRoomInfo.id);
-      for (var mess in chatRoomInfo.messages) {
-        if (
-          (mess.isTutor && this.currentUser.role == "tutor") ||
-          (!mess.isTutor && this.currentUser.role == "tutee")
-        ) {
-          mess.type = "sent";
-          mess.name =
-            this.currentUser.firstName + " " + this.currentUser.lastName;
-        } else {
-          mess.type = "receiver";
-          mess.name =
-            chatRoomInfo.otherUser.firstName + " " + this.otherUser.lastName;
-        }
-      }
 
-      share.chatRoomInfo = chatRoomInfo;
-      return chatRoomInfo;
+      // // if (this.currentUser.role == "tutor") {
+      // // chatRoomInfo.tutor = this.currentUser;
+      // chatRoomInfo.otherUser = share.otherChatUsers[this.otherUserId];
+      // chatRoomInfo.otherUser.id = this.otherUserId;
+      // // } else {
+      // //   chatRoomInfo.id.tutee = this.currentUser;
+      // //   chatRoomInfo.tutor = share.otherChatUsers[this.otherUserId];
+      // //   chatRoomInfo.tutor.id = this.otherUserId;
+      // // }
+      // service.getChatHistory(chatRoomInfo.id);
+      // for (var mess in chatRoomInfo.messages) {
+      //   if (
+      //     (mess.isTutor && this.currentUser.role == "tutor") ||
+      //     (!mess.isTutor && this.currentUser.role == "tutee")
+      //   ) {
+      //     mess.type = "sent";
+      //     mess.name =
+      //       this.currentUser.firstName + " " + this.currentUser.lastName;
+      //   } else {
+      //     mess.type = "receiver";
+      //     mess.name =
+      //       chatRoomInfo.otherUser.firstName + " " + this.otherUser.lastName;
+      //   }
+      // }
+
+      // share.chatRoomInfo = chatRoomInfo;
     },
+    otherUser() {
+      let otherUser = share.otherChatUsers[this.otherUserId];
+      share.chatRoomInfo.otherUser = otherUser;
+      return otherUser;
+    },
+    messages() {
+      let chatRoomInfo = this.chatRoomInfo;
 
-    // chatMessage() {
-    //   let chatMessage = share.chatMessage;
-    //   for (var mess in chatMessage) {
-    //     if (
-    //       (mess.isTutor && this.currentUser.role == "tutor") ||
-    //       (!mess.isTutor && this.currentUser.role == "tutee")
-    //     ) {
-    //       mess.type = "sent";
-    //       mess.name =
-    //         this.currentUser.firstName + " " + this.currentUser.lastName;
-    //     } else {
-    //       mess.type = "receiver";
-    //       mess.name =
-    //         chatRoomInfo.otherUser.firstName + " " + this.otherUser.lastName;
-    //     }
-    //   }
-    //   return chatMessage;
-    // },
+      if (!chatRoomInfo) return [];
+
+      return chatRoomInfo.messages.map((mess) => {
+        let result = {
+          id: mess.id,
+          name: "",
+          type: "",
+          content: mess.content,
+        };
+
+        result.type = "received";
+        result.name = this.otherUser.firstName + " " + this.otherUser.lastName;
+        // console.log(mess);
+        // console.log(share.currentUser);
+        if (
+          (mess.isTutor && share.currentUser.role == "tutor") ||
+          (!mess.isTutor && share.currentUser.role != "tutor")
+        ) {
+          result.type = "sent";
+          result.name =
+            this.currentUser.firstName + " " + this.currentUser.lastName;
+        }
+
+        // if (
+        //   (mess.isTutor && this.currentUser.role == "tutor") ||
+        //   (!mess.isTutor && this.currentUser.role == "tutee")
+        // ) {
+        //   result.type = "sent";
+        //   result.name =
+        //     this.currentUser.firstName + " " + this.currentUser.lastName;
+        // } else {
+        //   result.type = "received";
+        //   result.name =
+        //     chatRoomInfo.otherUser.firstName + " " + this.otherUser.lastName;
+        // }
+        // result.id = mess.id;
+        // result.content = mess.content;
+        return result;
+      });
+    },
   },
-  data() {},
-  methods: {},
+  data() {
+    return {
+      messageText: "",
+    };
+  },
+  methods: {
+    async sendMessage() {
+      let text = this.messageText.replace(/\n/g, "<br>").trim();
+
+      await service.sendMessage(this.chatroomId, text);
+      this.messageText = "";
+    },
+  },
+
+  mounted() {
+    if (this.chatRoomInfo) service.getChatHistory(this.chatRoomInfo.id);
+  },
 };
 </script>

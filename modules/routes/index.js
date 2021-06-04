@@ -6,10 +6,11 @@ import Test from '/components/Tutee.vue'
 import TestGetTutorList from '/components/TestGetTutorList.vue'
 import RegisterTutorPage from '/components/RegisterTutorPage.vue'
 import RegisterTuteePage from '/components/RegisterTuteePage.vue'
-import MainPage from '/components/MainPage.vue'
+import TutorMainPage from '/components/TutorMainPage.vue'
 import UnverifiedTutorPage from '/components/UnverifiedTutorPage.vue'
 import UnverifyTutorInfoPage from '/components/UnverifyTutorInfoPage.vue'
 import TutorChatPage from '/components/TutorChatPage.vue'
+import TuteeMainPage from '/components/TuteeMainPage.vue'
 
 export default [
     {
@@ -45,8 +46,8 @@ export default [
         component: TestGetTutorList,
     },
     {
-        path: '/main/',
-        component: MainPage
+        path: '/tutor-main/',
+        component: TutorMainPage
     },
     {
         path: "/get-unverified-tutor",
@@ -59,5 +60,9 @@ export default [
     {
         path: "/tutor-chat/:chatroomId/:otherUserId",
         component: TutorChatPage
+    },
+    {
+        path: "/tutee-main/",
+        component: TuteeMainPage
     }
 ]

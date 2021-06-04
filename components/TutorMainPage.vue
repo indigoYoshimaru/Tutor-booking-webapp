@@ -1,0 +1,140 @@
+
+<template>
+  <!-- this is the homepage after login  -->
+  <f7-page>
+    <f7-navbar title="Main Page">
+      <f7-nav-right :sliding="true">
+        <f7-button panel-open="right"
+          ><f7-icon ios="f7:square_list_fill"></f7-icon
+        ></f7-button>
+      </f7-nav-right>
+    </f7-navbar>
+
+    <f7-block-title class="block-title-strong block-title-large"
+      >Profile</f7-block-title
+    >
+
+    <f7-list media-list inset>
+      <f7-list-item
+        v-bind:title="currentUser.firstName + ' ' + currentUser.lastName"
+        v-bind:subtitle="'BirthDay:' + currentUser.dateOfBirth"
+      >
+        <template #media>
+          <img
+            src="https://cdn0.iconfinder.com/data/icons/animal-icons-flat/128/fox-512.png"
+            width="45"
+          />
+        </template>
+      </f7-list-item>
+      <f7-list-item>
+        <f7-row>
+          <f7-col><div class="block-title inset">Tutoring courses</div></f7-col>
+          <f7-col><div class="block-title inset">GPA</div></f7-col>
+        </f7-row>
+      </f7-list-item>
+      <f7-list-item>
+        <div v-for="course in currentUser.profile.background" :key="course.id">
+          <f7-row>
+            <f7-col>{{ course.name }} </f7-col>
+            <f7-col>{{ course.GPA }} </f7-col>
+          </f7-row>
+        </div>
+      </f7-list-item>
+    </f7-list>
+
+    <f7-block-title large>Contract History</f7-block-title>
+
+    <f7-list
+      media-list
+      inset
+      v-for="contract in currentUser.contracts"
+      :key="contract.id"
+    >
+      <f7-list-item
+        v-if="otherContractUsers[contract.tuteeId]"
+        v-bind:title="
+          otherContractUsers[contract.tuteeId].firstName +
+          ' ' +
+          otherContractUsers[contract.tuteeId].lastName
+        "
+        v-bind:subtitle="contract.startDate"
+      >
+        <template #after>
+          <f7-button fill v-bind:color="colors[contract.state]" disable>{{
+            contract.state
+          }}</f7-button>
+        </template>
+      </f7-list-item>
+
+      <li
+        v-for="teachingDay in contract.listOfTeachingDay"
+        :key="teachingDay.id"
+      >
+        <ul>
+          <f7-list-item v-bind:subtitle="teachingDay"> </f7-list-item>
+        </ul>
+      </li>
+    </f7-list>
+
+    <f7-block-title class="block-title-strong block-title-large"
+      >Chat With</f7-block-title
+    >
+    <!-- <f7-card>
+      <f7-card-content> -->
+
+    <f7-list media-list inset>
+      <f7-list-item
+        v-for="chatroom in currentUser.chatrooms"
+        :key="chatroom.id"
+        :link="`/tutor-chat/${chatroom.id}/${chatroom.tuteeId}`"
+        v-bind:title="
+          otherChatUsers[chatroom.tuteeId].firstName +
+          ' ' +
+          otherChatUsers[chatroom.tuteeId].lastName
+        "
+        v-bind:subtitle="test"
+        after="Chat"
+      >
+        <template #media>
+          <img
+            src="data:image/jpeg;base64,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"
+            width="44"
+          />
+        </template>
+      </f7-list-item>
+    </f7-list>
+  </f7-page>
+</template>
+
+<script>
+import share from "/modules/share";
+import { f7 } from "framework7-vue";
+import f7components from "/components/f7components";
+import service from "/modules/service";
+
+export default {
+  components: {
+    ...f7components,
+  },
+  computed: {
+    currentUser() {
+      return share.currentUser;
+    },
+    otherContractUsers() {
+      if (share.otherChatUsers) return share.otherContractUsers;
+    },
+    otherChatUsers() {
+      if (share.otherChatUsers) return share.otherChatUsers;
+    },
+    colors() {
+      return share.colors;
+    },
+  },
+  data() {
+    return {};
+  },
+};
+</script>
+
+<style>
+</style>

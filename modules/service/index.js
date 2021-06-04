@@ -9,7 +9,8 @@ async function initSocket(token) {
     s.on('auth', console.log);
     s.on('error', console.log);
     s.on('server_message', (message) => {
-        share.chatRoomInfo.messages.push(message); // error???
+        share.currentUser.chatroomMap[message.chatroomId].messages.push(message)
+        // share.chatRoomInfo.messages.push(message); // error???
     });
     s.on('connect', () => {
         s.emit('client_token', token)
@@ -133,7 +134,7 @@ async function verifyTutor(tutorId) {
     return response.result;
 }
 
-async function chat(chatroomId, message) {
+async function sendMessage(chatroomId, message) {
     s.emit('client_message', chatroomId, message);
 }
 
@@ -156,5 +157,5 @@ export default {
     getUnverifiedTutors,
     verifyTutor,
     getChatHistory,
-    chat,
+    sendMessage,
 }

@@ -26,20 +26,6 @@
           />
         </template>
       </f7-list-item>
-      <f7-list-item v-if="currentUser.role === 'tutor'">
-        <f7-row>
-          <f7-col><div class="block-title inset">Tutoring courses</div></f7-col>
-          <f7-col><div class="block-title inset">GPA</div></f7-col>
-        </f7-row>
-      </f7-list-item>
-      <f7-list-item>
-        <div v-for="course in currentUser.profile.background" :key="course.id">
-          <f7-row>
-            <f7-col>{{ course.name }} </f7-col>
-            <f7-col>{{ course.GPA }} </f7-col>
-          </f7-row>
-        </div>
-      </f7-list-item>
     </f7-list>
 
     <f7-block-title large>Contract History</f7-block-title>
@@ -49,15 +35,13 @@
       inset
       v-for="contract in currentUser.contracts"
       :key="contract.id"
-      ><f7-button fill color="blue" v-if="currentUser.role === 'tutee'"
-        >Want more tutoring session?
-      </f7-button>
+    >
       <f7-list-item
-        v-if="otherContractUsers[contract.tuteeId]"
+        v-if="otherContractUsers[contract.tutorId]"
         v-bind:title="
-          otherContractUsers[contract.tuteeId].tutee.firstName +
+          otherContractUsers[contract.tutorId].firstName +
           ' ' +
-          otherContractUsers[contract.tuteeId].tutee.lastName
+          otherContractUsers[contract.tutorId].lastName
         "
         v-bind:subtitle="contract.startDate"
       >
@@ -88,11 +72,11 @@
       <f7-list-item
         v-for="chatroom in currentUser.chatrooms"
         :key="chatroom.id"
-        :link="`/tutor-chat/${chatroom.id}/${chatroom.tuteeId}`"
+        :link="`/tutor-chat/${chatroom.id}/${chatroom.tutorId}`"
         v-bind:title="
-          otherChatUsers[chatroom.tuteeId].tutee.firstName +
+          otherChatUsers[chatroom.tutorId].firstName +
           ' ' +
-          otherChatUsers[chatroom.tuteeId].tutee.lastName
+          otherChatUsers[chatroom.tutorId].lastName
         "
         v-bind:subtitle="test"
         after="Chat"
@@ -105,8 +89,6 @@
         </template>
       </f7-list-item>
     </f7-list>
-    <!-- </f7-card-content>
-    </f7-card> -->
   </f7-page>
 </template>
 
@@ -125,10 +107,10 @@ export default {
       return share.currentUser;
     },
     otherContractUsers() {
-      return share.otherContractUsers;
+      if (share.otherChatUsers) return share.otherContractUsers;
     },
     otherChatUsers() {
-      return share.otherChatUsers;
+      if (share.otherChatUsers) return share.otherChatUsers;
     },
     colors() {
       return share.colors;

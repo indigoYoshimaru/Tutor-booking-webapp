@@ -68,13 +68,18 @@
               title="Unverified Tutor"
             ></f7-list-item>
             <f7-list-item
-              v-if="loggedIn"
-              link="/main/"
+              v-if="loggedIn && share.currentUser.role === 'tutor'"
+              link="/tutor-main/"
               title="Main"
             ></f7-list-item>
             <f7-list-item
               v-if="loggedIn"
-              link="/tutor-chat/"
+              link="/tutee-main/"
+              title="Main"
+            ></f7-list-item>
+            <f7-list-item
+              v-if="loggedIn"
+              link="/chat/"
               title="Chatroom"
             ></f7-list-item>
           </f7-list>

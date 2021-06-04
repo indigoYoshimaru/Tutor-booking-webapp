@@ -3,8 +3,8 @@ export default reactive({
     theme: 'ios',
     loggedIn: false,
     currentUser: {},
-    otherContractUsers: {},
-    otherChatUsers: {},
+    otherContractUsers: [],
+    otherChatUsers: [],
     colors: {
         OPEN: "green",
         WAITING: "blue",
@@ -14,6 +14,7 @@ export default reactive({
     chatRoomInfo: {
         id: {
             otherUser: {},
+            chatHistory: [],
             messages: []
         }
     }, // including chatroom Id and tutee/tutor info
