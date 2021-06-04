@@ -9,8 +9,9 @@ import RegisterTuteePage from '/components/RegisterTuteePage.vue'
 import TutorMainPage from '/components/TutorMainPage.vue'
 import UnverifiedTutorPage from '/components/UnverifiedTutorPage.vue'
 import UnverifyTutorInfoPage from '/components/UnverifyTutorInfoPage.vue'
-import TutorChatPage from '/components/TutorChatPage.vue'
+import ChatPage from '/components/ChatPage.vue'
 import TuteeMainPage from '/components/TuteeMainPage.vue'
+import ContractPage from '/components/ContractPage.vue'
 
 export default [
     {
@@ -32,6 +33,10 @@ export default [
     {
         path: '/register-tutor',
         component: RegisterTutorPage,
+    },
+    {
+        path: '/register-tutee',
+        component: RegisterTuteePage
     },
     {
         path: '/register-tutee',
@@ -58,11 +63,15 @@ export default [
         component: UnverifyTutorInfoPage
     },
     {
-        path: "/tutor-chat/:chatroomId/:otherUserId",
-        component: TutorChatPage
+        path: "/chat/:chatroomId/:otherUserId",
+        component: ChatPage
     },
     {
         path: "/tutee-main/",
         component: TuteeMainPage
+    },
+    {
+        path: "/contract/:contractId/",
+        component: ContractPage
     }
 ]

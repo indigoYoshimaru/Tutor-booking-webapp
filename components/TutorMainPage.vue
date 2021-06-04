@@ -51,21 +51,27 @@
       :key="contract.id"
     >
       <f7-list-item
-        v-if="otherContractUsers[contract.tuteeId]"
         v-bind:title="
           otherContractUsers[contract.tuteeId].firstName +
           ' ' +
           otherContractUsers[contract.tuteeId].lastName
         "
-        v-bind:subtitle="contract.startDate"
+        v-bind:subtitle="'Start Date: ' + contract.startDate"
+        :link="`/contract/${contract.id}`"
+        after="Open contract"
       >
-        <template #after>
-          <f7-button fill v-bind:color="colors[contract.state]" disable>{{
-            contract.state
-          }}</f7-button>
+        <template #media>
+          <f7-button
+            fill
+            large
+            round
+            v-bind:color="colors[contract.state]"
+            active
+            >{{ contract.state }}</f7-button
+          >
         </template>
       </f7-list-item>
-
+      <f7-list-item strong>Registered study days</f7-list-item>
       <li
         v-for="teachingDay in contract.listOfTeachingDay"
         :key="teachingDay.id"
@@ -86,7 +92,7 @@
       <f7-list-item
         v-for="chatroom in currentUser.chatrooms"
         :key="chatroom.id"
-        :link="`/tutor-chat/${chatroom.id}/${chatroom.tuteeId}`"
+        :link="`/chat/${chatroom.id}/${chatroom.tuteeId}`"
         v-bind:title="
           otherChatUsers[chatroom.tuteeId].firstName +
           ' ' +

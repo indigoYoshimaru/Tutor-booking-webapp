@@ -110,6 +110,9 @@ export default {
         console.log(share.currentUser);
 
         currentUser.chatroomMap = {};
+        // if (!currentUser.contracts){
+        //   currentUser.
+        // }
 
         for (let contract of currentUser.contracts) {
           let user = await service.getTutorNameById(contract.tutorId);

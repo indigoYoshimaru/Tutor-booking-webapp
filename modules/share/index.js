@@ -14,12 +14,11 @@ export default reactive({
     chatRoomInfo: {
         id: {
             otherUser: {},
-            chatHistory: [],
             messages: []
         }
     }, // including chatroom Id and tutee/tutor info
 
-
+    issues: [],
 });
 
 

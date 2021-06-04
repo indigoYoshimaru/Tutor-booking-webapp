@@ -49,6 +49,7 @@ async function getCourses() {
 async function registerTutor(tutor) {
     let response = await getJson('/api/tutor/register', tutor);
     console.log(response)
+
     if (response.error) {
         return response.error;
     }
@@ -143,6 +144,16 @@ async function getChatHistory(chatroomId) {
 }
 
 
+async function getIssueByContractId(contractId) {
+    let response = await getJson('/api/general/get-issue-by-contract-id', { contractId });
+
+    if (response.error) {
+        return [];
+    }
+
+    return response.result;
+}
+
 export default {
     getJson,
     getTutors,
@@ -158,4 +169,5 @@ export default {
     verifyTutor,
     getChatHistory,
     sendMessage,
+    getIssueByContractId
 }

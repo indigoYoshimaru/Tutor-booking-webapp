@@ -64,10 +64,15 @@
             ></f7-list-item>
             <f7-list-item
               v-if="!loggedIn"
+              link="/register-tutee/"
+              title="Register Tutee"
+            ></f7-list-item>
+            <f7-list-item
+              v-if="!loggedIn"
               link="/get-unverified-tutor/"
               title="Unverified Tutor"
             ></f7-list-item>
-            <f7-list-item
+            <!-- <f7-list-item
               v-if="loggedIn && share.currentUser.role === 'tutor'"
               link="/tutor-main/"
               title="Main"
@@ -76,12 +81,7 @@
               v-if="loggedIn"
               link="/tutee-main/"
               title="Main"
-            ></f7-list-item>
-            <f7-list-item
-              v-if="loggedIn"
-              link="/chat/"
-              title="Chatroom"
-            ></f7-list-item>
+            ></f7-list-item> -->
           </f7-list>
           <!-- </f7-page>
       </f7-view>
