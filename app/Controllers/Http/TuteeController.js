@@ -115,13 +115,29 @@ class TuteeController {
 
         let contracts = await query_service.getContractsByTuteeId(tuteeId);
         let chatrooms = await query_service.getChatroomsByTuteeId(tuteeId);
+        let dateOfBirth = tutee.dateOfBirth.toDateString();
+
+
+        for (let contract of contracts) {
+            contract.startDate = contract.startDate.toDateString();
+            if (contract.closeDate) {
+                contract.closeDate = contract.closeDate.toDateString();
+            }
+            let listOfTeachingDay = [];
+            for (let teachingDay of contract.listOfTeachingDay) {
+                teachingDay = new Date(teachingDay)
+                teachingDay = teachingDay.toDateString();
+                listOfTeachingDay.push(teachingDay);
+            }
+            contract.listOfTeachingDay = listOfTeachingDay;
+        }
 
         return {
             result: {
                 firstName: tutee.firstName,
                 lastName: tutee.lastName,
                 role: decodedObj.role,
-                dateOfBirth: tutee.dateOfBirth,
+                dateOfBirth: dateOfBirth,
                 contracts: contracts,
                 chatrooms: chatrooms
             }

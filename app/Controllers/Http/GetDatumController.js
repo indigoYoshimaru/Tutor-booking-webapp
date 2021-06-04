@@ -37,10 +37,10 @@ class GetDatumController {
             }
         return {
             result: {
-                tutor: {
-                    firstName: tutor.firstName,
-                    lastName: tutor.lastName
-                }
+                // tutor: {
+                firstName: tutor.firstName,
+                lastName: tutor.lastName
+                // }
             }
         }
     }
@@ -119,10 +119,8 @@ class GetDatumController {
             }
         return {
             result: {
-                tutee: {
-                    firstName: tutee.firstName,
-                    lastName: tutee.lastName
-                }
+                firstName: tutee.firstName,
+                lastName: tutee.lastName
             }
         }
     }

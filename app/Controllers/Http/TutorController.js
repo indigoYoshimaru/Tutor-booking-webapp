@@ -121,13 +121,26 @@ class TutorController {
 
         let contracts = await query_service.getContractsByTutorId(tutorId);
         let chatrooms = await query_service.getChatroomsByTutorId(tutorId);
+        let dateOfBirth = tutor.dateOfBirth.toDateString();
+
+
+        for (let contract of contracts) {
+            contract.startDate = contract.startDate.toDateString();
+            let listOfTeachingDay = [];
+            for (let teachingDay of contract.listOfTeachingDay) {
+                teachingDay = new Date(teachingDay)
+                teachingDay = teachingDay.toDateString();
+                listOfTeachingDay.push(teachingDay);
+            }
+            contract.listOfTeachingDay = listOfTeachingDay;
+        }
 
         return {
             result: {
                 firstName: tutor.firstName,
                 lastName: tutor.lastName,
                 role: decodedObj.role,
-                dateOfBirth: tutor.dateOfBirth,
+                dateOfBirth: dateOfBirth,
                 profile: tutor.profile,
                 contracts: contracts,
                 chatrooms: chatrooms
