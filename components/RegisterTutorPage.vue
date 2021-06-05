@@ -96,10 +96,7 @@
           @input="tutorInfo.dateOfBirth = $event.target.value"
         ></f7-list-input>
       </f7-list>
-      <!-- 
-      <f7-list v-for="course in courses" :key="course.id">
-        <f7-list-item checkbox title="course.name"></f7-list-item>
-      </f7-list> -->
+
       <f7-list>
         <f7-list-item>
           <f7-button

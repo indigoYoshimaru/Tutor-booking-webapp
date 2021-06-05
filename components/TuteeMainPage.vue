@@ -4,9 +4,9 @@
   <f7-page>
     <f7-navbar title="Main Page">
       <f7-nav-right :sliding="true">
-        <f7-button panel-open="right"
+        <!-- <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
-        ></f7-button>
+        ></f7-button> -->
       </f7-nav-right>
     </f7-navbar>
     <f7-block>
@@ -37,16 +37,7 @@
         v-for="contract in currentUser.contracts"
         :key="contract.id"
       >
-        <f7-list-item
-          :link="`/contract/${contract.id}`"
-          v-bind:title="
-            otherContractUsers[contract.tutorId].firstName +
-            ' ' +
-            otherContractUsers[contract.tutorId].lastName
-          "
-          v-bind:subtitle="'Start Date: ' + contract.startDate"
-          after="Open contract"
-        >
+        <f7-list-item>
           <template #media>
             <f7-button
               fill
@@ -56,17 +47,28 @@
               >{{ contract.state }}</f7-button
             >
           </template>
-        </f7-list-item>
-        <f7-list-item strong>Registered study days</f7-list-item>
+          <f7-list-item
+            :link="`/contract/${contract.id}`"
+            v-bind:title="
+              otherContractUsers[contract.tutorId].firstName +
+              ' ' +
+              otherContractUsers[contract.tutorId].lastName
+            "
+            v-bind:subtitle="'Start Date: ' + contract.startDate"
+            after="Open contract"
+          >
+          </f7-list-item>
+          <f7-list-item strong>Registered study days</f7-list-item>
 
-        <li
-          v-for="teachingDay in contract.listOfTeachingDay"
-          :key="teachingDay.id"
-        >
-          <ul>
-            <f7-list-item v-bind:subtitle="teachingDay"> </f7-list-item>
-          </ul>
-        </li>
+          <li
+            v-for="teachingDay in contract.listOfTeachingDay"
+            :key="teachingDay.id"
+          >
+            <ul>
+              <f7-list-item v-bind:subtitle="teachingDay"> </f7-list-item>
+            </ul>
+          </li>
+        </f7-list-item>
       </f7-list>
     </f7-block>
     <f7-block>

@@ -1,11 +1,10 @@
 <template>
   <f7-page>
-    <f7-navbar :transparent="true">
-      <f7-icon ios="f7:house_fill"></f7-icon>
+    <f7-navbar back-link="" title="Contract Information">
       <f7-nav-right :sliding="true">
-        <f7-button panel-open="right"
+        <!-- <f7-button panel-open="right"
           ><f7-icon ios="f7:menu"></f7-icon
-        ></f7-button>
+        ></f7-button> -->
       </f7-nav-right>
     </f7-navbar>
 
@@ -23,31 +22,37 @@
               {{ contractInfo.state }}
             </f7-button>
           </template>
-        </f7-list-item>
-        <f7-list-item title="Tutor"
-          >{{ contractInfo.tutor.firstName }} {{ contractInfo.tutor.lastName }}
-        </f7-list-item>
-        <f7-list-item title="Tutee"
-          >{{ contractInfo.tutee.firstName }}
-          {{ contractInfo.tutee.lastName }}</f7-list-item
-        >
-        <f7-list-item title="Start Date"
-          >{{ contractInfo.startDate }}
-        </f7-list-item>
-        <f7-list-item title="Close Date" v-if="contractInfo.closeDate"
-          >{{ contractInfo.closeDate }}
-        </f7-list-item>
-        <f7-list-item title="Number of teaching hours"
-          >{{ contractInfo.teachingHours }}
-        </f7-list-item>
 
-        <f7-list-item v-if="contractInfo.state === 'WAITING'">
-          <f7-button fill round color="green">Accept</f7-button>
-          <f7-button round outline color="red">Reject</f7-button>
-        </f7-list-item>
-        <f7-list-item v-if="contractInfo.state === 'OPEN'">
-          <f7-button fill round>Request Close</f7-button>
-          <f7-button outline round>Raise Issue</f7-button>
+          <f7-list-item title="Tutor"
+            >{{ contractInfo.tutor.firstName }}
+            {{ contractInfo.tutor.lastName }}
+          </f7-list-item>
+          <f7-list-item title="Tutee"
+            >{{ contractInfo.tutee.firstName }}
+            {{ contractInfo.tutee.lastName }}</f7-list-item
+          >
+          <f7-list-item title="Start Date"
+            >{{ contractInfo.startDate }}
+          </f7-list-item>
+          <f7-list-item title="Close Date" v-if="contractInfo.closeDate"
+            >{{ contractInfo.closeDate }}
+          </f7-list-item>
+          <f7-list-item title="Number of teaching hours"
+            >{{ contractInfo.teachingHours }}
+          </f7-list-item>
+
+          <f7-list-item
+            v-if="
+              contractInfo.state === 'WAITING' && currentUser.role === 'tutor'
+            "
+          >
+            <f7-button fill round color="green">Accept</f7-button>
+            <f7-button round outline color="red">Reject</f7-button>
+          </f7-list-item>
+          <f7-list-item v-if="contractInfo.state === 'OPEN'">
+            <f7-button fill round>Request Close</f7-button>
+            <f7-button outline round>Raise Issue</f7-button>
+          </f7-list-item>
         </f7-list-item>
       </f7-list>
     </f7-block>
