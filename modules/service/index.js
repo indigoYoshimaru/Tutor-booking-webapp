@@ -1,6 +1,6 @@
 import share from '../share'
 
-let s;
+let s = io();
 
 
 

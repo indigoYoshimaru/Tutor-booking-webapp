@@ -1,6 +1,6 @@
 <template>
   <f7-page>
-    <f7-navbar large title="TUHUB">
+    <f7-navbar title="TUHUB">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
@@ -8,20 +8,26 @@
       </f7-nav-right>
     </f7-navbar>
 
-    <video style="width: 100%; height: auto; object-fit: cover" autoplay loop>
+    <video style="width: 100%; height: 85%; object-fit: cover" autoplay loop>
       <source
-        src="/media/Don't Feed The Kois twice a course.mp4"
+        src="/media/Don't Feed The Kois twice a course2.mp4"
         type="video/mp4"
       />
     </video>
     <f7-block-title strong large>About us</f7-block-title>
-
     <f7-row>
       <f7-col>
         <div style="margin: 0 0% 0 20%">
           <f7-card expandable :padding="false">
             <f7-card-content :padding="false">
-              <div class="bg-color-deeppurple" :style="{ height: '300px' }">
+              <div
+                class="bg-color-deeppurple"
+                :style="{
+                  height: '300px',
+                  position: 'relative',
+                  width: '100%',
+                }"
+              >
                 <f7-card-header text-color="white" class="display-block">
                   Over 1000 tutees <br />
                   <small :style="{ opacity: 0.7 }"
@@ -34,8 +40,8 @@
                   class="card-opened-fade-in"
                   :style="{
                     position: 'absolute',
-                    right: '0%',
-                    top: '0%',
+                    right: '15px',
+                    top: '15px',
                   }"
                   icon-f7="xmark_circle_fill"
                 ></f7-link>

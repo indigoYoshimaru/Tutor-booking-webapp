@@ -1,10 +1,9 @@
 <template>
   <f7-page login-screen>
-    <f7-navbar :transparent="true">
-      <f7-icon ios="f7:house_fill"></f7-icon>
+    <f7-navbar back-link="">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
-          ><f7-icon ios="f7:menu"></f7-icon
+          ><f7-icon ios="f7:square_list_fill"></f7-icon
         ></f7-button>
       </f7-nav-right>
     </f7-navbar>
@@ -80,19 +79,20 @@ export default {
         console.log(share.currentUser);
 
         currentUser.chatroomMap = {};
+        currentUser.contractMap = {};
 
         for (let contract of currentUser.contracts) {
           let user = await service.getTuteeNameById(contract.tuteeId);
           otherContractUsers[contract.tuteeId] = user;
-          console.log(otherContractUsers[contract.tuteeId]);
+          contract.tutor = share.currentUser;
+          contract.tutee = share.otherContractUsers[contract.tuteeId];
+          currentUser.contractMap[contract.id] = contract;
         }
         for (let chatroom of currentUser.chatrooms) {
           chatroom.messages = [];
           currentUser.chatroomMap[chatroom.id] = chatroom;
-          console.log(chatroom.tuteeId);
           let user = await service.getTuteeNameById(chatroom.tuteeId);
           otherChatUsers[chatroom.tuteeId] = user;
-          console.log(otherContractUsers[chatroom.tuteeId]);
         }
 
         //share.currentUser.dateOfBirth = new Date(share.currentUser.dateOfBirth);
@@ -110,14 +110,14 @@ export default {
         console.log(share.currentUser);
 
         currentUser.chatroomMap = {};
-        // if (!currentUser.contracts){
-        //   currentUser.
-        // }
+        currentUser.contractMap = {};
 
         for (let contract of currentUser.contracts) {
           let user = await service.getTutorNameById(contract.tutorId);
           otherContractUsers[contract.tutorId] = user;
-          console.log(otherContractUsers[contract.tutorId]);
+          contract.tutee = share.currentUser;
+          contract.tutor = share.otherContractUsers[contract.tutorId];
+          currentUser.contractMap[contract.id] = contract;
         }
 
         for (let chatroom of currentUser.chatrooms) {

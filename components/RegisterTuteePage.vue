@@ -1,6 +1,12 @@
 <template>
   <f7-page>
-    <f7-navbar title="Tutee Registration"></f7-navbar>
+    <f7-navbar back-link="">
+      <f7-nav-right :sliding="true">
+        <f7-button panel-open="right"
+          ><f7-icon ios="f7:square_list_fill"></f7-icon
+        ></f7-button>
+      </f7-nav-right>
+    </f7-navbar>
     <f7-login-screen-title>Tutee Registration</f7-login-screen-title>
     <f7-list style="list-style-type: none" form>
       <f7-list-input

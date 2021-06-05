@@ -1,6 +1,9 @@
 <template>
   <f7-page>
-    <f7-navbar v-bind:title="otherUser.firstName + ' ' + otherUser.lastName">
+    <f7-navbar
+      back-link=""
+      v-bind:title="otherUser.firstName + ' ' + otherUser.lastName"
+    >
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon

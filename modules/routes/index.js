@@ -71,7 +71,7 @@ export default [
         component: TuteeMainPage
     },
     {
-        path: "/contract/:contractId/",
+        path: "/contract/:contractId",
         component: ContractPage
     }
 ]

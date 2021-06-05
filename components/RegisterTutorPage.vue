@@ -1,7 +1,6 @@
 <template>
   <f7-page login-screen>
-    <f7-navbar :transparent="true">
-      <f7-icon ios="f7:house_fill"></f7-icon>
+    <f7-navbar :transparent="true" back-link="" title="Registration">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
