@@ -44,6 +44,7 @@ Route.get('/general/get-recently-added-tutee', 'GetDatumController.getRecentlyAd
 /*ADMIN ROUTES*/
 Route.get('/general/get-admins', 'GetDatumController.getAdmins')
 Route.post('/general/get-admin-by-id', 'GetDatumController.getAdminById')
+Route.post('/general/get-admin-name-by-id', 'GetDatumController.getAdminNameById')
 Route.post('/general/get-admin-by-username', 'GetDatumController.getAdminByUserName')
 Route.get('/general/get-recently-added-admin', 'GetDatumController.getRecentlyAddedAdmin')
 

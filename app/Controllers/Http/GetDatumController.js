@@ -115,7 +115,7 @@ class GetDatumController {
         let tutee = await query_service.getTuteeById(query.tuteeId);
         if (!tutee)
             return {
-                error: 'no tutor with this id'
+                error: 'no tutee with this id'
             }
         return {
             result: {
@@ -187,6 +187,21 @@ class GetDatumController {
             }
         return {
             result: admin
+        }
+    }
+
+    async getAdminNameById({ request }) {
+        let query = request.all();
+        let admin = await query_service.getAdminById(query.adminId);
+        if (!admin)
+            return {
+                error: 'no admin with this id'
+            }
+        return {
+            result: {
+                firstName: admin.firstName,
+                lastName: admin.lastName
+            }
         }
     }
     async getAdminByUserName({ request }) {
