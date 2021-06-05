@@ -15,17 +15,20 @@
       />
     </video>
     <f7-block-title strong large>About us</f7-block-title>
+
     <f7-row>
       <f7-col>
         <div style="margin: 0 0% 0 20%">
-          <f7-card expandable :padding="false">
-            <f7-card-content :padding="false">
+          <f7-card expandable >
+            <f7-card-content :padding="false" >
               <div
                 class="bg-color-deeppurple"
                 :style="{
                   height: '300px',
-                  position: 'relative',
                   width: '100%',
+                  position:'relative',
+                 
+                  
                 }"
               >
                 <f7-card-header text-color="white" class="display-block">
@@ -40,8 +43,8 @@
                   class="card-opened-fade-in"
                   :style="{
                     position: 'absolute',
-                    right: '15px',
-                    top: '15px',
+                    right: '0%',
+                    top: '2%',
                   }"
                   icon-f7="xmark_circle_fill"
                 ></f7-link>
@@ -65,7 +68,7 @@
                   card-close
                   color="white"
                   class="card-opened-fade-in"
-                  :style="{ position: 'absolute', top: '0%', right: '0%' }"
+                  :style="{ position: 'absolute', top: '2%', right: '0%' }"
                   icon-f7="xmark_circle_fill"
                 ></f7-link>
               </div>
@@ -157,36 +160,25 @@
       </f7-col>
     </f7-row>
 
-    <f7-card expandable>
-      <f7-card-content :padding="false">
-        <div class="bg-color-deeppurple" :style="{ height: '300px' }">
-          <f7-card-header text-color="white" class="display-block">
-            Over 1000 tutees<br />
-            <small :style="{ opacity: 0.7 }"
-              >using our tutoring platform everyday</small
-            >
-          </f7-card-header>
-          <f7-link
-            card-close
-            color="white"
-            class="card-opened-fade-in"
-            :style="{
-              position: 'absolute',
-              right: '0%',
-              top: '0%',
-            }"
-            icon-f7="xmark_circle_fill"
-          ></f7-link>
-        </div>
-        <div class="card-content-padding">write something here</div>
-      </f7-card-content>
-    </f7-card>
+
 
     <f7-block-title large strong>Join us</f7-block-title>
-    <f7-block>
-      <f7-button fill round large>Want to pass without pain?</f7-button>
-      <p large>OR</p>
-      <f7-button fill round large>Be part of our talented team</f7-button>
+    <f7-block inset>
+    <f7-row>
+      <f7-col style="margin: 0 0% 0 20%" width="45" medium="25">
+        
+          <f7-button fill round large @click="navTutee">Want to pass without pain?</f7-button>
+   
+      </f7-col>
+      <f7-col width="5">
+        <p large>OR</p>
+      </f7-col>
+      <f7-col style="margin: 0 20% 0 0%" width="45" medium="25">
+        
+          <f7-button fill round large @click="navTutor">Be part of our talented team</f7-button>
+
+      </f7-col>
+    </f7-row>
     </f7-block>
   </f7-page>
 </template>
@@ -197,9 +189,21 @@ import { f7 } from "framework7-vue";
 import f7components from "/components/f7components";
 import service from "/modules/service";
 
+
 export default {
   components: {
     ...f7components,
   },
+  props: {
+    f7router: Object,
+  },
+  methods:{
+    navTutee(){
+      this.f7router.navigate("/register-tutee/");
+    },
+    navTutor(){
+      this.f7router.navigate("/register-tutor/");
+    }
+  }
 };
 </script>

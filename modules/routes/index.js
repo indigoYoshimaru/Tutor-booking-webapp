@@ -31,16 +31,12 @@ export default [
         component: RegisterPage,
     },
     {
-        path: '/register-tutor',
+        path: '/register-tutor/',
         component: RegisterTutorPage,
     },
     {
-        path: '/register-tutee',
+        path: '/register-tutee/',
         component: RegisterTuteePage
-    },
-    {
-        path: '/register-tutee',
-        component: RegisterTuteePage,
     },
     {
         path: '/tutee/',
