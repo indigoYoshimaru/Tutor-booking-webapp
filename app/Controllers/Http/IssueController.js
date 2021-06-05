@@ -43,12 +43,15 @@ class IssueController {
             }
         }
         let contract = await query_service.getContractById(issueDB.contractId)
+        let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.id}');
         var amount = contract.teachingHours * 50000;
-        let tutorAccount = await query_service.getMoneyAccountByTutorId(contract.tutorId)
         let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contract.tuteeId)
         await update_service.closeIssue(issue.id)
-        let returnAmount = amount * (1 - issueDB.returnPercentage)
-        await makeTransaction(tutorAccount, tuteeAccount, returnAmount)
+        let returnTuteeAmount = amount * issueDB.returnPercentage
+        let returnTutorAmount = amount * (1 - issueDB.returnPercentage)
+        await makeTransaction(contractAccount, tutorAccount, returnTutorAmount)
+        await makeTransaction(contractAccount, tuteeAccount, returnTuteeAmount)
+
     }
 
 }
