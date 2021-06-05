@@ -44,7 +44,7 @@ class IssueController {
         }
         let contract = await query_service.getContractById(issueDB.contractId)
         let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.id}');
-        var amount = contract.teachingHours * 50000;
+        var amount = contractAccount.balanceAmount;
         let tuteeAccount = await query_service.getMoneyAccountByTuteeId(contract.tuteeId)
         await update_service.closeIssue(issue.id)
         let returnTuteeAmount = amount * issueDB.returnPercentage
