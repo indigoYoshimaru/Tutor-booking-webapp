@@ -61,14 +61,9 @@
         after="Open contract"
       >
         <template #media>
-          <f7-button
-            fill
-            large
-            round
-            v-bind:color="colors[contract.state]"
-            active
-            >{{ contract.state }}</f7-button
-          >
+          <f7-button fill large v-bind:color="colors[contract.state]" active>{{
+            contract.state
+          }}</f7-button>
         </template>
       </f7-list-item>
       <f7-list-item strong>Registered study days</f7-list-item>

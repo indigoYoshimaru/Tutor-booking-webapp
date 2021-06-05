@@ -154,6 +154,17 @@ async function getIssueByContractId(contractId) {
     return response.result;
 }
 
+async function getAdminNameById(adminId) {
+    let response = await getJson('/api/general/get-admin-name-by-id', { adminId });
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+
+}
+
 export default {
     getJson,
     getTutors,
@@ -169,5 +180,6 @@ export default {
     verifyTutor,
     getChatHistory,
     sendMessage,
-    getIssueByContractId
+    getIssueByContractId,
+    getAdminNameById
 }

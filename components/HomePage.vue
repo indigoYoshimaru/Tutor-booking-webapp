@@ -1,7 +1,6 @@
 <template>
   <f7-page>
-    <f7-navbar :transparent="true">
-      <f7-icon ios="f7:house_fill"></f7-icon>
+    <f7-navbar large title="TUHUB">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
@@ -15,7 +14,7 @@
         type="video/mp4"
       />
     </video>
-    <f7-block-title>ABOUT US</f7-block-title>
+    <f7-block-title strong large>About us</f7-block-title>
 
     <f7-row>
       <f7-col>
@@ -24,7 +23,7 @@
             <f7-card-content :padding="false">
               <div class="bg-color-deeppurple" :style="{ height: '300px' }">
                 <f7-card-header text-color="white" class="display-block">
-                  Over 1000 tutees
+                  Over 1000 tutees <br />
                   <small :style="{ opacity: 0.7 }"
                     >using our tutoring platform everyday</small
                   >
@@ -53,7 +52,7 @@
             <f7-card-content :padding="false">
               <div class="bg-color-purple" :style="{ height: '300px' }">
                 <f7-card-header text-color="white" class="display-block">
-                  Over 500 tutors
+                  Over 500 tutors <br />
                   <small :style="{ opacity: 0.7 }">working at their best</small>
                 </f7-card-header>
                 <f7-link
@@ -91,7 +90,7 @@
                   class="display-block"
                   style="position: 'absolute'"
                 >
-                  Over 90% tutee
+                  Over 90% tutee <br />
                   <small :style="{ opacity: 0.7 }"
                     >reporting to have their marks improved by using
                     TUHUB</small
@@ -127,10 +126,10 @@
               <div class="bg-color-red" :style="{ height: '300px' }">
                 <f7-card-header text-color="white" class="display-block">
                   And importantly
-                  <small :style="{ opacity: 0.7 }"
+                  <!-- <small :style="{ opacity: 0.7 }"
                     >We are non-profit organization. 100% of payment will be
                     delivered to tutors.</small
-                  >
+                  > -->
                 </f7-card-header>
                 <f7-link
                   card-close
@@ -152,26 +151,45 @@
       </f7-col>
     </f7-row>
 
-    <f7-block-title>JOIN US</f7-block-title>
-    <f7-row>
-      <f7-col>
-        <button class="col button button-large button-raised button-fill">
-          Want to pass without pain?
-        </button>
-      </f7-col>
+    <f7-card expandable>
+      <f7-card-content :padding="false">
+        <div class="bg-color-deeppurple" :style="{ height: '300px' }">
+          <f7-card-header text-color="white" class="display-block">
+            Over 1000 tutees<br />
+            <small :style="{ opacity: 0.7 }"
+              >using our tutoring platform everyday</small
+            >
+          </f7-card-header>
+          <f7-link
+            card-close
+            color="white"
+            class="card-opened-fade-in"
+            :style="{
+              position: 'absolute',
+              right: '0%',
+              top: '0%',
+            }"
+            icon-f7="xmark_circle_fill"
+          ></f7-link>
+        </div>
+        <div class="card-content-padding">write something here</div>
+      </f7-card-content>
+    </f7-card>
 
-      <f7-col>
-        <button class="col button button-large button-raised button-fill">
-          Be part of our talented team
-        </button>
-      </f7-col>
-    </f7-row>
+    <f7-block-title large strong>Join us</f7-block-title>
+    <f7-block>
+      <f7-button fill round large>Want to pass without pain?</f7-button>
+      <p large>OR</p>
+      <f7-button fill round large>Be part of our talented team</f7-button>
+    </f7-block>
   </f7-page>
 </template>
 
 <script>
 import share from "/modules/share";
+import { f7 } from "framework7-vue";
 import f7components from "/components/f7components";
+import service from "/modules/service";
 
 export default {
   components: {

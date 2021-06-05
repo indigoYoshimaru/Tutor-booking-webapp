@@ -51,7 +51,6 @@
             <f7-button
               fill
               large
-              round
               v-bind:color="colors[contract.state]"
               active
               >{{ contract.state }}</f7-button
