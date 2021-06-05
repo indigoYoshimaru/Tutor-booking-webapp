@@ -49,7 +49,7 @@
             ></f7-list-item>
             <f7-list-item
               v-if="!loggedIn"
-              link="/tutee/"
+              link="/test/"
               title="Test component"
             ></f7-list-item>
             <f7-list-item

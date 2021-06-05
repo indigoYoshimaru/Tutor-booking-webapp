@@ -33,7 +33,7 @@
       </f7-list-item>
     </f7-list>
     <f7-list>
-      <f7-list-button @click="signIn">Sign In</f7-list-button>
+      <f7-list-button @click="signIn">Login</f7-list-button>
       <!-- <f7-block-footer
         >Some text about login information.<br />Lorem ipsum dolor sit amet,
         consectetur adipiscing elit.</f7-block-footer

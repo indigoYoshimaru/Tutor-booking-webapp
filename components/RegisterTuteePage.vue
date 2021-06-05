@@ -141,13 +141,9 @@ export default {
           console.log(currentInfo);
           let result = await service.registerTutee(currentInfo);
           console.log(result);
-          if (!result) {
-            f7.dialog.alert(result, "Error");
-          } else {
-            f7.dialog.alert(result, "Message", () => {
-              this.f7router.navigate("/");
-            });
-          }
+          f7.dialog.alert(result, "Message", () => {
+            this.f7router.navigate("/");
+          });
         } else {
           f7.dialog.alert(
             "Please fill all fields before submitting!",
