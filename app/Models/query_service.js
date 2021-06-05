@@ -143,13 +143,12 @@ module.exports = {
         return rows;
     },
 
-    async getAdminById(Id) {
-        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Id = ?', [parseInt(Id)]);
+    async getAdminById(id) {
+        let [rows, _] = await Database.raw('SELECT * FROM admin WHERE Id = ?', [parseInt(id)]);
         if (!rows.length)
             return null;
 
-        rows = rows.map(camel);
-        return rows;
+        return camel(rows[0]);
     },
 
     async getAdminByUserName(username) {
@@ -257,8 +256,8 @@ module.exports = {
         let [rows, _] = await Database.raw('SELECT * FROM issue WHERE ContractId = ?', [parseInt(Id)]);
         if (!rows.length)
             return null;
-
-        return camel(rows[0]);
+        rows = rows.map(camel);
+        return rows;
     },
 
     async getIssueByResolveAdminId(Id) {

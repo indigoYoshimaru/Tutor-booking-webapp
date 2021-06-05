@@ -59,7 +59,7 @@ module.exports = {
     },
     async addMoneyAccountByContractId(contractId) {
         let code = 'contract/' + contractId;
-        await Database.raw(`INSERT INTO moneyaccount (Code, BalanceAmount) VALUES(?,?)`, [code, 100000]);
+        await Database.raw(`INSERT INTO moneyaccount (Code, BalanceAmount) VALUES(?,?)`, [code, 0]);
         let [rows, _] = await Database.raw("SELECT * FROM moneyaccount WHERE Id= (select LAST_INSERT_ID());")
         if (!rows.length) {
             return null;
