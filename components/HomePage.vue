@@ -4,14 +4,14 @@
       <f7-icon ios="f7:house_fill"></f7-icon>
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
-          ><f7-icon ios="f7:menu"></f7-icon
+          ><f7-icon ios="f7:square_list_fill"></f7-icon
         ></f7-button>
       </f7-nav-right>
     </f7-navbar>
 
     <video style="width: 100%; height: auto; object-fit: cover" autoplay loop>
       <source
-        src="media/Don't Feed The Kois twice a course.mp4"
+        src="/media/Don't Feed The Kois twice a course.mp4"
         type="video/mp4"
       />
     </video>
