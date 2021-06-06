@@ -115,11 +115,13 @@ class TuteeController {
 
         let contracts = await query_service.getContractsByTuteeId(tuteeId);
         let chatrooms = await query_service.getChatroomsByTuteeId(tuteeId);
+        let moneyAccount = await query_service.getMoneyAccountByTuteeId(tuteeId); 
         let dateOfBirth = tutee.dateOfBirth.toDateString();
 
-
+        
         for (let contract of contracts) {
             contract.startDate = contract.startDate.toDateString();
+            console.log(contract);
             if (contract.closeDate) {
                 contract.closeDate = contract.closeDate.toDateString();
             }
@@ -130,6 +132,15 @@ class TuteeController {
                 listOfTeachingDay.push(teachingDay);
             }
             contract.listOfTeachingDay = listOfTeachingDay;
+            let contractAccount = await query_service.getMoneyAccountByCode(`contract/${contract.id}`)
+            if (!contractAccount) {
+                contract.balanceAmount = 0;
+                continue;
+            }
+            
+            contract.balanceAmount = contractAccount.balanceAmount;
+            
+           
         }
 
         return {
@@ -137,6 +148,7 @@ class TuteeController {
                 firstName: tutee.firstName,
                 lastName: tutee.lastName,
                 role: decodedObj.role,
+                balanceAccount: moneyAccount.balanceAccount,
                 dateOfBirth: dateOfBirth,
                 contracts: contracts,
                 chatrooms: chatrooms

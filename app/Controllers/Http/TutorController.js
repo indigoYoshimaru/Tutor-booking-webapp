@@ -118,14 +118,20 @@ class TutorController {
                 error: "No tutor found"
             }
         }
-
+        let moneyAccount = await query_service.getMoneyAccountByTutorId(tutorId);
         let contracts = await query_service.getContractsByTutorId(tutorId);
+        
         let chatrooms = await query_service.getChatroomsByTutorId(tutorId);
         let dateOfBirth = tutor.dateOfBirth.toDateString();
 
-
         for (let contract of contracts) {
             contract.startDate = contract.startDate.toDateString();
+            console.log(contract)
+            let contractAccount = await query_service.getMoneyAccountByCode(`contract/${contract.id}`)
+         
+            if (contract.closeDate) {
+                contract.closeDate = contract.closeDate.toDateString();
+            }
             let listOfTeachingDay = [];
             for (let teachingDay of contract.listOfTeachingDay) {
                 teachingDay = new Date(teachingDay)
@@ -133,6 +139,11 @@ class TutorController {
                 listOfTeachingDay.push(teachingDay);
             }
             contract.listOfTeachingDay = listOfTeachingDay;
+            if (!contractAccount) {
+                contract.balanceAmount = 0;
+                continue;
+            }
+            contract.balanceAmount = contractAccount.balanceAmount;
         }
 
         return {
@@ -140,6 +151,7 @@ class TutorController {
                 firstName: tutor.firstName,
                 lastName: tutor.lastName,
                 role: decodedObj.role,
+                balanceAmount: moneyAccount.balanceAmount,
                 dateOfBirth: dateOfBirth,
                 profile: tutor.profile,
                 contracts: contracts,
