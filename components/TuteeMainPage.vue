@@ -19,8 +19,18 @@
           v-bind:title="currentUser.firstName + ' ' + currentUser.lastName"
           v-bind:subtitle="'BirthDay:' + currentUser.dateOfBirth"
         >
+          <template #after>
+            <f7-chip
+              v-bind:text="`${currentUser.balanceAmount}`"
+              media-bg-color="deeppurple"
+            >
+              <template #media>
+                <f7-icon f7="money_dollar_circle"></f7-icon>
+              </template>
+            </f7-chip>
+          </template>
           <template #media>
-            <img
+            <imgdạ
               src="https://cdn0.iconfinder.com/data/icons/animal-icons-flat/128/fox-512.png"
               width="45"
             />
@@ -30,7 +40,7 @@
     </f7-block>
     <f7-block>
       <f7-block-title large>Contract History</f7-block-title>
-
+      <f7-button>Add new contract</f7-button>
       <f7-list
         media-list
         inset
