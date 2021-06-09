@@ -3,8 +3,14 @@ export default reactive({
     theme: 'ios',
     loggedIn: false,
     currentUser: {},
-    otherContractUsers: {},
-    otherChatUsers: {},
+    selectedTutor: {},
+    newContract: {
+        tutorId: "",
+        teachingHours: "",
+        listOfTeachingDay: []
+    },
+    otherContractUsers: [],
+    otherChatUsers: [],
     colors: {
         OPEN: "green",
         WAITING: "blue",
@@ -18,7 +24,7 @@ export default reactive({
         }
     }, // including chatroom Id and tutee/tutor info
 
-
+    issues: [],
 });
 
 

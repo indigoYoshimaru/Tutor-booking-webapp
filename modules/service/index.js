@@ -1,6 +1,6 @@
 import share from '../share'
 
-let s;
+let s = io();
 
 
 
@@ -9,7 +9,8 @@ async function initSocket(token) {
     s.on('auth', console.log);
     s.on('error', console.log);
     s.on('server_message', (message) => {
-        share.chatRoomInfo.messages.push(message); // error???
+        share.currentUser.chatroomMap[message.chatroomId].messages.push(message)
+        // share.chatRoomInfo.messages.push(message); // error???
     });
     s.on('connect', () => {
         s.emit('client_token', token)
@@ -48,12 +49,15 @@ async function getCourses() {
 async function registerTutor(tutor) {
     let response = await getJson('/api/tutor/register', tutor);
     console.log(response)
+
     if (response.error) {
         return response.error;
     }
 
-    return "Your registration is successful." + response.result;
+    return response.result;
 }
+
+
 
 async function loginTutor(tutor) {
     let response = await getJson('/api/tutor/login', tutor);
@@ -73,7 +77,7 @@ async function registerTutee(tutee) {
         return response.error;
     }
 
-    return "Your registration is successful." + response.result;
+    return response.result;
 }
 
 async function loginTutee(tutee) {
@@ -143,7 +147,7 @@ async function verifyTutor(tutorId) {
     return response.result;
 }
 
-async function chat(chatroomId, message) {
+async function sendMessage(chatroomId, message) {
     s.emit('client_message', chatroomId, message);
 }
 
@@ -152,13 +156,54 @@ async function getChatHistory(chatroomId) {
 }
 
 
+async function getIssueByContractId(contractId) {
+    let response = await getJson('/api/general/get-issue-by-contract-id', { contractId });
+
+    if (response.error) {
+        return [];
+    }
+
+    return response.result;
+}
+
+async function getAdminNameById(adminId) {
+    let response = await getJson('/api/general/get-admin-name-by-id', { adminId });
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+
+}
+
+async function createContract(contractInfo) {
+    let response = await getJson('/api/tutee/create-contract', contractInfo);
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+}
+
+async function getTutorById(tutorId) {
+    let response = await getJson('/api/general/get-tutor-by-id', { tutorId });
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+}
+
 export default {
     getJson,
     getTutors,
     getCourses,
     registerTutor,
-    registerTutee,
     loginTutor,
+    registerTutee,
     loginTutee,
     getTutorInfo,
     getTuteeInfo,
@@ -167,5 +212,9 @@ export default {
     getUnverifiedTutors,
     verifyTutor,
     getChatHistory,
-    chat,
+    sendMessage,
+    getIssueByContractId,
+    getAdminNameById,
+    createContract,
+    getTutorById
 }

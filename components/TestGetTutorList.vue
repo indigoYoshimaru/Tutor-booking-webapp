@@ -1,6 +1,8 @@
 <template>
   <f7-page>
-    <f7-navbar title="Tutor"></f7-navbar>
+    <f7-navbar back-link="" title="Select Tutor">
+      <f7-nav-right :sliding="true"> </f7-nav-right>
+    </f7-navbar>
     <!-- <f7-subnavbar :inner="false">
       <f7-searchbar
         search-container=".virtual-list"
@@ -93,13 +95,11 @@
                   </f7-col>
                 </f7-card-content>
                 <f7-card-footer>
-                  <f7-button style="margin-left: auto" raised
-                    ><span
-                      class="material-icons-outlined"
-                      @click="chatWith(tutor.id)"
-                    >
-                      forum
-                    </span></f7-button
+                  <f7-button
+                    style="margin-left: auto"
+                    raised
+                    @click="selectTutor(tutor)"
+                    >Select</f7-button
                   >
                 </f7-card-footer>
               </f7-card>
@@ -108,6 +108,9 @@
         </f7-row>
       </f7-col>
     </f7-row>
+    <f7-block
+      ><f7-button raised @click="createContract()">Select</f7-button>
+    </f7-block>
   </f7-page>
 </template>
 
@@ -122,10 +125,21 @@ export default {
   components: {
     ...f7components,
   },
+  props: {
+    f7router: Object,
+  },
   data() {
     return {
       res: res,
     };
+  },
+  methods: {
+    async selectTutor(tutor) {
+      share.selectedTutor = tutor;
+      f7.dialog.alert(share.selectedTutor.firstName, () => {
+        this.f7router.navigate("/create-contract/");
+      });
+    },
   },
 };
 </script>

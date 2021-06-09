@@ -6,9 +6,14 @@ import Test from '/components/Tutee.vue'
 import TestGetTutorList from '/components/TestGetTutorList.vue'
 import RegisterTutorPage from '/components/RegisterTutorPage.vue'
 import RegisterTuteePage from '/components/RegisterTuteePage.vue'
-import MainPage from '/components/MainPage.vue'
+import TutorMainPage from '/components/TutorMainPage.vue'
 import UnverifiedTutorPage from '/components/UnverifiedTutorPage.vue'
 import UnverifyTutorInfoPage from '/components/UnverifyTutorInfoPage.vue'
+import ChatPage from '/components/ChatPage.vue'
+import TuteeMainPage from '/components/TuteeMainPage.vue'
+import ContractPage from '/components/ContractPage.vue'
+import CreateContractPage from '/components/CreateContractPage.vue'
+
 
 export default [
     {
@@ -33,19 +38,19 @@ export default [
     },
     {
         path: '/register-tutee/',
-        component: RegisterTuteePage,
+        component: RegisterTuteePage
     },
     {
         path: '/test/',
-        component: MainPage,
+        component: CreateContractPage,
     },
     {
         path: '/tutor-list/',
         component: TestGetTutorList,
     },
     {
-        path: '/main/',
-        component: MainPage
+        path: '/tutor-main/',
+        component: TutorMainPage
     },
     {
         path: "/get-unverified-tutor",
@@ -54,5 +59,21 @@ export default [
     {
         path: "/verify-tutor/",
         component: UnverifyTutorInfoPage
+    },
+    {
+        path: "/chat/:chatroomId/:otherUserId",
+        component: ChatPage
+    },
+    {
+        path: "/tutee-main/",
+        component: TuteeMainPage
+    },
+    {
+        path: "/contract/:contractId",
+        component: ContractPage
+    },
+    {
+        path: "/create-contract/",
+        component: CreateContractPage
     }
 ]
