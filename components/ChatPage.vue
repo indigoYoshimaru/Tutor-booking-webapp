@@ -133,8 +133,8 @@ export default {
       await service.sendMessage(this.chatroomId, text);
       this.messageText = "";
     },
-    async openCreateContract() {
-      this.f7router.navigate(`/create-contract/${chatroomInfo.tutorId}`);
+    openCreateContract() {
+      this.f7router.navigate(`/create-contract/${this.chatRoomInfo.tutorId}`);
     },
   },
 

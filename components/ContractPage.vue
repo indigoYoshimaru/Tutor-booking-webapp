@@ -1,6 +1,6 @@
 <template>
   <f7-page>
-    <f7-navbar back-link="" title="Contract Information">
+    <f7-navbar large title="Contract Information" back-link="">
       <f7-nav-right :sliding="true">
         <!-- <f7-button panel-open="right"
           ><f7-icon ios="f7:menu"></f7-icon
@@ -93,6 +93,9 @@
           <f7-list-item title="Resolved by">
             {{ issue.admin.firstName }} {{ issue.admin.lastName }}
           </f7-list-item>
+          <f7-list-item title="Content">
+            {{ issue.content }}
+          </f7-list-item>
           <f7-list-item title="Return amount">
             <f7-gauge
               type="semicircle"
@@ -110,6 +113,7 @@
             fill
             round
             v-if="currentUser.role === 'tutor' && issue.tutorAgreement === 0"
+            @click="confirmIssueResolution(issue.id)"
           >
             Confirm Resolution</f7-button
           >
@@ -117,6 +121,7 @@
             fill
             round
             v-if="currentUser.role === 'tutee' && issue.tuteeAgreement === 0"
+            @click="confirmIssueResolution(issue.id)"
           >
             Confirm Resolution</f7-button
           >
@@ -190,6 +195,15 @@ export default {
       let result = await service.requestCloseContract(isTutor, this.contractId);
       await service.updateContractInfo(this.currentUser.role);
       f7.dialog.alert(result);
+    },
+
+    async confirmIssueResolution(issueId) {
+      let isTutor = this.currentUser.role == "tutor" ? true : false;
+      let result = await service.confirmIssueResolution(isTutor, issueId);
+      await service.updateContractInfo(this.currentUser.role);
+      f7.dialog.alert(result, () => {
+        this.f7router.navigate(`/${this.currentUser.role}-main/`);
+      });
     },
   },
   mounted() {

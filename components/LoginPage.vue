@@ -67,26 +67,26 @@ export default {
     async signIn() {
       console.log(this.user);
       console.log(this.isTutor);
-      // let result;
-      // if (this.isTutor) {
-      //   result = await service.loginTutor(this.user);
-      //   share.loggedIn = true;
-      //   share.currentUser = await service.getTutorInfo();
-      // } else {
-      //   result = await service.loginTutee(this.user);
-      //   share.loggedIn = true;
-      //   share.currentUser = await service.getTuteeInfo();
-      // }
-      // await service.updateContractInfo(share.currentUser.role);
-      // await service.updateChatInfo(share.currentUser.role);
-
       if (share.gettingUserInfo) return;
 
       share.gettingUserInfo = true;
+      let result;
+      if (this.isTutor) {
+        result = await service.loginTutor(this.user);
+        //   share.loggedIn = true;
+        //   share.currentUser = await service.getTutorInfo();
+      } else {
+        result = await service.loginTutee(this.user);
+        //   share.loggedIn = true;
+        //   share.currentUser = await service.getTuteeInfo();
+      }
+      // await service.updateContractInfo(share.currentUser.role);
+      // await service.updateChatInfo(share.currentUser.role);
 
-      let result = this.isTutor
-        ? await service.loginTutor(this.user)
-        : await service.loginTutee(this.user);
+      // let result = this.isTutor
+      //   ? await service.loginTutor(this.user)
+      //   : await service.loginTutee(this.user);
+
       share.loggedIn = true;
 
       share.gettingUserInfo = false;

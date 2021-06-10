@@ -12,6 +12,7 @@ import UnverifyTutorInfoPage from '/components/UnverifyTutorInfoPage.vue'
 import ChatPage from '/components/ChatPage.vue'
 import TuteeMainPage from '/components/TuteeMainPage.vue'
 import ContractPage from '/components/ContractPage.vue'
+import CreateContractPage from '/components/CreateContractPage.vue'
 
 export default [
     {
@@ -69,5 +70,9 @@ export default [
     {
         path: "/contract/:contractId",
         component: ContractPage
+    },
+    {
+        path: "/create-contract/:tutorId",
+        component: CreateContractPage
     }
 ]

@@ -9,26 +9,48 @@ async function getCurrentUserInfo() {
 
     share.gettingUserInfo = true;
 
-    try {
-        share.currentUser = await getTutorInfo() || await getTuteeInfo();
+    let tutor, tutee = null;
 
-        if (share.currentUser) {
-            await updateContractInfo(share.currentUser.role);
-            await updateChatInfo(share.currentUser.role);
-        }
+    try {
+        tutor = await getTutorInfo()
     } catch (exc) {
-        console.log(exc)
+
+    }
+
+    try {
+        tutee = await getTuteeInfo()
+    } catch (exc) {
+
+    }
+
+    share.currentUser = tutor || tutee;
+    console.log('get current user info:', share.currentUser);
+
+    if (share.currentUser) {
+        initSocket(share.currentUser.token);
+        await updateContractInfo(share.currentUser.role);
+        await updateChatInfo(share.currentUser.role);
     }
 
     share.gettingUserInfo = false;
 }
 
-getCurrentUserInfo();
+await getCurrentUserInfo();
 
 async function initSocket(token) {
     s = io();
     s.on('auth', console.log);
     s.on('error', console.log);
+    s.on('server_chat_history', (id, messages) => {
+        try {
+            if (!share.currentUser.chatroomMap[id].initialized) {
+                share.currentUser.chatroomMap[id].messages = messages;
+                share.currentUser.chatroomMap[id].initialized = true;
+            }
+        } catch (exc) {
+
+        }
+    });
     s.on('server_message', (message) => {
         share.currentUser.chatroomMap[message.chatroomId].messages.push(message)
         // share.chatRoomInfo.messages.push(message); // error???
@@ -37,6 +59,7 @@ async function initSocket(token) {
         s.emit('client_token', token)
     });
 }
+
 
 async function getJson(route, params) {
     return await (await fetch(route, {
@@ -84,7 +107,6 @@ async function loginTutor(tutor) {
     if (response.error) {
         return response.error;
     }
-    initSocket(response.result.token);
 
     return response.result.message;
 }
@@ -95,7 +117,7 @@ async function loginTutee(tutee) {
     if (response.error) {
         return response.error;
     }
-    initSocket(response.result.token);
+
     return response.result.message;
 }
 
@@ -210,8 +232,15 @@ async function sendMessage(chatroomId, message) {
     s.emit('client_message', chatroomId, message);
 }
 
-async function getChatHistory(chatroomId) {
-    s.emit('client_chat_history', chatroomId)
+async function getChatHistory(id, refresh) {
+    try {
+        if (refresh)
+            share.currentUser.chatroomMap[id].initialized = false;
+
+        s.emit('client_chat_history', id);
+    } catch (exc) {
+
+    }
 }
 
 
@@ -296,14 +325,43 @@ async function requestCloseContract(isTutor, contractId) {
     return response.result;
 }
 
-async function createContract(tutorId, teachingHours, listOfTeachingDay) {
-    let response = await getJson('/api/tutee/create-contract', { tutorId, teachingHours, listOfTeachingDay });
+async function createContract(contractInfo) {
+    let response = await getJson('/api/tutee/create-contract', contractInfo);
 
     if (response.error) {
         return response.error;
     }
 
     return response.result;
+}
+
+async function confirmIssueResolution(isTutor, issueId) {
+    let response;
+    if (isTutor) {
+        response = await getJson('/api/tutor/confirm-issue-resolution', { issueId })
+    }
+    else {
+        response = await getJson('/api/tutee/confirm-issue-resolution', { issueId })
+
+    }
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+
+}
+
+async function contactTutor(tutorId) {
+    let response = await getJson('/api/tutee/contact-tutor', { tutorId });
+
+    if (response.error) {
+        throw new Error(response.error)
+    }
+
+    return response.result;
+
 }
 export default {
     getJson,
@@ -328,5 +386,9 @@ export default {
     raiseIssue,
     updateChatInfo,
     updateContractInfo,
-    getCurrentUserInfo
+    getCurrentUserInfo,
+    createContract,
+    confirmIssueResolution,
+    contactTutor
+
 }
