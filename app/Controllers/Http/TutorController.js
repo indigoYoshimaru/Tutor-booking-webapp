@@ -120,7 +120,7 @@ class TutorController {
         }
         let moneyAccount = await query_service.getMoneyAccountByTutorId(tutorId);
         let contracts = await query_service.getContractsByTutorId(tutorId);
-        
+
         let chatrooms = await query_service.getChatroomsByTutorId(tutorId);
         let dateOfBirth = tutor.dateOfBirth.toDateString();
 
@@ -128,7 +128,7 @@ class TutorController {
             contract.startDate = contract.startDate.toDateString();
             console.log(contract)
             let contractAccount = await query_service.getMoneyAccountByCode(`contract/${contract.id}`)
-         
+
             if (contract.closeDate) {
                 contract.closeDate = contract.closeDate.toDateString();
             }
@@ -155,7 +155,8 @@ class TutorController {
                 dateOfBirth: dateOfBirth,
                 profile: tutor.profile,
                 contracts: contracts,
-                chatrooms: chatrooms
+                chatrooms: chatrooms,
+                token: token
             }
         }
 

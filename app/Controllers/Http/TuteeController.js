@@ -115,10 +115,10 @@ class TuteeController {
 
         let contracts = await query_service.getContractsByTuteeId(tuteeId);
         let chatrooms = await query_service.getChatroomsByTuteeId(tuteeId);
-        let moneyAccount = await query_service.getMoneyAccountByTuteeId(tuteeId); 
+        let moneyAccount = await query_service.getMoneyAccountByTuteeId(tuteeId);
         let dateOfBirth = tutee.dateOfBirth.toDateString();
 
-        
+
         for (let contract of contracts) {
             contract.startDate = contract.startDate.toDateString();
             console.log(contract);
@@ -137,10 +137,10 @@ class TuteeController {
                 contract.balanceAmount = 0;
                 continue;
             }
-            
+
             contract.balanceAmount = contractAccount.balanceAmount;
-            
-           
+
+
         }
 
         return {
@@ -148,10 +148,11 @@ class TuteeController {
                 firstName: tutee.firstName,
                 lastName: tutee.lastName,
                 role: decodedObj.role,
-                balanceAccount: moneyAccount.balanceAccount,
+                balanceAmount: moneyAccount.balanceAmount,
                 dateOfBirth: dateOfBirth,
                 contracts: contracts,
-                chatrooms: chatrooms
+                chatrooms: chatrooms,
+                token: token
             }
         }
 
@@ -159,6 +160,7 @@ class TuteeController {
 
     async createContract({ request, session }) {
         let contract = request.all();
+        console.log(contract)
         let token = session.get('token');
         let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         let tuteeId = decodedObj.id;
@@ -187,7 +189,9 @@ class TuteeController {
         console.log(contract)
         for (var i of contract.listOfTeachingDay) { //loop through each teaching days
             let day = new Date(i); //parse teaching days to Date
+
             if (day < contract.startDate) {//|| day > contract.CloseDate compare with start and close date, CloseDate is contract's close date
+                console.log(day)
                 return {
                     error: "The teaching days are not in the contract's period"
                 }
@@ -230,17 +234,16 @@ class TuteeController {
             recentChatroom = await query_service.getChatroomByTutorIdandTuteeId(tutorId, tuteeId);
             return {
                 result: {
-                    chatroom: recentChatroom,
-                    messages: []
+                    chatroom: recentChatroom
                 }
             }
         }
 
-        let messages = await query_service.getMessageByChatroomId(chatroom.id);
+        //let messages = await query_service.getMessageByChatroomId(chatroom.id);
         return {
             result: {
-                chatroom: chatroom,
-                messages: messages
+                chatroom: chatroom
+                //messages: messages
             }
         }
     }

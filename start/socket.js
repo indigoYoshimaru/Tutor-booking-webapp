@@ -31,10 +31,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('client_token', (token) => {
-        if (socket.info) {
-            socket.emit('error', "already logged in");
-            return;
-        }
+        // if (socket.info) {
+        //     socket.emit('error', "already logged in");
+        //     return;
+        // }
 
         let decodedObject = jwt.verify(token, Config.get('app.appKey'));
         console.log(decodedObject)
@@ -123,10 +123,13 @@ io.on('connection', (socket) => {
         let messageHis = await query_service.getMessageByChatroomId(chatroomId);
         console.log('message history', messageHis);
 
-        for (var message of messageHis) {
-            console.log(`${socket.object.role}/${socket.object.id}`)
-            io.to(`${socket.object.role}/${socket.object.id}`).emit('server_message', message);
-        }
+        // for (var message of messageHis) {
+        //     console.log(`${socket.object.role}/${socket.object.id}`)
+        //     io.to(`${socket.object.role}/${socket.object.id}`).emit('server_message', message);
+        // }
+
+        console.log(`${socket.object.role}/${socket.object.id}`)
+        io.to(`${socket.object.role}/${socket.object.id}`).emit('server_chat_history', chatroomId, messageHis);
 
     })
 
