@@ -1,6 +1,6 @@
 <template>
   <f7-page>
-    <f7-navbar back-link="" title="Contract Information">
+    <f7-navbar large title="Contract Information" back-link="">
       <f7-nav-right :sliding="true">
         <!-- <f7-button panel-open="right"
           ><f7-icon ios="f7:menu"></f7-icon
@@ -22,7 +22,16 @@
               {{ contractInfo.state }}
             </f7-button>
           </template>
-
+          <template #after>
+            <f7-chip
+              v-bind:text="`${contractInfo.balanceAmount}`"
+              media-bg-color="deeppurple"
+            >
+              <template #media>
+                <f7-icon f7="money_dollar_circle"></f7-icon>
+              </template>
+            </f7-chip>
+          </template>
           <f7-list-item title="Tutor"
             >{{ contractInfo.tutor.firstName }}
             {{ contractInfo.tutor.lastName }}
@@ -46,12 +55,18 @@
               contractInfo.state === 'WAITING' && currentUser.role === 'tutor'
             "
           >
-            <f7-button fill round color="green">Accept</f7-button>
-            <f7-button round outline color="red">Reject</f7-button>
+            <f7-button fill round color="green" @click="acceptContract"
+              >Accept</f7-button
+            >
+            <f7-button round outline color="red" @click="rejectContract"
+              >Reject</f7-button
+            >
           </f7-list-item>
           <f7-list-item v-if="contractInfo.state === 'OPEN'">
-            <f7-button fill round>Request Close</f7-button>
-            <f7-button outline round>Raise Issue</f7-button>
+            <f7-button fill round @click="requestCloseContract"
+              >Request Close</f7-button
+            >
+            <f7-button outline round @click="raiseIssue">Raise Issue</f7-button>
           </f7-list-item>
         </f7-list-item>
       </f7-list>
@@ -66,6 +81,7 @@
             >
             <f7-button fill large v-else color="green">CLOSED</f7-button>
           </template>
+
           <f7-list-item title="Raised by" v-if="issue.isFromTutor">
             {{ contractInfo.tutor.firstName }}
             {{ contractInfo.tutor.lastName }}
@@ -76,6 +92,9 @@
           </f7-list-item>
           <f7-list-item title="Resolved by">
             {{ issue.admin.firstName }} {{ issue.admin.lastName }}
+          </f7-list-item>
+          <f7-list-item title="Content">
+            {{ issue.content }}
           </f7-list-item>
           <f7-list-item title="Return amount">
             <f7-gauge
@@ -94,6 +113,7 @@
             fill
             round
             v-if="currentUser.role === 'tutor' && issue.tutorAgreement === 0"
+            @click="confirmIssueResolution(issue.id)"
           >
             Confirm Resolution</f7-button
           >
@@ -101,6 +121,7 @@
             fill
             round
             v-if="currentUser.role === 'tutee' && issue.tuteeAgreement === 0"
+            @click="confirmIssueResolution(issue.id)"
           >
             Confirm Resolution</f7-button
           >
@@ -122,6 +143,7 @@ export default {
   },
   props: {
     contractId: Number,
+    f7router: Object,
   },
 
   computed: {
@@ -129,9 +151,10 @@ export default {
       return share.currentUser;
     },
     contractInfo() {
+      console.log(share.currentUser.contractMap);
       let contract = share.currentUser.contractMap[this.contractId];
 
-      return contract;
+      return contract ? contract : {};
     },
     colors() {
       return share.colors;
@@ -148,6 +171,41 @@ export default {
         issue.admin = await service.getAdminNameById(issue.resolveAdminId);
       }
       share.issues = issues;
+    },
+
+    async acceptContract() {
+      let result = await service.acceptContract(this.contractId);
+      await service.updateContractInfo(this.currentUser.role);
+      f7.dialog.alert(result, () => {
+        this.f7router.navigate(`/${this.currentUser.role}-main/`);
+      });
+    },
+    async rejectContract() {
+      let result = await service.rejectContract(this.contractId);
+      await service.updateContractInfo(this.currentUser.role);
+      // since we do not change the number of contracts of current user
+      // and only tutor can reject contract
+      f7.dialog.alert(result, () => {
+        this.f7router.navigate(`/${this.currentUser.role}-main/`);
+      });
+    },
+    async raiseIssue() {
+      this.f7router.navigate(`/raise-issue/${this.contractId}`);
+    },
+    async requestCloseContract() {
+      let isTutor = this.currentUser.role == "tutor" ? true : false;
+      let result = await service.requestCloseContract(isTutor, this.contractId);
+      await service.updateContractInfo(this.currentUser.role);
+      f7.dialog.alert(result);
+    },
+
+    async confirmIssueResolution(issueId) {
+      let isTutor = this.currentUser.role == "tutor" ? true : false;
+      let result = await service.confirmIssueResolution(isTutor, issueId);
+      await service.updateContractInfo(this.currentUser.role);
+      f7.dialog.alert(result, () => {
+        this.f7router.navigate(`/${this.currentUser.role}-main/`);
+      });
     },
   },
   mounted() {

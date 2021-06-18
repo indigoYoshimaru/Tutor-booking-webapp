@@ -19,6 +19,19 @@
           v-bind:title="currentUser.firstName + ' ' + currentUser.lastName"
           v-bind:subtitle="'BirthDay:' + currentUser.dateOfBirth"
         >
+          <!-- v-bind:after="`Balance: ${currentUser.balanceAmount}`" -->
+
+          <template #after>
+            <f7-chip
+              v-bind:text="`${currentUser.balanceAmount}`"
+              media-bg-color="deeppurple"
+            >
+              <template #media>
+                <f7-icon f7="money_dollar_circle"></f7-icon>
+              </template>
+            </f7-chip>
+          </template>
+
           <template #media>
             <img
               src="https://cdn0.iconfinder.com/data/icons/animal-icons-flat/128/fox-512.png"

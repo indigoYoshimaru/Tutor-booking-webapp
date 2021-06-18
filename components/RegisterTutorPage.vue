@@ -1,7 +1,6 @@
 <template>
   <f7-page login-screen>
-    <f7-navbar :transparent="true">
-      <f7-icon ios="f7:house_fill"></f7-icon>
+    <f7-navbar :transparent="true" back-link="" title="Registration">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
@@ -97,10 +96,7 @@
           @input="tutorInfo.dateOfBirth = $event.target.value"
         ></f7-list-input>
       </f7-list>
-      <!-- 
-      <f7-list v-for="course in courses" :key="course.id">
-        <f7-list-item checkbox title="course.name"></f7-list-item>
-      </f7-list> -->
+
       <f7-list>
         <f7-list-item>
           <f7-button
@@ -221,8 +217,8 @@ export default {
           let result = await service.registerTutor(currentInfo);
           console.log(result);
           f7.dialog.alert(
-            result,
-            "Message",
+            result + "\nAnd check your email for account verification.",
+            "Congrats",
             () => {
               this.f7router.navigate("/");
             }
@@ -274,7 +270,6 @@ export default {
         currentInfo.username &&
         currentInfo.email &&
         currentInfo.password &&
-        currentInfo.dateOfBirth &&
         currentInfo.profile.background.length > 0
       ) {
         for (let obj of currentInfo.profile.background) {

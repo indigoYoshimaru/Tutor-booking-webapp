@@ -16,6 +16,13 @@
       :placeholder="Message"
       :sheet-visible="sheetVisible"
     >
+      <template #inner-start>
+        <f7-link
+          v-if="currentUser.role === 'tutee'"
+          icon-ios="f7:calendar_badge_plus"
+          @click="openCreateContract"
+        />
+      </template>
       <template #inner-end>
         <f7-link
           icon-ios="f7:paperplane_fill"
@@ -55,6 +62,7 @@ export default {
   props: {
     chatroomId: Number,
     otherUserId: Number,
+    f7router: Object,
   },
   computed: {
     currentUser() {
@@ -64,41 +72,6 @@ export default {
       return share.currentUser.chatroomMap[this.chatroomId]
         ? share.currentUser.chatroomMap[this.chatroomId]
         : null;
-      // share.chatRoomInfo.id = this.chatroomId;
-
-      // let chatRoomInfo = share.chatRoomInfo[this.chatroomId];
-
-      // if (!chatRoomInfo) {
-      //   chatRoomInfo = { id: this.chatroomId, messages: [] };
-      //   share.chatRoomInfo[this.chatroomId] = chatRoomInfo;
-      // }
-
-      // // if (this.currentUser.role == "tutor") {
-      // // chatRoomInfo.tutor = this.currentUser;
-      // chatRoomInfo.otherUser = share.otherChatUsers[this.otherUserId];
-      // chatRoomInfo.otherUser.id = this.otherUserId;
-      // // } else {
-      // //   chatRoomInfo.id.tutee = this.currentUser;
-      // //   chatRoomInfo.tutor = share.otherChatUsers[this.otherUserId];
-      // //   chatRoomInfo.tutor.id = this.otherUserId;
-      // // }
-      // service.getChatHistory(chatRoomInfo.id);
-      // for (var mess in chatRoomInfo.messages) {
-      //   if (
-      //     (mess.isTutor && this.currentUser.role == "tutor") ||
-      //     (!mess.isTutor && this.currentUser.role == "tutee")
-      //   ) {
-      //     mess.type = "sent";
-      //     mess.name =
-      //       this.currentUser.firstName + " " + this.currentUser.lastName;
-      //   } else {
-      //     mess.type = "receiver";
-      //     mess.name =
-      //       chatRoomInfo.otherUser.firstName + " " + this.otherUser.lastName;
-      //   }
-      // }
-
-      // share.chatRoomInfo = chatRoomInfo;
     },
     otherUser() {
       let otherUser = share.otherChatUsers[this.otherUserId];
@@ -120,8 +93,7 @@ export default {
 
         result.type = "received";
         result.name = this.otherUser.firstName + " " + this.otherUser.lastName;
-        // console.log(mess);
-        // console.log(share.currentUser);
+
         if (
           (mess.isTutor && share.currentUser.role == "tutor") ||
           (!mess.isTutor && share.currentUser.role != "tutor")
@@ -160,6 +132,9 @@ export default {
 
       await service.sendMessage(this.chatroomId, text);
       this.messageText = "";
+    },
+    openCreateContract() {
+      this.f7router.navigate(`/create-contract/${this.chatRoomInfo.tutorId}`);
     },
   },
 

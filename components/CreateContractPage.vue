@@ -1,5 +1,5 @@
 <template>
-  <f7-page>
+  <f7-page login-screen>
     <f7-navbar back-link="" title="New Contract">
       <f7-nav-right :sliding="true"> </f7-nav-right>
     </f7-navbar>
@@ -23,8 +23,8 @@
       <f7-block-title>Tutor</f7-block-title>
       <f7-list media-list inset>
         <f7-list-item
-          v-bind:title="selectedTutor.firstName + ' ' + selectedTutor.lastName"
-          v-bind:subtitle="'Birthday:' + selectedTutor.dateOfBirth"
+          v-bind:title="this.tutor.firstName + ' ' + this.tutor.lastName"
+          v-bind:subtitle="'Birthday:' + this.tutor.dateOfBirth"
         >
           <template #media>
             <img
@@ -59,7 +59,7 @@
           type="date"
           value="2021-01-01"
           @input="addField($event.target.value, contractInfo.listOfTeachingDay)"
-        >          
+        >
         </f7-list-input>
       </f7-list>
       <f7-list>
@@ -77,13 +77,16 @@
           </f7-row>
         </f7-list-item>
       </f7-list>
-    </f7-block>
-
-    <f7-block style="padding: 0 40% 0 40%">
-      <f7-button large fill @click="createContract()"
+      <f7-button fill round @click="createContract()"
         >Create Contract</f7-button
       >
     </f7-block>
+
+    <!-- <f7-block style="padding: 0 40% 0 40%">
+      <f7-button large fill @click="createContract()"
+        >Create Contract</f7-button
+      >
+    </f7-block> -->
   </f7-page>
 </template>
 
@@ -99,25 +102,30 @@ export default {
   },
   props: {
     f7router: Object,
+    tutorId: Number,
   },
   computed: {
     currentUser() {
       return share.currentUser;
+    },
+    tutor() {
+      return share.otherChatUsers[this.tutorId];
     },
   },
   data() {
     return {
       selectedTutor: {},
       contractInfo: {
-        tutorId: 17,
+        tutorId: this.tutorId,
         teachingHours: "",
         listOfTeachingDay: [],
       },
     };
   },
   methods: {
-    async createContract() {      
+    async createContract() {
       let result = await service.createContract(this.contractInfo);
+      await service.getCurrentUserInfo();
       f7.dialog.alert(result, "Message", () => {
         this.f7router.navigate("/tutee-main/");
       });

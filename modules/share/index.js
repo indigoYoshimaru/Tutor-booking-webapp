@@ -2,13 +2,7 @@ import { reactive } from 'vue'
 export default reactive({
     theme: 'ios',
     loggedIn: false,
-    currentUser: {},
-    selectedTutor: {},
-    newContract: {
-        tutorId: "",
-        teachingHours: "",
-        listOfTeachingDay: []
-    },
+    // currentUser: {},
     otherContractUsers: [],
     otherChatUsers: [],
     colors: {
@@ -25,6 +19,12 @@ export default reactive({
     }, // including chatroom Id and tutee/tutor info
 
     issues: [],
+
+    // temp for admin , update later
+    // unverifiedTutors: [],
+    // unverifiedTutor: {},
+
+
 });
 
 

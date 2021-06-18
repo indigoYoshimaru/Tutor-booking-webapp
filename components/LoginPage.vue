@@ -1,10 +1,9 @@
 <template>
   <f7-page login-screen>
-    <f7-navbar :transparent="true">
-      <f7-icon ios="f7:house_fill"></f7-icon>
+    <f7-navbar back-link="">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
-          ><f7-icon ios="f7:menu"></f7-icon
+          ><f7-icon ios="f7:square_list_fill"></f7-icon
         ></f7-button>
       </f7-nav-right>
     </f7-navbar>
@@ -33,7 +32,7 @@
       </f7-list-item>
     </f7-list>
     <f7-list>
-      <f7-list-button @click="signIn">Login</f7-list-button>
+      <f7-list-button @click="signIn">Sign In</f7-list-button>
       <!-- <f7-block-footer
         >Some text about login information.<br />Lorem ipsum dolor sit amet,
         consectetur adipiscing elit.</f7-block-footer
@@ -66,54 +65,103 @@ export default {
   },
   methods: {
     async signIn() {
-      const self = this;
       console.log(this.user);
       console.log(this.isTutor);
+      if (share.gettingUserInfo) return;
+
+      share.gettingUserInfo = true;
+      let result;
       if (this.isTutor) {
-        let result = await service.loginTutor(this.user);
-        share.loggedIn = true;
-        share.currentUser = await service.getTutorInfo();
-
-        let currentUser = share.currentUser;
-        let otherContractUsers = share.otherContractUsers;
-        let otherChatUsers = share.otherChatUsers;
-        console.log(share.currentUser);
-        for (let contract of currentUser.contracts) {
-          let user = await service.getTuteeNameById(contract.tuteeId);
-          otherContractUsers[contract.tuteeId] = user;
-          console.log(otherContractUsers[contract.tuteeId]);
-        }
-        for (let chatroom of currentUser.chatrooms) {
-          console.log(chatroom.tuteeId);
-          let user = await service.getTuteeNameById(chatroom.tuteeId);
-          otherChatUsers[chatroom.tuteeId] = user;
-          console.log(otherContractUsers[chatroom.tuteeId]);
-        }
-
-        console.log(share.currentUser);
-        //share.currentUser.dateOfBirth = new Date(share.currentUser.dateOfBirth);
-        f7.dialog.alert(
-          result
-          // ,
-          // () => {
-          //   self.f7router.navigate("\mainpage");
-          // }
-        );
+        result = await service.loginTutor(this.user);
+        //   share.loggedIn = true;
+        //   share.currentUser = await service.getTutorInfo();
       } else {
-        let result = await service.loginTutee(this.user);
-        share.loggedIn = true;
-        share.currentInfo = await service.getTuteeInfo();
-        console.log(share.currentInfo);
-        f7.dialog.alert(result);
-      } // temp else
+        result = await service.loginTutee(this.user);
+        //   share.loggedIn = true;
+        //   share.currentUser = await service.getTuteeInfo();
+      }
+      // await service.updateContractInfo(share.currentUser.role);
+      // await service.updateChatInfo(share.currentUser.role);
 
-      // ,
-      // () => {
-      //   self.f7router.back();
-      // }
+      // let result = this.isTutor
+      //   ? await service.loginTutor(this.user)
+      //   : await service.loginTutee(this.user);
+
+      share.loggedIn = true;
+
+      share.gettingUserInfo = false;
+
+      await service.getCurrentUserInfo();
+
+      f7.dialog.alert(result, () => {
+        this.f7router.navigate(`/${share.currentUser.role}-main/`);
+      });
     },
   },
 };
 </script>
+
+
+      //   share.currentUser = await service.getTutorInfo();
+
+      //   let currentUser = share.currentUser;
+      //   let otherContractUsers = share.otherContractUsers;
+      //   let otherChatUsers = share.otherChatUsers;
+      //   console.log(share.currentUser);
+
+      //   currentUser.chatroomMap = {};
+      //   currentUser.contractMap = {};
+
+      //   for (let contract of currentUser.contracts) {
+      //     let user = await service.getTuteeNameById(contract.tuteeId);
+      //     otherContractUsers[contract.tuteeId] = user;
+      //     contract.tutor = share.currentUser;
+      //     contract.tutee = share.otherContractUsers[contract.tuteeId];
+      //     currentUser.contractMap[contract.id] = contract;
+      //   }
+      //   for (let chatroom of currentUser.chatrooms) {
+      //     chatroom.messages = [];
+      //     currentUser.chatroomMap[chatroom.id] = chatroom;
+      //     let user = await service.getTuteeNameById(chatroom.tuteeId);
+      //     otherChatUsers[chatroom.tuteeId] = user;
+      //   }
+
+      //   //share.currentUser.dateOfBirth = new Date(share.currentUser.dateOfBirth);
+      //   f7.dialog.alert(result, () => {
+      //     this.f7router.navigate("/tutor-main/");
+      //   });
+      // } else {
+      //   let result = await service.loginTutee(this.user);
+      //   share.loggedIn = true;
+      //   share.currentUser = await service.getTuteeInfo();
+
+      //   let currentUser = share.currentUser;
+      //   let otherContractUsers = share.otherContractUsers;
+      //   let otherChatUsers = share.otherChatUsers;
+      //   console.log(share.currentUser);
+
+      //   currentUser.chatroomMap = {};
+      //   currentUser.contractMap = {};
+
+      //   for (let contract of currentUser.contracts) {
+      //     let user = await service.getTutorNameById(contract.tutorId);
+      //     otherContractUsers[contract.tutorId] = user;
+      //     contract.tutee = share.currentUser;
+      //     contract.tutor = share.otherContractUsers[contract.tutorId];
+      //     currentUser.contractMap[contract.id] = contract;
+      //   }
+
+      //   for (let chatroom of currentUser.chatrooms) {
+      //     chatroom.messages = [];
+      //     currentUser.chatroomMap[chatroom.id] = chatroom;
+      //     let user = await service.getTutorNameById(chatroom.tutorId);
+      //     otherChatUsers[chatroom.tutorId] = user;
+      //     console.log(otherChatUsers[chatroom.tutorId]);
+      //   }
+
+      //   f7.dialog.alert(result, () => {
+      //     this.f7router.navigate("/tutee-main/");
+      //   });
+      // } // temp else
 
 

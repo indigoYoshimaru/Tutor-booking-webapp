@@ -14,38 +14,14 @@
               link="/login/"
               title="Login"
             ></f7-list-item>
-            <f7-list-item link="/register/" title="Register"></f7-list-item>
+
             <f7-list-item link="/about/" title="About"></f7-list-item>
-            <f7-list-item link="/raise-issue/" title="Issue"></f7-list-item>            
-            <f7-list-item
-              v-if="!gettingUserInfo"
-              link="/tutor-list/"
-              title="TestGetTutorList"
-            ></f7-list-item>
-            <f7-list-item
-              v-if="!currentUser"
-              link="/register-tutor/"
-              title="Register Tutor"
-            ></f7-list-item>
-            <f7-list-item
-              v-if="!currentUser"
-              link="/register-tutee/"
-              title="Register Tutee"
-            ></f7-list-item>
+            <!-- <f7-list-item link="/tutee/" title="Test component"></f7-list-item> -->
+
             <f7-list-item
               v-if="!currentUser"
               link="/get-unverified-tutor/"
               title="Unverified Tutor"
-            ></f7-list-item>
-            <f7-list-item
-              v-if="currentUser && currentUser.role === 'tutor'"
-              link="/tutor-main/"
-              title="Main"
-            ></f7-list-item>
-            <f7-list-item
-              v-if="currentUser && currentUser.role === 'tutee'"
-              link="/tutee-main/"
-              title="Main"
             ></f7-list-item>
           </f7-list>
           <!-- </f7-page>
@@ -96,8 +72,8 @@
 <script>
 import f7 from "framework7/lite-bundle";
 import share from "/modules/share";
-import routes from "/modules/routes";
-import service from "/modules/service";
+import routes from "/modules/admin/routes";
+
 import f7components from "/components/f7components";
 
 export default {
@@ -111,27 +87,6 @@ export default {
     f7() {
       f7;
     },
-    loggedIn() {
-      return share.loggedIn;
-    },
-    currentUser() {
-      console.log(share.currentUser);
-      return share.currentUser;
-    },
-    gettingUserInfo() {
-      return share.gettingUserInfo;
-    },
-    // mainUrl() {
-    //   if (share.currentUser) {
-    //     return `/${share.currentUser.role}-main/`;
-    //   }
-    //   return "/";
-    // },
-    jump() {
-      if (this.currentUser) {
-        this.f7router.navigate(`/${share.currentUser.role}-main/`);
-      }
-    },
   },
 
   data() {
@@ -143,14 +98,7 @@ export default {
     };
   },
   methods: {
-    navigate() {
-      if (share.currentUser) {
-        this.f7router.navigate(`/${share.currentUser.role}-main/`);
-      }
-    },
-  },
-  mounted() {
-    service.getCurrentUserInfo();
+    navigate() {},
   },
 };
 </script>

@@ -2,7 +2,7 @@
 <template>
   <!-- this is the homepage after login  -->
   <f7-page>
-    <f7-navbar title="Main Page">
+    <f7-navbar large title="Main Page">
       <f7-nav-right :sliding="true">
         <!-- <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
@@ -19,6 +19,16 @@
           v-bind:title="currentUser.firstName + ' ' + currentUser.lastName"
           v-bind:subtitle="'BirthDay:' + currentUser.dateOfBirth"
         >
+          <template #after>
+            <f7-chip
+              v-bind:text="`${currentUser.balanceAmount}`"
+              media-bg-color="deeppurple"
+            >
+              <template #media>
+                <f7-icon f7="money_dollar_circle"></f7-icon>
+              </template>
+            </f7-chip>
+          </template>
           <template #media>
             <img
               src="https://cdn0.iconfinder.com/data/icons/animal-icons-flat/128/fox-512.png"
@@ -29,56 +39,60 @@
       </f7-list>
     </f7-block>
     <f7-block>
-      <f7-list media-list inset>
-        <f7-list-item>
-          <f7-button @click="createContract()"
-            ><f7-icon f7="plus"></f7-icon>Create new contract</f7-button
-          ></f7-list-item
-        >
-      </f7-list>
-    </f7-block>
-    <f7-block>
       <f7-block-title large>Contract History</f7-block-title>
-
-      <f7-list
-        media-list
-        inset
-        v-for="contract in currentUser.contracts"
-        :key="contract.id"
-      >
-        <f7-list-item>
-          <template #media>
-            <f7-button
-              fill
-              large
-              v-bind:color="colors[contract.state]"
-              active
-              >{{ contract.state }}</f7-button
+      <f7-block-content>
+        <f7-list
+          media-list
+          inset
+          v-for="contract in currentUser.contracts"
+          :key="contract.id"
+        >
+          <f7-list-item>
+            <template #media>
+              <f7-button
+                fill
+                large
+                v-bind:color="colors[contract.state]"
+                active
+                >{{ contract.state }}</f7-button
+              >
+            </template>
+            <f7-list-item
+              :link="`/contract/${contract.id}`"
+              v-bind:title="
+                otherContractUsers[contract.tutorId].firstName +
+                ' ' +
+                otherContractUsers[contract.tutorId].lastName
+              "
+              v-bind:subtitle="'Start Date: ' + contract.startDate"
+              after="Open contract"
             >
-          </template>
-          <f7-list-item
-            :link="`/contract/${contract.id}`"
-            v-bind:title="
-              otherContractUsers[contract.tutorId].firstName +
-              ' ' +
-              otherContractUsers[contract.tutorId].lastName
-            "
-            v-bind:subtitle="'Start Date: ' + contract.startDate"
-            after="Open contract"
-          >
-          </f7-list-item>
-          <f7-list-item strong>Registered study days</f7-list-item>
+            </f7-list-item>
+            <f7-list-item strong>Registered study days</f7-list-item>
 
-          <li
-            v-for="teachingDay in contract.listOfTeachingDay"
-            :key="teachingDay.id"
-          >
-            <ul>
-              <f7-list-item v-bind:subtitle="teachingDay"> </f7-list-item>
-            </ul>
-          </li>
-        </f7-list-item>
-      </f7-list>
+            <li
+              v-for="teachingDay in contract.listOfTeachingDay"
+              :key="teachingDay.id"
+            >
+              <ul>
+                <f7-list-item v-bind:subtitle="teachingDay"> </f7-list-item>
+              </ul>
+            </li>
+          </f7-list-item>
+        </f7-list>
+      </f7-block-content>
+      <f7-block-footer>
+        <f7-row>
+          <f7-col width="70"></f7-col>
+          <f7-col width="25">
+            <f7-button fill round @click="navigateTutorListPage"
+              ><f7-icon f7="plus_rectangle_on_rectangle"> </f7-icon> Add new
+              contract</f7-button
+            >
+          </f7-col>
+          <f7-col width="5"></f7-col>
+        </f7-row>
+      </f7-block-footer>
     </f7-block>
     <f7-block>
       <f7-block-title class="block-title-strong block-title-large"
@@ -125,6 +139,7 @@ export default {
   props: {
     f7router: Object,
   },
+
   computed: {
     currentUser() {
       return share.currentUser;
@@ -143,9 +158,8 @@ export default {
     return {};
   },
   methods: {
-    async createContract() {
-      // this.f7router.navigate("/tutor-list/");
-      this.f7router.navigate("/create-contract/");
+    navigateTutorListPage() {
+      this.f7router.navigate("/tutor-list/");
     },
   },
 };
