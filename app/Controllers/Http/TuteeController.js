@@ -106,54 +106,59 @@ class TuteeController {
         let decodedObj = jwt.verify(token, Config.get('app.appKey'));
         let tuteeId = decodedObj.id;
         let tutee = await query_service.getTuteeById(tuteeId);
-        console.log(tuteeId)
+        console.log('tutee id:', tuteeId)
         if (!tutee) {
             return {
                 error: "No tutee found"
             }
         }
 
-        let contracts = await query_service.getContractsByTuteeId(tuteeId);
-        let chatrooms = await query_service.getChatroomsByTuteeId(tuteeId);
-        let moneyAccount = await query_service.getMoneyAccountByTuteeId(tuteeId);
-        let dateOfBirth = tutee.dateOfBirth.toDateString();
+        try {
+            let contracts = await query_service.getContractsByTuteeId(tuteeId);
+            let chatrooms = await query_service.getChatroomsByTuteeId(tuteeId);
+            let moneyAccount = await query_service.getMoneyAccountByTuteeId(tuteeId);
+            let dateOfBirth = tutee.dateOfBirth.toDateString();
 
 
-        for (let contract of contracts) {
-            contract.startDate = contract.startDate.toDateString();
-            console.log(contract);
-            if (contract.closeDate) {
-                contract.closeDate = contract.closeDate.toDateString();
+            for (let contract of contracts) {
+                contract.startDate = contract.startDate.toDateString();
+                console.log(contract);
+                if (contract.closeDate) {
+                    contract.closeDate = contract.closeDate.toDateString();
+                }
+                let listOfTeachingDay = [];
+                for (let teachingDay of contract.listOfTeachingDay) {
+                    teachingDay = new Date(teachingDay)
+                    teachingDay = teachingDay.toDateString();
+                    listOfTeachingDay.push(teachingDay);
+                }
+                contract.listOfTeachingDay = listOfTeachingDay;
+                let contractAccount = await query_service.getMoneyAccountByCode(`contract/${contract.id}`)
+                if (!contractAccount) {
+                    contract.balanceAmount = 0;
+                    continue;
+                }
+
+                contract.balanceAmount = contractAccount.balanceAmount;
+
+
             }
-            let listOfTeachingDay = [];
-            for (let teachingDay of contract.listOfTeachingDay) {
-                teachingDay = new Date(teachingDay)
-                teachingDay = teachingDay.toDateString();
-                listOfTeachingDay.push(teachingDay);
+
+            return {
+                result: {
+                    firstName: tutee.firstName,
+                    lastName: tutee.lastName,
+                    role: decodedObj.role,
+                    balanceAmount: moneyAccount.balanceAmount,
+                    dateOfBirth: dateOfBirth,
+                    contracts: contracts,
+                    chatrooms: chatrooms,
+                    token: token
+                }
             }
-            contract.listOfTeachingDay = listOfTeachingDay;
-            let contractAccount = await query_service.getMoneyAccountByCode(`contract/${contract.id}`)
-            if (!contractAccount) {
-                contract.balanceAmount = 0;
-                continue;
-            }
-
-            contract.balanceAmount = contractAccount.balanceAmount;
-
-
         }
-
-        return {
-            result: {
-                firstName: tutee.firstName,
-                lastName: tutee.lastName,
-                role: decodedObj.role,
-                balanceAmount: moneyAccount.balanceAmount,
-                dateOfBirth: dateOfBirth,
-                contracts: contracts,
-                chatrooms: chatrooms,
-                token: token
-            }
+        catch (exc) {
+            console.log(exc);
         }
 
     }
@@ -181,7 +186,7 @@ class TuteeController {
         contract.tuteeId = tuteeId;
         contract.startDate = new Date(Date.now());
         let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, tuteeId);
-        if (contractDB && contractDB.state != 'CLOSED') { // contract is not closed
+        if (contractDB && (contractDB.state != 'CLOSED' || contractDB.state != 'REJECTED')) { // contract is not closed
             return {
                 error: "The contract has not been closed yet"
             }
