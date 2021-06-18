@@ -12,7 +12,7 @@
       <f7-list-item
         v-for="unTutor in unTutors"
         :key="unTutor.id"
-        :link="`/verify-tutor/${unTutor.id}`"
+        :link="`/verify-tutor/${unTutor.id}/`"
         v-bind:title="unTutor.firstName + ' ' + unTutor.lastName"
         after="Verify"
       >
@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import share from "/modules/share";
+import share from "/modules/admin/share";
 import { f7 } from "framework7-vue";
 import f7components from "/components/f7components";
-import service from "/modules/service";
+import service from "/modules/admin/service";
 
 // let unTutors = await service.getUnverifiedTutors();
 

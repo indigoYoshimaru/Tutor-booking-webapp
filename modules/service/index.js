@@ -35,7 +35,7 @@ async function getCurrentUserInfo() {
     share.gettingUserInfo = false;
 }
 
-await getCurrentUserInfo();
+// await getCurrentUserInfo();
 
 async function initSocket(token) {
     s = io();
@@ -209,24 +209,7 @@ async function getTutorNameById(tutorId) {
     return response.result;
 }
 
-async function getUnverifiedTutors() {
-    let response = await fetch('/api/general/get-unverified-tutor');
-    let data = await response.json();
-    if (data.error) {
-        throw new Error(data.error);
-    }
-    return data.result;
-}
 
-async function verifyTutor(tutorId) {
-    let response = await getJson('/api/admin/verify-tutor-registration', { tutorId });
-
-    if (response.error) {
-        return response.error;
-    }
-
-    return response.result;
-}
 
 async function sendMessage(chatroomId, message) {
     s.emit('client_message', chatroomId, message);
@@ -363,6 +346,8 @@ async function contactTutor(tutorId) {
     return response.result;
 
 }
+
+
 export default {
     getJson,
     getTutors,
@@ -374,8 +359,7 @@ export default {
     getTuteeInfo,
     getTutorNameById,
     getTuteeNameById,
-    getUnverifiedTutors,
-    verifyTutor,
+
     getChatHistory,
     sendMessage,
     getIssueByContractId,
@@ -389,6 +373,6 @@ export default {
     getCurrentUserInfo,
     createContract,
     confirmIssueResolution,
-    contactTutor
+    contactTutor,
 
 }

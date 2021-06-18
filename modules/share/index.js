@@ -19,6 +19,12 @@ export default reactive({
     }, // including chatroom Id and tutee/tutor info
 
     issues: [],
+
+    // temp for admin , update later
+    // unverifiedTutors: [],
+    // unverifiedTutor: {},
+
+
 });
 
 

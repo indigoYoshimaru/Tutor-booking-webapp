@@ -8,7 +8,7 @@ import RegisterTutorPage from '/components/RegisterTutorPage.vue'
 import RegisterTuteePage from '/components/RegisterTuteePage.vue'
 import TutorMainPage from '/components/TutorMainPage.vue'
 import UnverifiedTutorPage from '/components/UnverifiedTutorPage.vue'
-import UnverifyTutorInfoPage from '/components/UnverifyTutorInfoPage.vue'
+import AdminVerifyTutorPage from '/components/AdminVerifyTutorPage.vue'
 import ChatPage from '/components/ChatPage.vue'
 import TuteeMainPage from '/components/TuteeMainPage.vue'
 import ContractPage from '/components/ContractPage.vue'
@@ -51,14 +51,7 @@ export default [
         path: '/tutor-main/',
         component: TutorMainPage
     },
-    {
-        path: "/get-unverified-tutor",
-        component: UnverifiedTutorPage
-    },
-    {
-        path: "/verify-tutor/",
-        component: UnverifyTutorInfoPage
-    },
+
     {
         path: "/chat/:chatroomId/:otherUserId",
         component: ChatPage
