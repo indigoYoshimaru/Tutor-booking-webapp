@@ -137,18 +137,18 @@ Template sẽ có thể được chỉnh sửa</p>
 <ul>
 <li><strong>CHAPTER I : INTRODUCTION</strong>
 <ul>
-<li>Motivation</li>
-<li>Problems Statement</li>
-<li>Scope</li>
+<li>Motivation  - Khoa</li>
+<li>Problems Statement - Linh</li>
+<li>Scope - Linh</li>
 </ul>
 </li>
-<li><strong>CHAPTER II: LITERATURE REVIEW</strong>
+<li><strong>CHAPTER II: LITERATURE REVIEW</strong> Khoa
 <ul>
 <li>Similar Applications/Systems</li>
 <li>Platform and Tools Review</li>
 </ul>
 </li>
-<li><strong>CHAPTER III: SYSTEM DESIGN</strong>
+<li><strong>CHAPTER III: SYSTEM DESIGN</strong> (Linh)
 <ul>
 <li>System Requirement Specification
 <ul>
@@ -162,13 +162,28 @@ Template sẽ có thể được chỉnh sửa</p>
 <li>Use-cases Diagram (summary goal use case and at least 3 main use cases)</li>
 <li>Sequence Diagram (at least 3 main sequence)</li>
 <li>Activity Diagram (at least 3 main activities)</li>
-<li>Class Diagram (must ask)</li>
+<li>Relational Model Diagram</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><strong>CHAPTER IV: SYSTEM IMPLEMENTATION</strong></li>
-<li><strong>CHAPTER V: CONCLUSION AND DISCUSSION</strong>
+<li><strong>CHAPTER IV: SYSTEM IMPLEMENTATION</strong>
+<ul>
+<li>Database (Khoa)
+<ul>
+<li>Database creation and queries</li>
+<li>Database conectivity</li>
+</ul>
+</li>
+<li>Web application implementation
+<ul>
+<li>Back-end (Khoa and Linh)</li>
+<li>Front-end (Vi and Linh)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>CHAPTER V: CONCLUSION AND DISCUSSION</strong> (Vi)
 <ul>
 <li>List of accomplished work</li>
 <li>Strength and Weakness</li>
