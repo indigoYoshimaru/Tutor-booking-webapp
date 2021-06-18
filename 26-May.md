@@ -137,18 +137,18 @@ Template sẽ có thể được chỉnh sửa</p>
 <ul>
 <li><strong>CHAPTER I : INTRODUCTION</strong>
 <ul>
-<li>Motivation  - Khoa</li>
-<li>Problems Statement - Linh</li>
-<li>Scope - Linh</li>
+<li>Motivation  - KHOA</li>
+<li>Problems Statement - LINH</li>
+<li>Scope - LINH</li>
 </ul>
 </li>
-<li><strong>CHAPTER II: LITERATURE REVIEW</strong> Khoa
+<li><strong>CHAPTER II: LITERATURE REVIEW</strong> KHOA
 <ul>
 <li>Similar Applications/Systems</li>
 <li>Platform and Tools Review</li>
 </ul>
 </li>
-<li><strong>CHAPTER III: SYSTEM DESIGN</strong> (Linh)
+<li><strong>CHAPTER III: SYSTEM DESIGN</strong> (LINH)
 <ul>
 <li>System Requirement Specification
 <ul>
@@ -169,7 +169,7 @@ Template sẽ có thể được chỉnh sửa</p>
 </li>
 <li><strong>CHAPTER IV: SYSTEM IMPLEMENTATION</strong>
 <ul>
-<li>Database (Khoa)
+<li>Database (KHOA)
 <ul>
 <li>Database creation and queries</li>
 <li>Database conectivity</li>
@@ -177,13 +177,13 @@ Template sẽ có thể được chỉnh sửa</p>
 </li>
 <li>Web application implementation
 <ul>
-<li>Back-end (Khoa and Linh)</li>
-<li>Front-end (Vi and Linh)</li>
+<li>Back-end (KHOA and LINH)</li>
+<li>Front-end (VI and LINH)</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><strong>CHAPTER V: CONCLUSION AND DISCUSSION</strong> (Vi)
+<li><strong>CHAPTER V: CONCLUSION AND DISCUSSION</strong> (VI)
 <ul>
 <li>List of accomplished work</li>
 <li>Strength and Weakness</li>
