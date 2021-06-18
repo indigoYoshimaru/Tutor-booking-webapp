@@ -39,7 +39,7 @@
 import share from "/modules/share";
 import { f7 } from "framework7-vue";
 import f7components from "/components/f7components";
-import service from "/modules/service";
+import service from "/modules/admin/service";
 
 export default {
   components: {
@@ -80,9 +80,14 @@ export default {
       // share.loggedIn = true;
       // share.gettingUserInfo = false;
       // await service.getCurrentUserInfo();
-      // f7.dialog.alert(result, () => {
-      //   this.f7router.navigate(`/${share.currentUser.role}-main/`);
-      // });
+      let result = await service.loginAdmin(this.user);
+      console.log(result);
+      if (result) {
+        await service.getAdminInfo();
+      }
+      f7.dialog.alert(result, () => {
+        this.f7router.navigate(`/`);
+      });
     },
   },
 };

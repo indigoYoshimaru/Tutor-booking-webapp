@@ -39,10 +39,33 @@ async function getUnverifiedTutorById(unverifiedTutorId) {
     return response.result;
 }
 
+async function loginAdmin(admin) {
+    let response = await getJson('/api/admin/login', admin);
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result.message;
+
+}
+
+async function getAdminInfo() {
+    share.currentUser = null;
+    let response = await fetch('/api/admin/get-info');
+    let data = await response.json();
+    if (data.error) {
+        throw new Error(data.error);
+    }
+    share.currentUser = data;
+}
+
 export default {
     getJson,
     getUnverifiedTutors,
     verifyTutor,
-    getUnverifiedTutorById
+    getUnverifiedTutorById,
+    loginAdmin,
+    getAdminInfo
 
 }
