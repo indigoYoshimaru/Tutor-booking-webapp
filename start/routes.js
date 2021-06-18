@@ -76,6 +76,8 @@ Route.post('/general/get-message-in-chatroom-by-tutee', 'GetDatumController.getM
 /*=====EXTRA FUNCTIONS=====*/
 Route.get('/general/get-least-resolve-admins', 'GetDatumController.getLeastResolveAdmins')
 Route.get('/general/get-courses', 'GetDatumController.getCourses')
+Route.post('/general/get-unverified-tutor-by-id', 'GetDatumController.getUnverifiedTutorById')
+
 
 Route.post('/tutor/register', 'TutorController.register')
 Route.post('/tutee/register', 'TuteeController.register')

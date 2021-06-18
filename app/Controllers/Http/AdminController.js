@@ -29,7 +29,7 @@ class AdminController {
         console.log(tutor);
         if (!tutor)
             return {
-                result: "No tutor found"
+                error: "No tutor found"
             }
 
         let tokenObj = {
@@ -42,7 +42,9 @@ class AdminController {
         console.log(content);
         let res = await utility.sendMail(tutor.email, content);
         console.log(res);
-        return res;
+        return {
+            result: `Verify sucessfully. \n An email has sent to ${tutor.email}`
+        }
     }
 
     async login({ request, session }) {

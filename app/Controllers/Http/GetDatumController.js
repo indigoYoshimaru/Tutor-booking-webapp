@@ -98,6 +98,27 @@ class GetDatumController {
             result: tutor
         }
     }
+
+    async getUnverifiedTutorById({ request }) {
+        let req = request.all();
+        let unverTutorId = req.unverifiedTutorId
+        let unverTutor = await query_service.getUnverifiedTutorById(unverTutorId);
+        if (!unverTutor)
+            return {
+                error: 'No tutor found'
+            }
+        let dateOfBirth = unverTutor.dateOfBirth.toDateString();
+        return {
+            result: {
+                firstName: unverTutor.firstName,
+                lastName: unverTutor.lastName,
+                dateOfBirth: dateOfBirth,
+                email: unverTutor.email,
+                profile: unverTutor.profile,
+            }
+        }
+    }
+
     /*=====Tutee=====*/
     async getTutees({ request }) {
         let tutees = await query_service.getTutees();
