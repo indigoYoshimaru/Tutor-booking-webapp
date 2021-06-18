@@ -93,6 +93,7 @@ Route.post('/tutor/login', 'TutorController.login')
 
 Route.get('/tutor/get-info', 'TutorController.getTutorInfo')
 Route.get('/tutee/get-info', 'TuteeController.getTuteeInfo')
+Route.get('/admin/get-info', 'AdminController.getAdminInfo')
 
 Route.post('/admin/ban-verified-tutor', 'AdminController.banVerifiedTutor')
 Route.post('/admin/ban-tutee', 'AdminController.banTutee')

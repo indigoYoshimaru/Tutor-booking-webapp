@@ -82,6 +82,29 @@ class AdminController {
 
     }
 
+    async getAdminInfo({ request, session }) {
+        let token = session.get('token');
+        let decodedObj = jwt.verify(token, Config.get('app.appKey'));
+        let adminId = decodedObj.id;
+        let admin = await query_service.getAdminById(adminId);
+        console.log(admin);
+        if (!admin) {
+            return {
+                error: "No admin found"
+            }
+        }
+        let issues = await query_service.getIssueByResolveAdminId(adminId);
+        return {
+            result: {
+                firstName: admin.firstName,
+                lastName: admin.lastName,
+                dateOfBirth: admin.dateOfBirth,
+                email: admin.email,
+                issues: issues
+            }
+        }
+    }
+
     async addNewAdmin({ request, session }) {
         let admin = request.all()
         let adminDB = await query_service.getAdminByUserName(admin.username); // needs checking all types of usernames
