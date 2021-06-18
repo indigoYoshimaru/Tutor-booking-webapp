@@ -87,15 +87,21 @@ export default {
       //   ? await service.loginTutor(this.user)
       //   : await service.loginTutee(this.user);
 
-      share.loggedIn = true;
-
       share.gettingUserInfo = false;
 
       await service.getCurrentUserInfo();
 
-      f7.dialog.alert(result, () => {
-        this.f7router.navigate(`/${share.currentUser.role}-main/`);
-      });
+      if (share.currentUser) {
+        share.loggedIn = true;
+
+        f7.dialog.alert(result, () => {
+          this.f7router.navigate(`/${share.currentUser.role}-main/`);
+        });
+
+        return;
+      }
+
+      f7.dialog.alert("Login failed");
     },
   },
 };
