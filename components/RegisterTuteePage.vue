@@ -1,6 +1,6 @@
 <template>
-  <f7-page>
-    <f7-navbar back-link="">
+  <f7-page login-screen>
+    <f7-navbar back-link="" title="Registration">
       <f7-nav-right :sliding="true">
         <f7-button panel-open="right"
           ><f7-icon ios="f7:square_list_fill"></f7-icon
@@ -62,16 +62,37 @@
     <f7-list>
       <f7-list-button @click="tuteeRegister">Register</f7-list-button>
     </f7-list>
+
+    
   </f7-page>
 </template>
 
 <script>
 import share from "/modules/share";
+import { f7 } from "framework7-vue";
 import f7components from "/components/f7components";
+import service from "/modules/service";
 
 export default {
-  components: {
+ components: {
     ...f7components,
+  },
+  props: {
+    f7router: Object,
+  },
+  data() {
+    return {     
+      
+      tuteeInfo: {
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+        dateOfBirth: "",
+        confirmedPassword: "",
+      },
+    };
   },
 };
 </script>

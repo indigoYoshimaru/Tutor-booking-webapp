@@ -101,6 +101,17 @@ async function registerTutor(tutor) {
     return "Your registration is successful." + response.result;
 }
 
+async function registerTutee(tutee) {
+    let response = await getJson('/api/tutee/register', tutee);
+    console.log(response)
+
+    if (response.error) {
+        return response.error;
+    }
+
+    return response.result;
+}
+
 async function loginTutor(tutor) {
     let response = await getJson('/api/tutor/login', tutor);
 
@@ -353,6 +364,7 @@ export default {
     getTutors,
     getCourses,
     registerTutor,
+    registerTutee,
     loginTutor,
     loginTutee,
     getTutorInfo,
