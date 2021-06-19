@@ -36,7 +36,7 @@
   </f7-page>
 </template>
 <script>
-import share from "/modules/share";
+import share from "/modules/admin/share";
 import { f7 } from "framework7-vue";
 import f7components from "/components/f7components";
 import service from "/modules/admin/service";
@@ -47,7 +47,7 @@ export default {
   },
   props: {
     f7router: Object,
-  },
+  },  
   data() {
     return {
       user: {
@@ -83,7 +83,13 @@ export default {
       let result = await service.loginAdmin(this.user);
       console.log(result);
       if (result) {
-        await service.getAdminInfo();
+        await service.getAdminInfo();  
+        console.log(share.currentUser)      
+        if (share.currentUser){          
+          share.loggedIn = true;
+          //share.issues = share.currentUser.issues; 
+          console.log(share.currentUser.issues);
+        } 
       }
       f7.dialog.alert(result, () => {
         this.f7router.navigate(`/`);

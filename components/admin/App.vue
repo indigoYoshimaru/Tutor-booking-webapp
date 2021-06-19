@@ -23,6 +23,11 @@
               link="/get-unverified-tutor/"
               title="Unverified Tutor"
             ></f7-list-item>
+            <f7-list-item
+              v-if="currentUser"
+              link="/issue-list/"
+              title="View Issues"
+            ></f7-list-item>
           </f7-list>
           <!-- </f7-page>
       </f7-view>
@@ -72,6 +77,7 @@
 <script>
 import f7 from "framework7/lite-bundle";
 import share from "/modules/share";
+import adminShare from "/modules/admin/share";
 import routes from "/modules/admin/routes";
 
 import f7components from "/components/f7components";
@@ -88,7 +94,11 @@ export default {
       f7;
     },
   },
-
+  computed: {
+    currentUser() {
+      return adminShare.currentUser;
+    }    
+  },
   data() {
     return {
       app: {

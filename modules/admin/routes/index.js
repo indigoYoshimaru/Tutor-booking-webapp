@@ -3,6 +3,8 @@ import AboutPage from '/components/admin/AboutPage.vue'
 import LoginPage from '/components/admin/LoginPage.vue'
 import UnverifiedTutorsPage from '/components/admin/UnverifiedTutorsPage.vue'
 import VerifyTutorPage from '/components/admin/VerifyTutorPage.vue'
+import IssueResolutionPage from '/components/admin/IssueResolutionPage.vue'
+import IssueListPage from '/components/admin/IssueListPage.vue'
 
 export default [
     {
@@ -25,4 +27,13 @@ export default [
         path: "/verify-tutor/:unverifiedTutorId/",
         component: VerifyTutorPage
     },
+    {
+        path: "/resolve-issue/:issueId",
+        component: IssueResolutionPage
+    },
+    {
+        path: "/issue-list/",
+        component: IssueListPage
+    },
+    
 ]
