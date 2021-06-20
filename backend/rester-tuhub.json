@@ -1,0 +1,998 @@
+{
+    "info": {
+        "name": "RESTer",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "MyTest",
+            "item": [
+                {
+                    "request": {
+                        "url": "localhost:/register-course",
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"courseId\":5\n}"
+                        }
+                    },
+                    "id": "rester-39",
+                    "name": "registerCourse"
+                },
+                {
+                    "request": {
+                        "url": "localhost:8080/sigin",
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"18073\",\n    \"password\": \"18073\"\n}"
+                        }
+                    },
+                    "id": "rester-38",
+                    "name": "test"
+                },
+                {
+                    "request": {
+                        "url": "http://localhost:3333/api/table/order",
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"tableId\":3,\n    \"menuItemsIds\": [3,7,9],\n    \"comboIds\": [1]\n}"
+                        }
+                    },
+                    "id": "rester-1",
+                    "name": "Testapp"
+                }
+            ]
+        },
+        {
+            "name": "Restaurant",
+            "item": [
+                {
+                    "name": "General",
+                    "item": [
+                        {
+                            "request": {
+                                "url": "http:/localhost:3333/general/get-bills-by-id",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"billId\":1\n}"
+                                }
+                            },
+                            "id": "rester-27",
+                            "name": "get-bills-by-id"
+                        },
+                        {
+                            "request": {
+                                "url": "http:/localhost:3333/general/get-current-bill-by-table-id",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tableId\":1\n}"
+                                }
+                            },
+                            "id": "rester-28",
+                            "name": "get-current-bill-by-table-id"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/general/get-menu-items-by-bill-id",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"billId\":3\n}"
+                                }
+                            },
+                            "id": "rester-24",
+                            "name": "get-menu-items-by-bill-id"
+                        },
+                        {
+                            "request": {
+                                "url": "http:/localhost:3333/general/get-staff-by-id",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"staffId\":2\n}"
+                                }
+                            },
+                            "id": "rester-25",
+                            "name": "get-staff-by-id"
+                        },
+                        {
+                            "request": {
+                                "url": "http:/localhost:3333/general/get-table-by-id",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tableId\":3\n}"
+                                }
+                            },
+                            "id": "rester-26",
+                            "name": "get-table-by-id"
+                        },
+                        {
+                            "request": {
+                                "url": "http://127.0.0.1:3333/general/get-combos",
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "id": "rester-21",
+                            "name": "getCombos"
+                        },
+                        {
+                            "request": {
+                                "url": "http://127.0.0.1:3333/general/get-menu-item",
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "id": "rester-22",
+                            "name": "getMenuItem"
+                        },
+                        {
+                            "request": {
+                                "url": "http://127.0.0.1:3333/general/get-menu-items-by-combo-id",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"comboId\":1\n    \n}"
+                                }
+                            },
+                            "id": "rester-20",
+                            "name": "getMenuItemsByComboIds"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/general/get-menu-items-by-id",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"MenuItemId\":3\n}"
+                                }
+                            },
+                            "id": "rester-19",
+                            "name": "getMenuItemsById"
+                        },
+                        {
+                            "request": {
+                                "url": "http://127.0.0.1:3333/general/get-staffs",
+                                "method": "GET",
+                                "header": []
+                            },
+                            "id": "rester-23",
+                            "name": "GetStaff"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/general/get-tables",
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "id": "rester-18",
+                            "name": "getTables"
+                        }
+                    ]
+                },
+                {
+                    "name": "Manager",
+                    "item": [
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/manager/combo/add",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"comboName\":\"ComboJ\",\n    \"comboPrice\":15.9,\n    \"mItemIds\":[9,8],\n    \"available\":1\n}"
+                                }
+                            },
+                            "id": "rester-13",
+                            "name": "addCombo"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/api/manager/cook/add",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"personalId\": 212,\n    \"firstName\": \"abc\",\n    \"lastName\": \"xyz\"\n}"
+                                }
+                            },
+                            "id": "rester-6",
+                            "name": "addCook"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/manager/item/add",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"itemName\":\"New Dish\",\n    \"itemPrice\": 3.32,\n    \"duration\": 25,\n    \"available\":1,\n    \"itemType\":\"food\"\n}"
+                                }
+                            },
+                            "id": "rester-11",
+                            "name": "addItem"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/api/manager/table/add",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"Code\":\"EE11\"\n}"
+                                }
+                            },
+                            "id": "rester-15",
+                            "name": "addTable"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/manager/combo/update",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"comboId\": 1,\n    \"comboName\":\"SomeCombo\",\n    \"comboPrice\":12.6,\n    \"itemIds\":[2,4,8],\n    \"available\": 0\n}"
+                                }
+                            },
+                            "id": "rester-14",
+                            "name": "updateCombo"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/api/manager/cook/update",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"cookId\":2,\n    \"personalId\":12361,\n    \"firstName\": \"The name\",\n    \"lastName\": \"The lName\"\n}"
+                                }
+                            },
+                            "id": "rester-17",
+                            "name": "updateCook"
+                        },
+                        {
+                            "request": {
+                                "url": "http:/localhost:3333/manager/item/update",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"itemId\": 10,\n\t\"itemName\": \"NewItem1\",\n\t\"itemPrice\": 4.3,\n\t\"duration\":22,\n\t\"available\": 0,\n\t\"itemType\":\"Food\"\n}"
+                                }
+                            },
+                            "id": "rester-12",
+                            "name": "updateItem"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/api/manager/table/update",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tableId\": 12,\n    \"Code\": \"FU1261\",\n    \"ServedState\":0,\n    \"PayState\":0\n}"
+                                }
+                            },
+                            "id": "rester-16",
+                            "name": "updateTable"
+                        }
+                    ]
+                },
+                {
+                    "name": "Staff",
+                    "item": [
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/staff/finish",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"staffId\":1\n}"
+                                }
+                            },
+                            "id": "rester-5",
+                            "name": "Finish"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/staff/info",
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"staffId\":1\n}"
+                                }
+                            },
+                            "id": "rester-3",
+                            "name": "Info"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/staff/setup",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"staffId\":1\n}"
+                                }
+                            },
+                            "id": "rester-2",
+                            "name": "Setup"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/staff/start",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"time\":22\n}"
+                                }
+                            },
+                            "id": "rester-4",
+                            "name": "Start"
+                        }
+                    ]
+                },
+                {
+                    "name": "Table",
+                    "item": [
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/table/info",
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tableId\": 8\n}"
+                                }
+                            },
+                            "id": "rester-7",
+                            "name": "Info"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/table/order",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"menuItemIds\": [3,7,9],\n    \"comboIds\": [1]\n}"
+                                }
+                            },
+                            "id": "rester-9",
+                            "name": "Order"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/table/payment",
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"cardNo\":2,\n    \"cvv\":1123\n}"
+                                }
+                            },
+                            "id": "rester-10",
+                            "name": "Payment"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/table/setup",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tableId\":8\n}"
+                                }
+                            },
+                            "id": "rester-8",
+                            "name": "Setup"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "TuHub",
+            "item": [
+                {
+                    "name": "Admin",
+                    "item": [
+                        {
+                            "request": {
+                                "url": "localhost:3333/admin/add-new-admin",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"firstName\":\"Ad\",\n    \"lastName\":\"Min\", \n    \"username\":\"newadmin123\",\n    \"email\":\"newadminemail@gmail.com\",\n    \"password\":\"newpassword\",\n    \"dateOfBirth\":\"1989-01-01\"\n}"
+                                }
+                            },
+                            "id": "rester-41",
+                            "name": "Add new Admin"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/admin/ban-tutee",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tuteeId\":1\n}"
+                                }
+                            },
+                            "id": "rester-52",
+                            "name": "ban tutee"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/admin/ban-verified-tutor",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tutorId\":1\n}"
+                                }
+                            },
+                            "id": "rester-51",
+                            "name": "Ban verified tutor"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/admin/create-issue-resolution",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"issueId\":2,\n    \"returnPercentage\":10\n}"
+                                }
+                            },
+                            "id": "rester-53",
+                            "name": "Create Issue Resolution"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/admin/login",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"username\": \"newadmin123\",\n    \"password\": \"newpassword\"\n}\n"
+                                }
+                            },
+                            "id": "rester-34",
+                            "name": "Login"
+                        },
+                        {
+                            "request": {
+                                "url": "127.0.0.1:3333/verify-admin/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJBZCIsImxhc3ROYW1lIjoiTWluIiwidXNlcm5hbWUiOiJuZXdhZG1pbjEyMyIsImVtYWlsIjoibmV3YWRtaW5lbWFpbEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCRIbEpWa2VOZkdjZEVzNlZhUndqSGsuNjBoTjNkWlo1SmdKVkJrLkZodHFBbUp0elJ3elpLLiIsImRhdGVPZkJpcnRoIjoiMTk4OS0wMS0wMSIsImlhdCI6MTYyMTk0NzY4NH0.36fsHPDlhb18jRLEqZU5K91mQY_V0qLKPxrFDW1bX9c",
+                                "method": "GET",
+                                "header": []
+                            },
+                            "id": "rester-42",
+                            "name": "verify"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/admin/verify-tutor-registration",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tutorId\": 4\n}"
+                                }
+                            },
+                            "id": "rester-32",
+                            "name": "Verify Tutor Registration"
+                        }
+                    ]
+                },
+                {
+                    "name": "General",
+                    "item": [
+                        {
+                            "request": {
+                                "url": "localhost:3333/general/add-message",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "id": "rester-46",
+                            "name": "Add Message"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/general/get-tutors",
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "id": "rester-30",
+                            "name": "get-tutors"
+                        }
+                    ]
+                },
+                {
+                    "name": "Tutee",
+                    "item": [
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutee/confirm-issue-resolution",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"issueId\":2\n}"
+                                }
+                            },
+                            "id": "rester-54",
+                            "name": "Confirm Issue Resolution"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutee/contact-tutor",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tutorId\":3\n}"
+                                }
+                            },
+                            "id": "rester-43",
+                            "name": "Contact Tutor"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutee/create-contract",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"tutorId\":3,\n    \"tuteeId\":6,\n    \"startDate\":\"2021-05-15\",\n    \"teachingHours\":5.4,\n    \"listofTeachingDay\":[\"2021-05-16\",\"2021-05-17\",\"2021-05-18\"]\n}"
+                                }
+                            },
+                            "id": "rester-40",
+                            "name": "CreateContract"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutee/login",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"username\":\"JL1\",\n    \"password\":\"12345\"\n}"
+                                }
+                            },
+                            "id": "rester-36",
+                            "name": "Login"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutee/raise-issue",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"contractId\":19,\n    \"content\":\"tutor missing for days\"\n}"
+                                }
+                            },
+                            "id": "rester-49",
+                            "name": "raise issue"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutee/register",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"firstName\":\"John\",\n    \"lastName\":\"Lennon\",\n    \"username\":\"JL1\",\n    \"email\":\"shensafi235@gmail.com\",\n    \"password\":\"12345\",\n    \"dateOfBirth\":\"1940-10-09\"\n}"
+                                }
+                            },
+                            "id": "rester-31",
+                            "name": "Register"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutee/request-close-contract",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"contractId\":19\n}"
+                                }
+                            },
+                            "id": "rester-48",
+                            "name": "request close contract"
+                        },
+                        {
+                            "request": {
+                                "url": "127.0.0.1:3333/verify-tutee/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwibGFzdE5hbWUiOiJMZW5ub24iLCJ1c2VybmFtZSI6IkpMMSIsImVtYWlsIjoic2hlbnNhZmkyMzVAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkNzJFQ0lEeXFSblZZYWN6ejNBZ1l5LjUvTDdNemd4TU0yUFREd3J2bmViM3RIVU92RC55dWEiLCJkYXRlT2ZCaXJ0aCI6IjE5NDAtMTAtMDkiLCJpYXQiOjE2MjE5MzU2NDh9.qm6t2ZA5iLo7VNsZvjEjoyadKxm9jV1DXQwbWd_Mq2o",
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "id": "rester-37",
+                            "name": "verify"
+                        }
+                    ]
+                },
+                {
+                    "name": "Tutor",
+                    "item": [
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutor/accept-contract",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"contractId\":19\n}"
+                                }
+                            },
+                            "id": "rester-45",
+                            "name": "Accept Contract"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutor/confirm-issue-resolution",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"issueId\":2\n}"
+                                }
+                            },
+                            "id": "rester-55",
+                            "name": "confirm issue resolution"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutor/login",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"username\":\"lp\", \n    \"password\":\"somethinghere\"\n}"
+                                }
+                            },
+                            "id": "rester-35",
+                            "name": "Login"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutor/raise-issue",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "id": "rester-50",
+                            "name": "raise issue"
+                        },
+                        {
+                            "request": {
+                                "url": "http://localhost:3333/tutor/register",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{ \n    \"firstName\": \"John\",\n    \"lastName\":\"Wick\",\n    \"username\": \"jw\",\n    \"email\": \"someoneemail@gmail.com\",\n    \"password\": \"somethinghere\", \n    \"dateOfBirth\":\"2000-01-01\",\n    \"profile\": \"{\\\"background\\\": [{\\\"id\\\": 1, \\\"name\\\": \\\"Intro to AI\\\",\\\"GPA\\\": 4.0 },{\\\"id\\\": 2, \\\"name\\\": \\\"Intro to Computing\\\",\\\"GPA\\\":4.0}],\\\"description\\\": \\\"Study or die\\\"}\"\n}\n    "
+                                }
+                            },
+                            "id": "rester-29",
+                            "name": "Register"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutor/reject-contract",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"contractId\":15\n}"
+                                }
+                            },
+                            "id": "rester-47",
+                            "name": "Reject Contract"
+                        },
+                        {
+                            "request": {
+                                "url": "localhost:3333/tutor/request-close-contract",
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"contractId\":17\n}"
+                                }
+                            },
+                            "id": "rester-44",
+                            "name": "Request close contract"
+                        },
+                        {
+                            "request": {
+                                "url": "127.0.0.1:3333/verify-tutor/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0dXRvciI6eyJpZCI6NSwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiV2ljayIsInVzZXJOYW1lIjoianciLCJlbWFpbCI6InNvbWVvbmVlbWFpbEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCRxN2hvRjRjY0tvYWtiU1FteVU4UHYuTmRUb3owLnIwSkJDLkF2bGR6RkppSXRhY21TUmNvUyIsImRhdGVPZkJpcnRoIjoiMTk5OS0xMi0zMVQxNzowMDowMC4wMDBaIiwicHJvZmlsZSI6eyJiYWNrZ3JvdW5kIjpbeyJpZCI6MSwiR1BBIjo0LCJuYW1lIjoiSW50cm8gdG8gQUkifSx7ImlkIjoyLCJHUEEiOjQsIm5hbWUiOiJJbnRybyB0byBDb21wdXRpbmcifV0sImRlc2NyaXB0aW9uIjoiU3R1ZHkgb3IgZGllIn19LCJpYXQiOjE2MjE5MzQxNzF9.SWAa6I8vsXOekUYregAYqIOcoDW9V1kkj-ke854pAm8",
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "id": "rester-33",
+                            "name": "verify"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

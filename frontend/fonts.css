@@ -1,0 +1,26 @@
+* {
+font-family: "Helvetica", Roboto, "Apple Color Emoji", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+}
+
+body {
+font-weight: 300;
+}
+
+.grid-homepage{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-homepage div[class*="col"] { 
+  text-align: center;
+  /* background: rgb(30, 52, 75);
+  
+  border-radius: 10px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 20px 0px #4d4c4c;
+  color: white;
+  outline: none;
+  margin-bottom: 16px;
+  font-size: 20px; */
+}
