@@ -15,7 +15,7 @@
           inset
           v-for="issue in currentUser.issues"
           :key="issue.id"
-        >          
+        >
           <f7-list-item>
             <template #media>
               <f7-button
@@ -26,6 +26,11 @@
                 >{{ issueStatus(issue) }}</f7-button
               >
             </template>
+          <!-- <f7-list-item v-if="!issue.returnPercentage"
+          :link="`/resolve-issue/${issue.id}`"
+          after="Resolve"
+          >{{issue.id}}</f7-list-item>
+           -->
             <f7-list-item
               v-bind:title="'Content'"
               v-bind:subtitle="issue.content"
@@ -35,11 +40,11 @@
             <f7-list-item title="Raised by tutor" v-if="issue.isFromTutor">
             </f7-list-item>
             <f7-list-item title="Raised by tutee" v-else> </f7-list-item>
-            <f7-list-item
+            <!-- <f7-list-item
               title="Regarding"
               
             >
-            </f7-list-item>
+            </f7-list-item> -->
             <f7-list-item
               title="Agreement by both parties"
               v-if="issue.tutorAgreement && issue.tuteeAgreement"
@@ -65,7 +70,7 @@
                 label-text="paid amount"
               ></f7-gauge>
             </f7-list-item>
-            <f7-list-item v-if="!issue.returnPercentage">
+            <f7-list-item v-if="issue.isOpen">
               <f7-button fill round @click="navigateToResolve(issue.id)">
                 Resolve
               </f7-button>
@@ -98,29 +103,37 @@ export default {
     colors() {
       return share.colors;
     },
-    tutees(){
-      
+    tutees() {
       return share.tutees;
-    }
+    },
   },
   data() {
-    return {
-    }
+    return {};
   },
   methods: {
     issueStatus(issue) {
-      if (issue.isOpen) {
-        if (
-          (issue.tutorAgreement == 0 || issue.tuteeAgreement == 0) &&
-          issue.returnPercentage
-        ) {
-          return "WAITING";
-        } else {
-          return "OPEN";
+      // if (!issue.isOpen) {
+      //   if (
+      //     (issue.tutorAgreement == 0 || issue.tuteeAgreement == 0) &&
+      //     issue.returnPercentage
+      //   ) {
+      //     return "WAITING";
+      //   } else {
+      //     return "CLOSE";
+      //   }
+      // } else {
+      //   return "OPEN";
+      // }
+
+      if (issue.isOpen){
+        if (issue.returnPercentage){
+          return "RESOLVED";          
         }
-      } else {
-        return "RESOLVED";
+        else return "OPEN"
+      }else {
+        return "CLOSE"
       }
+
     },
     navigateToResolve(issueId) {
       this.f7router.navigate(`/resolve-issue/${issueId}`);
@@ -130,13 +143,13 @@ export default {
       return result.firstName + result.lastName;
     },
     async getTutees() {
-      let issues= share.issues; 
-      share.tutees={}
-      for (issue of issues){ 
+      let issues = share.issues;
+      share.tutees = {};
+      for (issue of issues) {
         let result = await service.getTuteeNameByContractId(issue.contractId);
-        share.tutees[issue.id]=result.firstName + result.lastName;
+        share.tutees[issue.id] = result.firstName + result.lastName;
       }
-      console.log(share.tutees)
+      console.log(share.tutees);
     },
   },
 };

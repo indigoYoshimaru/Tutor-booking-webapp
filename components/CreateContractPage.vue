@@ -57,8 +57,8 @@
           label="Chose teaching date"
           floating-label
           type="date"
-          value="2021-01-01"
-          @input="addField($event.target.value, contractInfo.listOfTeachingDay)"
+          value="2021-06-20"
+          @input="addDate($event.target.value)"
         >
         </f7-list-input>
       </f7-list>
@@ -136,6 +136,9 @@ export default {
     removeField(index, fieldType) {
       fieldType.splice(index, 1);
     },
+    addDate(date){
+      this.contractInfo.listOfTeachingDay.push(date);
+    }
   },
 };
 </script>

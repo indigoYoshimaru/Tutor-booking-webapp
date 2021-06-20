@@ -15,11 +15,8 @@
               title="Login"
             ></f7-list-item>
 
-            <f7-list-item link="/about/" title="About"></f7-list-item>
-            <!-- <f7-list-item link="/tutee/" title="Test component"></f7-list-item> -->
-
             <f7-list-item
-              v-if="!currentUser"
+              v-if="currentUser"
               link="/get-unverified-tutor/"
               title="Unverified Tutor"
             ></f7-list-item>
