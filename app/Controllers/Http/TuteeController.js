@@ -3,6 +3,7 @@ const query_service = require("../../Models/query_service");
 const update_service = require("../../Models/update_service");
 const jwt = require("jsonwebtoken");
 const utility = require("../../Models/utility");
+const { updateIssuePercentage } = require("../../Models/update_service");
 const Config = use('Config');
 const Hash = use('Hash');
 
@@ -41,7 +42,6 @@ class TuteeController {
         let host = Config.get('database.mysql.connection.host');
         let url = `${host}:3333/verify-tutee/${token}`;
         let content = `Please click this URL to verify account ${url}`;
-        console.log(content);
         let res = await utility.sendMail(tutee.email, content);
         return res;
     }
@@ -186,7 +186,7 @@ class TuteeController {
         contract.tuteeId = tuteeId;
         contract.startDate = new Date(Date.now());
         let contractDB = await query_service.getContractByTutorIdandTuteeId(contract.tutorId, tuteeId);
-        if (contractDB && (contractDB.state != 'CLOSED' || contractDB.state != 'REJECTED')) { // contract is not closed
+        if (contractDB && contractDB.state == 'OPEN') { // contract is not closed
             return {
                 error: "The contract has not been closed yet"
             }
@@ -279,7 +279,7 @@ class TuteeController {
                 error: "You cannot close the contract by now"
             }
         }
-
+        await update_service.closeContract(contractId);
         let contractAccount = await query_service.getMoneyAccountByCode('contract/${contract.id}');
         let tutorAccount = await query_service.getMoneyAccountByCode('tutor/${contract.tutorId}')
 

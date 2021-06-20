@@ -268,7 +268,8 @@ module.exports = {
         if (!rows.length)
             return null;
 
-        return camel(rows[0]);
+        rows = rows.map(camel);
+        return rows;
     },
 
     /*=====MONEY ACCOUNT and TRANSACTION=====*/

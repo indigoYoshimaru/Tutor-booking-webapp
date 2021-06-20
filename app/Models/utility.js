@@ -20,18 +20,17 @@ module.exports = {
             from: 'sendmailserviceweb@gmail.com',
             to: receiver,
             subject: 'Welcome to TuHub',
-            // text: `Click this URL to verify account ${url}`
             text: content
         };
 
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
+        transporter.sendMail(mailOptions, function (err, info) {
+            if (err) {
                 return {
-                    result: error
+                    error: err
                 }
             }
             return {
-                result: "successful"
+                result: "Mail sent successfully"
             }
         });
     },

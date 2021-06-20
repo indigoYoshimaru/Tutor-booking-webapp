@@ -13,15 +13,6 @@ const Config = use('Config');
 const tutors = new Map();
 const tutees = new Map();
 
-// function get(map, id) {
-//     if (!map.has(id))
-//         map.set(id, {
-//             sockets: []
-//         });
-
-//     return map.get(id);
-// }
-
 io.on('connection', (socket) => {
     console.log('socket user', socket.user);
 
@@ -31,10 +22,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('client_token', (token) => {
-        // if (socket.info) {
-        //     socket.emit('error', "already logged in");
-        //     return;
-        // }
+
 
         let decodedObject = jwt.verify(token, Config.get('app.appKey'));
         console.log(decodedObject)
@@ -46,17 +34,6 @@ io.on('connection', (socket) => {
         socket.object = decodedObject;
         socket.join(`${decodedObject.role}/${decodedObject.id}`);
 
-        // socket.info = id ? { id, map: tutees, isTutor: 0 } : { id, map: tutors, isTutor: 1 }
-        /*
-        socket.info will now have the format
-        socket.info={
-        <id_value>,
-        map: <sockets>,
-        isTutor: <1/0>
-        }
-        */
-
-        // get(socket.info.map, socket.info.id).sockets.push(socket);
         console.log(socket.id);
         socket.emit("auth", "sucessfully connect");
 
@@ -122,12 +99,6 @@ io.on('connection', (socket) => {
 
         let messageHis = await query_service.getMessageByChatroomId(chatroomId);
         console.log('message history', messageHis);
-
-        // for (var message of messageHis) {
-        //     console.log(`${socket.object.role}/${socket.object.id}`)
-        //     io.to(`${socket.object.role}/${socket.object.id}`).emit('server_message', message);
-        // }
-
         console.log(`${socket.object.role}/${socket.object.id}`)
         io.to(`${socket.object.role}/${socket.object.id}`).emit('server_chat_history', chatroomId, messageHis);
 

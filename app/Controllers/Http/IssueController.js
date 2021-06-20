@@ -17,7 +17,7 @@ class IssueController {
             let contract = await query_service.getContractById(issues.contractId);
             let lastTeachingDay = contract.listOfTeachingDay[contract.listOfTeachingDay.length - 1];
             let thresDate = new Date();
-            thresDate.setDate(contract.lastTeachingDay + 14);
+            thresDate.setDate(lastTeachingDay + 14);
             if (today > thresDate) {
                 await update_service.updateIssueState(contract.id, true);
                 counter += 1;
